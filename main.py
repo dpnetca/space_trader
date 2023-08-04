@@ -1,6 +1,6 @@
 import os
 
-from game.SpaceTraders import SpaceTraders
+from game.space_traders import SpaceTraders
 
 from dotenv import load_dotenv
 
