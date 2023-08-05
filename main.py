@@ -37,5 +37,8 @@ st = Client(token=token)
 # contract = st.contract.get("clkyhwdvj06l9s60ceuyi4upj")
 # print(contract)
 
-contract = st.contract.accept("clkyhwdvj06l9s60ceuyi4upj")
-print(contract)
+# contract = st.contract.accept("clkyhwdvj06l9s60ceuyi4upj")
+# print(contract)
+
+ships = st.ship.list()
+print(ships)
