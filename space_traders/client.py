@@ -5,6 +5,7 @@ from space_traders.space_traders import SpaceTraders
 from space_traders.my.agent import Agent
 from space_traders.my.contract import Contract
 from space_traders.my.ship import Ship
+from space_traders.system.system import System
 
 class Client(SpaceTraders):
     def __init__(self, token=None):
@@ -12,6 +13,7 @@ class Client(SpaceTraders):
         self.agent = Agent(token)
         self.contract = Contract(token)
         self.ship = Ship(token)
+        self.system = System(token)
 
     def get_status(self):
         return self.send("get", self.base_url)

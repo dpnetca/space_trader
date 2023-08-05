@@ -40,5 +40,12 @@ st = Client(token=token)
 # contract = st.contract.accept("clkyhwdvj06l9s60ceuyi4upj")
 # print(contract)
 
-ships = st.ship.list()
-print(ships)
+# ships = st.ship.list()
+# print(ships)
+
+# systems = st.system.list()
+# for system in systems["data"]:
+#     print(system)
+
+system = st.system.get("X1-YA22")
+print(system)
