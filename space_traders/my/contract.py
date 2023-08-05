@@ -1,5 +1,6 @@
 from space_traders.space_traders import SpaceTraders
 
+
 class Contract(SpaceTraders):
     # def __init__(self, token=None):
     #     pass
