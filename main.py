@@ -13,8 +13,8 @@ if not token:
 
 st = Client(token=token)
 
-agent = st.agent.get_agent()
-print(agent)
+# agent = st.agent.get_agent()
+# print(agent)
 
 # err = st.my_agent.get()
 # err = st.get_my_agent()
@@ -30,3 +30,12 @@ print(agent)
 
 # account = st.register("Sikayn", "COSMIC")
 # print(account)
+
+# contracts = st.contract.list()
+# print(contracts)
+
+# contract = st.contract.get("clkyhwdvj06l9s60ceuyi4upj")
+# print(contract)
+
+contract = st.contract.accept("clkyhwdvj06l9s60ceuyi4upj")
+print(contract)
