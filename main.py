@@ -73,3 +73,15 @@ st = Client(token=token)
 # for ship in shipyard["data"]["ships"]:
 #     print(ship)
 #     print()
+
+
+# ships = st.ship.list()
+# print(ships)
+
+# new_ship = st.ship.purchase("SHIP_MINING_DRONE","X1-YA22-18767C")
+# print(new_ship)
+
+ships = st.ship.list()
+for ship in ships["data"]:
+    print(ship)
+    print()
