@@ -47,5 +47,29 @@ st = Client(token=token)
 # for system in systems["data"]:
 #     print(system)
 
-system = st.system.get("X1-YA22")
-print(system)
+# system = st.system.get("X1-YA22")
+# print(system)1
+
+# waypoints = st.waypoint.list("X1-YA22")
+# # print(waypoints)
+
+# for waypoint in waypoints["data"]:
+#     print(f"{waypoint['symbol']} - {waypoint['type']}")
+#     for trait in waypoint['traits']:
+#         print(f"  - {trait['symbol']}")
+#     print()
+
+# waypoint =  st.waypoint.get("X1-YA22", "X1-YA22-18767C")
+# print(waypoint)
+
+# shipyard = st.waypoint.shipyard("X1-YA22", "X1-YA22-18767C")
+# # print(shipyard)
+
+# for ship in shipyard["data"]["shipTypes"]:
+#     print(ship)
+#     print()
+
+
+# for ship in shipyard["data"]["ships"]:
+#     print(ship)
+#     print()
