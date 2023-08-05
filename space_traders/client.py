@@ -14,7 +14,7 @@ class Client(SpaceTraders):
 
     def register(self, name, faction, email=""):
         url = self.base_url + "/register"
-        account = {"symbol": name, "action": faction}
+        account = {"symbol": name, "faction": faction}
         if email:
             account["email"] = email
         # self.post
