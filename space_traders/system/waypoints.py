@@ -15,3 +15,8 @@ class Waypoint(SpaceTraders):
         url = self.base_url + f"/systems/{system_id}/waypoints/{waypoint_id}/shipyard"
         res = self.send("get", url)
         return res
+
+    def market(self, system_id, waypoint_id):
+        url = self.base_url + f"/systems/{system_id}/waypoints/{waypoint_id}/market"
+        res = self.send("get", url)
+        return res

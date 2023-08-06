@@ -19,3 +19,13 @@ class Contract(SpaceTraders):
         url = self.base_url + f"/my/contracts/{contract_id}/accept"
         res = self.send("post", url)
         return res
+
+    def deliver(self, contract_id, ship_id, item_id, units):
+        url = self.base_url + f"/my/contracts/{contract_id}/deliver"
+        data = {
+            "shipSymbol": ship_id,
+            "tradeSymbol": item_id,
+            "units": units
+        }
+        res = self.send("post", url, data)
+        return res

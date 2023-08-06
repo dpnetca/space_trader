@@ -1,4 +1,5 @@
 import os
+from time import sleep
 
 from space_traders.client import Client
 
@@ -12,76 +13,41 @@ if not token:
     print("token not found...")
 
 st = Client(token=token)
+ship_id = "SIKAYN-3"
+contract_id="clkyhwdvj06l9s60ceuyi4upj"
+asteriod_field = "X1-YA22-87615D"
 
-# agent = st.agent.get_agent()
-# print(agent)
+contract = st.contract.get(contract_id)
+print(contract)
 
-# err = st.my_agent.get()
-# err = st.get_my_agent()
+while True:
 
-# if err:
-#     print("unable to retrieve agent")
-#     print(f"{err['code']} - {err['message']}")
-# else:
-#     print(f"Welcome {st.my_agent.symbol}")
-
-# status = st.get_status()
-# print(status)
-
-# account = st.register("Sikayn", "COSMIC")
-# print(account)
-
-# contracts = st.contract.list()
-# print(contracts)
-
-# contract = st.contract.get("clkyhwdvj06l9s60ceuyi4upj")
-# print(contract)
-
-# contract = st.contract.accept("clkyhwdvj06l9s60ceuyi4upj")
-# print(contract)
-
-# ships = st.ship.list()
-# print(ships)
-
-# systems = st.system.list()
-# for system in systems["data"]:
-#     print(system)
-
-# system = st.system.get("X1-YA22")
-# print(system)1
-
-# waypoints = st.waypoint.list("X1-YA22")
-# # print(waypoints)
-
-# for waypoint in waypoints["data"]:
-#     print(f"{waypoint['symbol']} - {waypoint['type']}")
-#     for trait in waypoint['traits']:
-#         print(f"  - {trait['symbol']}")
-#     print()
-
-# waypoint =  st.waypoint.get("X1-YA22", "X1-YA22-18767C")
-# print(waypoint)
-
-# shipyard = st.waypoint.shipyard("X1-YA22", "X1-YA22-18767C")
-# # print(shipyard)
-
-# for ship in shipyard["data"]["shipTypes"]:
-#     print(ship)
-#     print()
-
-
-# for ship in shipyard["data"]["ships"]:
-#     print(ship)
-#     print()
-
-
-# ships = st.ship.list()
-# print(ships)
-
-# new_ship = st.ship.purchase("SHIP_MINING_DRONE","X1-YA22-18767C")
-# print(new_ship)
-
-ships = st.ship.list()
-for ship in ships["data"]:
+    ship = st.ship.extract(ship_id)
     print(ship)
-    print()
+    sleep(ship["data"]["cooldown"]["remainingSeconds"])
+    
+    if ship["data"]["extraction"]["yield"]["symbol"] == contract["data"]["terms"]["deliver"][0]["tradeSymbol"]:
+        destination = contract["data"]["terms"]["deliver"][0]["destinationSymbol"]
+        st.ship.navigate(ship_id,destination)
+        ship = st.ship.dock(ship_id)
+        st.contract.deliver(contract_id, ship_id,ship["data"]["extraction"]["yield"]["symbol"], ship["data"]["extraction"]["yield"]["units"])
+        ship = st.ship.orbit(ship_id)
+        ship = st.ship.navigate(ship_id, asteriod_field)
+        ship = st.ship.dock(ship_id)
+        ship =  st.ship.refuel(ship_id)
+        ship = st.ship.orbit(ship_id)
+
+        break
+    else:
+        ship = st.ship.dock(ship_id)
+        # print(ship)
+        cargo = st.ship.cargo(ship_id)
+        for item in cargo["data"]["inventory"]:
+            ship = st.ship.sell(ship_id, item["symbol"], item["units"])
+            print(ship)
+
+        ship = st.ship.orbit(ship_id)
+        # print(ship)
+
+print ("done")
+
