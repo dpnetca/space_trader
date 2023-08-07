@@ -37,7 +37,7 @@ class Ship:
     def navigate(self, waypoint_symbol):
         endpoint = self.base_endpoint + f"/{self.symbol}/navigate"
         data = {"waypointSymbol": waypoint_symbol}
-        res = self.client.send("post", endpoint, data)
+        res = self.client.send("post", endpoint, data=data)
         return res
 
     def dock(self):
