@@ -60,7 +60,7 @@ while not complete:
                 print(
                     f"Sold {transaction['units']} {transaction['tradeSymbol']} for {transaction['pricePerUnit']} ea. ({transaction['totalPrice']} total)"
                 )
-        remaining_cargo = r["data"]["cargo"]
+                remaining_cargo = r["data"]["cargo"]
         cargo_capacity_remaining = (
             remaining_cargo["capacity"] - remaining_cargo["units"]
         )

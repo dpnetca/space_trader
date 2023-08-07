@@ -26,3 +26,5 @@ auto = Automate(
     st.contract(contract_symbol),
     st.waypoint(symbol="X1-YA22-87615D"),
 )
+
+auto.run()
