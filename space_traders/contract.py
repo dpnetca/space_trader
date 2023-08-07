@@ -35,5 +35,5 @@ class Contract():
             "tradeSymbol": item_id,
             "units": units
         }
-        res = self.client.send("post", endpoint, data)
+        res = self.client.send("post", endpoint, data=data)
         return res
