@@ -1,6 +1,7 @@
 from space_traders.client import Client
 from space_traders.contract import Contract
 from space_traders.agent import Agent
+from space_traders.ship import Ship
 
 
 class SpaceTrader:
@@ -12,6 +13,9 @@ class SpaceTrader:
 
     def contract(self, symbol=None):
         return Contract(self.client, symbol)
+    
+    def ship(self, symbol=None):
+        return Ship(self.client, symbol)
 
     def get_status(self):
         return self.client.send("get","",auth=False)

@@ -23,7 +23,7 @@ class Client:
             case "get":
                 response = self._get(url, headers=head, **kwargs)
             case "post":
-                pass
+                response = self._post(url, headers=head, data=data, **kwargs)
             
         return response
     
@@ -32,6 +32,6 @@ class Client:
         return r.json()
 
     def _post(self, url, headers=None, data=None, **kwargs):
-        r = requests.post(url, headers=headers, json=data **kwargs)
+        r = requests.post(url, headers=headers, json=data, **kwargs)
         return r.json()
 
