@@ -1,5 +1,6 @@
 from space_traders.client import Client
 
+# {'data': {'id': 'clkyhwdvj06l9s60ceuyi4upj', 'factionSymbol': 'COSMIC', 'type': 'PROCUREMENT', 'terms': {'deadline': '2023-08-12T20:56:47.141Z', 'payment': {'onAccepted': 23990, 'onFulfilled': 180500}, 'deliver': [{'tradeSymbol': 'COPPER_ORE', 'destinationSymbol': 'X1-YA22-73712Z', 'unitsRequired': 1020, 'unitsFulfilled': 157}]}, 'accepted': True, 'fulfilled': False, 'expiration': '2023-08-06T20:56:47.141Z', 'deadlineToAccept': '2023-08-06T20:56:47.141Z'}}
 
 
 class Contract():
@@ -9,6 +10,7 @@ class Contract():
         self.symbol=symbol
         if self.symbol:
             self.get()
+        
 
     def list(self):
         endpoint = self.base_endpoint
@@ -18,6 +20,7 @@ class Contract():
     def get(self):
         endpoint = self.base_endpoint + f"/{self.symbol}"
         res = self.client.send("get", endpoint)
+        self.details = res["data"]
         return res
 
     def accept(self):

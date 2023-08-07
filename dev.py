@@ -7,9 +7,9 @@ load_dotenv()
 
 game = SpaceTrader(os.getenv("ST_TOKEN"))
 
-c= game.contract()
-print(c.list())
-
+c_symbol = "clkyhwdvj06l9s60ceuyi4upj"
+c = game.contract(c_symbol)
+print(c.details)
 # contract = game.contract()
 # # print(contract.session.token)
 
