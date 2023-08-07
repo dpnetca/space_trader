@@ -10,10 +10,6 @@ game = SpaceTrader(os.getenv("ST_TOKEN"))
 c_symbol = "clkyhwdvj06l9s60ceuyi4upj"
 c = game.contract(c_symbol)
 print(c.details)
-# contract = game.contract()
-# # print(contract.session.token)
 
-
-# con = game.contract("yyy")
-# # print(con.symbol)
-# # print(con.session.token)
+a = game.agent()
+print(a.symbol)

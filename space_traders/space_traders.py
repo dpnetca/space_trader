@@ -1,9 +1,14 @@
 from space_traders.client import Client
 from space_traders.contract import Contract
+from space_traders.agent import Agent
+
 
 class SpaceTrader:
     def __init__(self, token):
         self.client=Client(token)
+
+    def agent(self, symbol=None):
+        return Agent(self.client, symbol)
 
     def contract(self, symbol=None):
         return Contract(self.client, symbol)
