@@ -2,105 +2,98 @@ import os
 from time import sleep
 from datetime import datetime
 
-from space_traders.client import Client
-
 from dotenv import load_dotenv
 
+from space_traders.space_traders import SpaceTrader
 load_dotenv()
 
 token = os.getenv("ST_TOKEN")
+sell_threshold = 0
+contract_deliver_threshold = 10
+ship_symbol = "SIKAYN-3"
+contract_symbol = "clkyhwdvj06l9s60ceuyi4upj"
 
 if not token:
     print("token not found...")
 
-st = Client(token=token)
-ship_id = "SIKAYN-3"
-contract_id="clkyhwdvj06l9s60ceuyi4upj"
-asteriod_field = "X1-YA22-87615D"
+st = SpaceTrader(token)
 
-contract = st.contract.get(contract_id)
-print(contract)
+ship = st.ship(ship_symbol)
+contract = st.contract(contract_symbol)
+asteriod_field = st.waypoint(symbol="X1-YA22-87615D")
 
+destination = st.waypoint(symbol=contract.details["terms"]["deliver"][0]["destinationSymbol"])
+contract_symbols = [x["tradeSymbol"] for x in contract.details["terms"]["deliver"]]
+print (f"contract items: {contract_symbols}")  
 
-destination = contract["data"]["terms"]["deliver"][0]["destinationSymbol"]
-        
-# # ship = st.ship.navigate(ship_id,destination)
-# # arrival_time = ship["data"]["nav"]["arrival"]
-# # print(ship)
-# ship = st.ship.dock(ship_id)
-# ship =  st.ship.refuel(ship_id)
+complete = False
+while not complete:
+    r = ship.extract()
+    if "error" in r.keys():
+        print(r["error"]["message"])
+        remaining_seconds =r["error"]["data"]["cooldown"]["remainingSeconds"]
+        print(f"waiting {remaining_seconds} seconds")
+        sleep(remaining_seconds)
+        continue
 
-# # cargo = st.ship.cargo(ship_id)
-# # for item in cargo["data"]["inventory"]:
-# #     ship = st.contract.deliver(contract_id,ship_id, item["symbol"], item["units"])
-# #     print(ship)
-
-# ship = st.ship.orbit(ship_id)
-# ship = st.ship.navigate(ship_id, asteriod_field)
-# print(ship)
-# arrival_time = ship["data"]["nav"]["route"]["arrival"]
-# print(arrival_time)
-
-# ship = st.ship.dock(ship_id)
-# ship =  st.ship.refuel(ship_id)
-# ship = st.ship.orbit(ship_id)
-
-
-
-while True:
-    ship = st.ship.extract(ship_id)
-    print(ship)
-    extracted_symbol = ship["data"]["extraction"]["yield"]["symbol"]
-    sleep(ship["data"]["cooldown"]["remainingSeconds"])
-
+    extracted_symbol = r["data"]["extraction"]["yield"]["symbol"]
+    extracted_units =  r["data"]["extraction"]["yield"]["units"]
+    print(f"extracted: {extracted_units} - {extracted_symbol}")
+    remaining_seconds =r["data"]["cooldown"]["remainingSeconds"]
+    cargo_capacity_remaining = r["data"]["cargo"]["capacity"] - r["data"]["cargo"]["units"]
     
-    if extracted_symbol == contract["data"]["terms"]["deliver"][0]["tradeSymbol"]:
-        destination = contract["data"]["terms"]["deliver"][0]["destinationSymbol"]
-        ship = st.ship.navigate(ship_id,destination)
-        print(ship)
-        arrival = ship["data"]["nav"]["route"]["arrival"]
-
-        arrival_time = datetime.fromisoformat(arrival)
-        now =  datetime.now().astimezone()
-        delta = (arrival_time-now).total_seconds()
-        print(delta)
-        sleep(delta)
-
-        ship = st.ship.dock(ship_id)
-        ship = st.ship.refuel(ship_id)
-
-        cargo = st.ship.cargo(ship_id)
+    # SELL THRESHOLD
+    if cargo_capacity_remaining <= sell_threshold:
+        r = ship.dock()
+        cargo = ship.cargo()
         for item in cargo["data"]["inventory"]:
-            ship = st.contract.deliver(contract_id,ship_id, item["symbol"], item["units"])
-            print(ship)
-        if ship["data"]["contract"]["terms"]["deliver"][0]["unitsRequired"] <=  ship["data"]["contract"]["terms"]["deliver"][0]["unitsFulfilled"]:
-            break
+            if item["symbol"] not in contract_symbols:
+                r = ship.sell(item["symbol"], item["units"])
+                transaction =r["data"]["transaction"] 
+                print(f"Sold {transaction['units']} {transaction['tradeSymbol']} for {transaction['pricePerUnit']} ea. ({transaction['totalPrice']} total)")
+        remaining_cargo = r["data"]["cargo"]
+        cargo_capacity_remaining = remaining_cargo["capacity"] - remaining_cargo["units"]
+        r = ship.orbit()
 
-        ship = st.ship.orbit(ship_id)
-        ship = st.ship.navigate(ship_id, asteriod_field)
-        print(ship)
-        arrival = ship["data"]["nav"]["route"]["arrival"]
+        # CONTRACT DELIVERY THRESHOLD
+        if cargo_capacity_remaining <= contract_deliver_threshold:
+            r = ship.navigate(destination.symbol)
+            print(destination.symbol)
+            arrival = r["data"]["nav"]["route"]["arrival"]
+            arrival_time = datetime.fromisoformat(arrival)
+            now =  datetime.now().astimezone()
+            delta = (arrival_time-now).total_seconds()
+            print(f"navigating to {destination.symbol} arriving in {delta} seconds")
+            sleep(delta)
+            ship.dock()
+            ship.refuel()
+            for item in remaining_cargo["inventory"]:
+                print(f"delivering {item['units']} {item['symbol']}")
+                r = contract.deliver(ship.symbol,item["symbol"],item["units"])
+                required = r['data']['contract']['deliver'][0]['unitsRequired']
+                fulfilled = r['data']['contract']['deliver'][0]['unitsFulfilled']
+                print(f"{fulfilled} / {required} fulfilled")
+                if fulfilled >= required:
+                    complete = True
 
-        arrival_time = datetime.fromisoformat(arrival)
-        now =  datetime.now().astimezone()
-        delta = (arrival_time-now).total_seconds()
-        print(delta)
-        sleep(delta)
-        
-        ship = st.ship.dock(ship_id)
-        ship = st.ship.refuel(ship_id)
-        ship = st.ship.orbit(ship_id)
+            ship.orbit()
+            r = ship.navigate(asteriod_field.symbol)
+            arrival = r["data"]["nav"]["route"]["arrival"]
+            arrival_time = datetime.fromisoformat(arrival)
+            now =  datetime.now().astimezone()
+            delta = (arrival_time-now).total_seconds()
+            print(f"navigating to {asteriod_field.symbol} arriving in {delta} seconds")
+            sleep(delta)
+            ship.dock()
+            ship.refuel()
+            ship.orbit()
+            continue
 
-    else:
-        ship = st.ship.dock(ship_id)
-        # print(ship)
-        cargo = st.ship.cargo(ship_id)
-        for item in cargo["data"]["inventory"]:
-            ship = st.ship.sell(ship_id, item["symbol"], item["units"])
-            print(ship)
 
-        ship = st.ship.orbit(ship_id)
-        # print(ship)
+    print(f"Remaining cargo capacity = {cargo_capacity_remaining}")
+    print(f"waiting {remaining_seconds} seconds")
+    sleep(remaining_seconds)
+    print()
 
 print ("done")
 
