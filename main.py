@@ -9,8 +9,8 @@ from space_traders.space_traders import SpaceTrader
 load_dotenv()
 
 token = os.getenv("ST_TOKEN")
-sell_threshold = 0
-contract_deliver_threshold = 10
+sell_threshold = 25
+contract_deliver_threshold = 29
 ship_symbol = "SIKAYN-3"
 contract_symbol = "clkyhwdvj06l9s60ceuyi4upj"
 
@@ -85,8 +85,8 @@ while not complete:
                 r = contract.deliver(
                     ship.symbol, item["symbol"], item["units"]
                 )
-                required = r["data"]["contract"]["deliver"][0]["unitsRequired"]
-                fulfilled = r["data"]["contract"]["deliver"][0][
+                required = r["data"]["contract"]["terms"]["deliver"][0]["unitsRequired"]
+                fulfilled = r["data"]["contract"]["terms"]["deliver"][0][
                     "unitsFulfilled"
                 ]
                 print(f"{fulfilled} / {required} fulfilled")
