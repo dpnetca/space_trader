@@ -2,16 +2,15 @@ from space_traders.space_traders import Client
 
 
 class System:
-    def __init__(self, client:Client, symbol: str=None) ->None:
+    def __init__(self, client: Client, symbol: str = None) -> None:
         self.client = client
-        self.base_endpoint="/systems"
-        self.symbol=symbol
-        self.details=None
+        self.base_endpoint = "/systems"
+        self.symbol = symbol
+        self.details = None
         if self.symbol:
             self.get()
 
-
-    def list (self):
+    def list(self):
         endpoint = self.base_endpoint
         res = self.client.send("get", endpoint)
         return res

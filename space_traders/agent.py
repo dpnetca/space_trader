@@ -1,13 +1,13 @@
 from space_traders.client import Client
 
+
 class Agent:
-    def __init__(self, client:Client, symbol: str=None) ->None:
+    def __init__(self, client: Client, symbol: str = None) -> None:
         self.client = client
-        self.base_endpoint="/my/agent"
-        self.symbol=symbol
+        self.base_endpoint = "/my/agent"
+        self.symbol = symbol
         if not self.symbol:
             self.get_my_agent()
-
 
     def get_my_agent(self) -> dict:
         r = self.client.send("get", self.base_endpoint)

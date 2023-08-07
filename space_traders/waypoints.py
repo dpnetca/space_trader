@@ -2,20 +2,22 @@ from space_traders.space_traders import Client
 
 
 class Waypoint:
-    def __init__(self, client:Client, system:str=None, symbol: str=None) ->None:
+    def __init__(
+        self, client: Client, system: str = None, symbol: str = None
+    ) -> None:
         self.client = client
-        self.system=system
-        self.base_endpoint=f"/systems/{self.system}"
-        self.symbol=symbol
-        self.details=None
+        self.system = system
+        self.base_endpoint = f"/systems/{self.system}"
+        self.symbol = symbol
+        self.details = None
 
         if self.symbol:
             segments = self.symbol.split("-")
             self.system = "-".join(segments[:2])
-            self.base_endpoint=f"/systems/{self.system}"
+            self.base_endpoint = f"/systems/{self.system}"
             self.get()
 
-    def list (self):
+    def list(self):
         if self.system:
             endpoint = self.base_endpoint + f"/waypoints"
             res = self.client.send("get", endpoint)

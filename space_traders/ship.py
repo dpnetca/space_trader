@@ -1,11 +1,12 @@
 from space_traders.client import Client
 
+
 class Ship:
-    def __init__(self, client:Client, symbol: str=None) ->None:
+    def __init__(self, client: Client, symbol: str = None) -> None:
         self.client = client
-        self.base_endpoint="/my/ships"
+        self.base_endpoint = "/my/ships"
         self.details = None
-        self.symbol=symbol
+        self.symbol = symbol
         if symbol:
             self.get()
 
@@ -49,7 +50,7 @@ class Ship:
         endpoint = self.base_endpoint + f"/{self.symbol}/refuel"
         res = self.client.send("post", endpoint)
         return res
-    
+
     def extract(self):
         endpoint = self.base_endpoint + f"/{self.symbol}/extract"
         res = self.client.send("post", endpoint)
