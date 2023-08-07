@@ -1,33 +1,37 @@
 import requests
 
-from space_traders.space_traders import SpaceTraders
 
-from space_traders.my.agent import Agent
-from space_traders.my.contract import Contract
-from space_traders.my.ship import Ship
-from space_traders.system.system import System
-from space_traders.system.waypoints import Waypoint
-
-class Client(SpaceTraders):
+class Client:
     def __init__(self, token=None):
-        super().__init__()
-        self.agent = Agent(token)
-        self.contract = Contract(token)
-        self.ship = Ship(token)
-        self.system = System(token)
-        self.waypoint = Waypoint(token)
+        self.token=token
+        self.requests_timeout = 3
+        self.base_url = "https://api.spacetraders.io/v2"
+        self.headers = {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
 
-    def get_status(self):
-        return self.send("get", self.base_url)
+    def send(self, method, endpoint, auth=True, headers=None, data=None, **kwargs):
+        url = self.base_url + endpoint
+        head = self.headers
+        if auth:
+            head["Authorization"] = f"Bearer {self.token}"
+        if isinstance(headers, dict):
+            head.update(headers)
+        
+        match method.lower():
+            case "get":
+                response = self._get(url, headers=head, **kwargs)
+            case "post":
+                response = self._post(url, headers=head, data=data, **kwargs)
+            
+        return response
+    
+    def _get(self, url, headers=None, **kwargs):
+        r = requests.get(url, headers=headers, **kwargs)
+        return r.json()
 
-    def register(self, name, faction, email=""):
-        url = self.base_url + "/register"
-        account = {"symbol": name, "faction": faction}
-        if email:
-            account["email"] = email
-        # self.post
-        response = requests.post(
-            url, json=account, timeout=self.requests_timeout
-        )
+    def _post(self, url, headers=None, data=None, **kwargs):
+        r = requests.post(url, headers=headers, json=data, **kwargs)
+        return r.json()
 
-        return response.json()

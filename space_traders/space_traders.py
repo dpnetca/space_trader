@@ -1,33 +1,37 @@
-import requests
+from space_traders.client import Client
+from space_traders.contract import Contract
+from space_traders.agent import Agent
+from space_traders.ship import Ship
+from space_traders.system import System
+from space_traders.waypoints import Waypoint
 
+class SpaceTrader:
+    def __init__(self, token):
+        self.client=Client(token)
 
-class SpaceTraders:
-    def __init__(self, token=None):
-        self.requests_timeout = 3
-        self.base_url = "https://api.spacetraders.io/v2"
-        self.token = token
+    def agent(self, symbol=None):
+        return Agent(self.client, symbol)
 
-    def send(self, method, url, data=None):
-        headers = {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-        }
-        if self.token:
-            headers["Authorization"] = f"Bearer {self.token}"
+    def contract(self, symbol=None):
+        return Contract(self.client, symbol)
+    
+    def ship(self, symbol=None):
+        return Ship(self.client, symbol)
+    
+    def system(self, symbol=None):
+        return System(self.client, symbol)
+    
+    def waypoint(self, system=None, symbol=None):
+        return Waypoint(self.client, system, symbol)
 
-        match method.lower():
-            case "get":
-                response = requests.get(
-                    url, headers=headers, timeout=self.requests_timeout
-                )
-            case "post":
-                response = requests.post(
-                    url,
-                    headers=headers,
-                    timeout=self.requests_timeout,
-                    json=data,
-                )
+    def get_status(self):
+        return self.client.send("get","",auth=False)
 
-        # TODO handle the response for errors etc.
-
-        return response.json()
+    def register(self, name, faction, email=""):
+        endpoint = "/register"
+        account = {"symbol": name, "faction": faction}
+        if email:
+            account["email"] = email
+        r = self.client.send("post", endpoint, auth=False)
+        
+        return r.json()
