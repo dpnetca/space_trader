@@ -9,9 +9,9 @@ from space_traders.space_traders import SpaceTrader
 load_dotenv()
 
 token = os.getenv("ST_TOKEN")
-sell_threshold = 25
-contract_deliver_threshold = 29
-ship_symbol = "SIKAYN-3"
+sell_threshold = 3
+contract_deliver_threshold = 6
+ship_symbol = "SIKAYN-4"
 contract_symbol = "clkyhwdvj06l9s60ceuyi4upj"
 
 if not token:
@@ -65,6 +65,9 @@ while not complete:
             remaining_cargo["capacity"] - remaining_cargo["units"]
         )
         r = ship.orbit()
+
+        cargo = ship.cargo()
+        cargo_capacity_remaining = cargo["data"]["capacity"] - cargo["data"]["units"] 
 
         # CONTRACT DELIVERY THRESHOLD
         if cargo_capacity_remaining <= contract_deliver_threshold:
