@@ -1,11 +1,11 @@
-import os
 import logging
+import os
 from logging.handlers import RotatingFileHandler
 
 from dotenv import load_dotenv
 
-from space_traders.space_traders import SpaceTrader
 from automate.mining_contract import Automate
+from space_traders.space_traders import SpaceTrader
 
 load_dotenv()
 

@@ -1,10 +1,10 @@
+import math
 from datetime import datetime
 from time import sleep
-import math
 
-from space_traders.space_traders import SpaceTrader
-from space_traders.ship import Ship
 from space_traders.contract import Contract
+from space_traders.ship import Ship
+from space_traders.space_traders import SpaceTrader
 from space_traders.waypoints import Waypoint
 
 

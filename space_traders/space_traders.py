@@ -1,6 +1,6 @@
+from space_traders.agent import Agent
 from space_traders.client import Client
 from space_traders.contract import Contract
-from space_traders.agent import Agent
 from space_traders.ship import Ship
 from space_traders.system import System
 from space_traders.waypoints import Waypoint
