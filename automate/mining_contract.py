@@ -51,7 +51,6 @@ class Automate:
         arrival_time = datetime.fromisoformat(arrival)
         departure = r["data"]["nav"]["route"]["departureTime"]
         departure_time = datetime.fromisoformat(departure)
-        # now = datetime.now().astimezone()
         delta = (arrival_time - departure_time).total_seconds()
         delta = math.ceil(delta)
         print(
@@ -95,8 +94,6 @@ class Automate:
                     "remainingSeconds"
                 ]
                 self._cooldown_delay(remaining_seconds)
-                # print(f"waiting {remaining_seconds} seconds")
-                # sleep(remaining_seconds)
                 continue
 
             extracted_symbol = r["data"]["extraction"]["yield"]["symbol"]
@@ -114,8 +111,6 @@ class Automate:
                 f"{cargo_utilized*100:0.1f}% ({cargo_units}/{cargo_capacity})"
             )
             self._cooldown_delay(remaining_seconds)
-            # print(f"waiting {remaining_seconds} seconds")
-            # sleep(remaining_seconds)
             print()
 
     def _sell(self):
@@ -145,16 +140,17 @@ class Automate:
                 r = self.contract.deliver(
                     self.ship.symbol, item["symbol"], item["units"]
                 )
-                print(r)
                 deliverables = r["data"]["contract"]["terms"]["deliver"][0]
                 required = deliverables["unitsRequired"]
                 fulfilled = deliverables["unitsFulfilled"]
                 print(f"{fulfilled} / {required} fulfilled")
+                print()
         self._orbit()
         self._navigate(self.asteroid_field.symbol)
         self._dock()
         self._refuel()
         self._orbit()
+        print()
 
     def _cooldown_delay(self, remaining_seconds=None):
         if remaining_seconds is None:
@@ -177,6 +173,11 @@ class Automate:
             cargo_units = cargo["data"]["units"]
             cargo_capacity = cargo["data"]["capacity"]
             cargo_utilized = cargo_units / cargo_capacity
+            print(
+                "Cargo Utilized = "
+                f"{cargo_utilized*100:0.1f}% ({cargo_units}/{cargo_capacity})"
+            )
+            print()
             if cargo_utilized >= self.deliver_threshold:
                 self._deliver()
             self.contract.get()
