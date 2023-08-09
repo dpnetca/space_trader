@@ -45,21 +45,25 @@ class Automate:
             self._refuel()
             self._orbit()
 
-
     def _navigate(self, waypoint_symbol):
         r = self.ship.navigate(waypoint_symbol)
         arrival = r["data"]["nav"]["route"]["arrival"]
         arrival_time = datetime.fromisoformat(arrival)
-        now = datetime.now().astimezone()
-        delta = (arrival_time - now).total_seconds()
+        departure = r["data"]["nav"]["route"]["departureTime"]
+        departure_time = datetime.fromisoformat(departure)
+        # now = datetime.now().astimezone()
+        delta = (arrival_time - departure_time).total_seconds()
         delta = math.ceil(delta)
-        print(f"Navigating {self.ship.symbol} to {waypoint_symbol} arriving in {delta} seconds")
+        print(
+            f"Navigating {self.ship.symbol} to {waypoint_symbol} "
+            f"arriving in ~{delta} seconds ({arrival_time})"
+        )
         sleep(delta)
-    
+
     def _orbit(self):
         print(f"Moving {self.ship.symbol} to orbit")
         self.ship.orbit()
-    
+
     def _dock(self):
         print(f"Docking {self.ship.symbol}")
         self.ship.dock()
@@ -69,23 +73,30 @@ class Automate:
         self.ship.refuel()
 
     def _prep(self):
-        self.contract_symbols = [x["tradeSymbol"] for x in self.contract.details["terms"]["deliver"]]
+        self.contract_symbols = [
+            x["tradeSymbol"] for x in self.contract.details["terms"]["deliver"]
+        ]
         self.ship.get()
-        if self.ship.details["fuel"]["current"] < self.ship.details["fuel"]["capacity"]:
+        if (
+            self.ship.details["fuel"]["current"]
+            < self.ship.details["fuel"]["capacity"]
+        ):
             self._dock()
             self._refuel()
             self._orbit()
         self._goto_asteroid_field()
-
 
     def _extract(self):
         while True:
             r = self.ship.extract()
             if "error" in r.keys():
                 print(r["error"]["message"])
-                remaining_seconds = r["error"]["data"]["cooldown"]["remainingSeconds"]
-                print(f"waiting {remaining_seconds} seconds")
-                sleep(remaining_seconds)
+                remaining_seconds = r["error"]["data"]["cooldown"][
+                    "remainingSeconds"
+                ]
+                self._cooldown_delay(remaining_seconds)
+                # print(f"waiting {remaining_seconds} seconds")
+                # sleep(remaining_seconds)
                 continue
 
             extracted_symbol = r["data"]["extraction"]["yield"]["symbol"]
@@ -98,25 +109,15 @@ class Automate:
             if cargo_utilized >= self.sell_threshold:
                 break
 
-            print(f"Cargo Utilized = {cargo_utilized*100:0.1f}% ({cargo_units}/{cargo_capacity})")
-            print(f"waiting {remaining_seconds} seconds")
-            sleep(remaining_seconds)
+            print(
+                "Cargo Utilized = "
+                f"{cargo_utilized*100:0.1f}% ({cargo_units}/{cargo_capacity})"
+            )
+            self._cooldown_delay(remaining_seconds)
+            # print(f"waiting {remaining_seconds} seconds")
+            # sleep(remaining_seconds)
             print()
-            
-# r = ship.dock()
-# cargo = ship.cargo()
-# for item in cargo["data"]["inventory"]:
-    # if item["symbol"] not in contract_symbols:
-    #     r = ship.sell(item["symbol"], item["units"])
-    #     transaction = r["data"]["transaction"]
-    #     print(
-    #         f"Sold {transaction['units']} {transaction['tradeSymbol']} for {transaction['pricePerUnit']} ea. ({transaction['totalPrice']} total)"
-    #     )
-# remaining_cargo = r["data"]["cargo"]
-# cargo_capacity_remaining = (
-# remaining_cargo["capacity"] - remaining_cargo["units"]
-# )
-# r = ship.orbit()
+
     def _sell(self):
         self._dock()
         cargo = self.ship.cargo()
@@ -124,16 +125,62 @@ class Automate:
             if item["symbol"] not in self.contract_symbols:
                 r = self.ship.sell(item["symbol"], item["units"])
                 transaction = r["data"]["transaction"]
-                print(f"Sold {transaction['units']} {transaction['tradeSymbol']} for {transaction['pricePerUnit']} ea. ({transaction['totalPrice']} total)")
+                print(
+                    f"Sold {transaction['units']} "
+                    f"{transaction['tradeSymbol']} for "
+                    f"{transaction['pricePerUnit']} ea. "
+                    f"({transaction['totalPrice']} total)"
+                )
         self._orbit()
+
+    def _deliver(self):
+        self._navigate(
+            self.contract.details["terms"]["deliver"][0]["destinationSymbol"]
+        )
+        self._dock()
+        self._refuel()
+        cargo = self.ship.cargo()
+        for item in cargo["data"]["inventory"]:
+            if item["symbol"] in self.contract_symbols:
+                r = self.contract.deliver(
+                    self.ship.symbol, item["symbol"], item["units"]
+                )
+                print(r)
+                deliverables = r["data"]["contract"]["terms"]["deliver"][0]
+                required = deliverables["unitsRequired"]
+                fulfilled = deliverables["unitsFulfilled"]
+                print(f"{fulfilled} / {required} fulfilled")
+        self._orbit()
+        self._navigate(self.asteroid_field.symbol)
+        self._dock()
+        self._refuel()
+        self._orbit()
+
+    def _cooldown_delay(self, remaining_seconds=None):
+        if remaining_seconds is None:
+            cooldown = self.ship.cooldown()
+            if cooldown:
+                remaining_seconds = cooldown["data"]["remainingSeconds"]
+            else:
+                remaining_seconds = 0
+        if remaining_seconds > 0:
+            print(f"Waiting {remaining_seconds} seconds")
+            sleep(remaining_seconds)
 
     def run(self):
         self._prep()
         while True:
+            self._cooldown_delay()
             self._extract()
             self._sell()
-            break
-
+            cargo = self.ship.cargo()
+            cargo_units = cargo["data"]["units"]
+            cargo_capacity = cargo["data"]["capacity"]
+            cargo_utilized = cargo_units / cargo_capacity
+            if cargo_utilized >= self.deliver_threshold:
+                self._deliver()
+            self.contract.get()
+            deliverables = self.contract.details["terms"]["deliver"][0]
+            if deliverables["unitsFulfilled"] >= deliverables["unitsRequired"]:
+                break
         print("Automation Loop Complete")
-
-

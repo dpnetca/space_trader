@@ -66,3 +66,8 @@ class Ship:
         data = {"symbol": item_symbol, "units": units}
         res = self.client.send("post", endpoint, data=data)
         return res
+
+    def cooldown(self):
+        endpoint = self.base_endpoint + f"/{self.symbol}/cooldown"
+        res = self.client.send("get", endpoint)
+        return res

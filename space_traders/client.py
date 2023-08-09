@@ -1,4 +1,5 @@
 import requests
+import logging
 
 
 class Client:
@@ -10,6 +11,7 @@ class Client:
             "Content-Type": "application/json",
             "Accept": "application/json",
         }
+        self.session = requests.Session()
 
     def send(
         self, method, endpoint, auth=True, headers=None, data=None, **kwargs
@@ -30,9 +32,25 @@ class Client:
         return response
 
     def _get(self, url, headers=None, **kwargs):
-        r = requests.get(url, headers=headers, **kwargs)
-        return r.json()
+        # r = requests.get(url, headers=headers, **kwargs)
+        r = self.session.get(url, headers=headers, **kwargs)
+        logging.info(r.content)
+        if r.status_code == 204:
+            return r.content
+        r_data = r.json()
+        if "error" in r_data.keys():
+            print(
+                f"ERROR {r_data['error']['code']}: {r_data['error']['message']}"
+            )
+        return r_data
 
     def _post(self, url, headers=None, data=None, **kwargs):
-        r = requests.post(url, headers=headers, json=data, **kwargs)
-        return r.json()
+        # r = requests.post(url, headers=headers, json=data, **kwargs)
+        r = self.session.post(url, headers=headers, json=data, **kwargs)
+        logging.info(r.content)
+        r_data = r.json()
+        if "error" in r_data.keys():
+            print(
+                f"ERROR {r_data['error']['code']}: {r_data['error']['message']}"
+            )
+        return r_data
