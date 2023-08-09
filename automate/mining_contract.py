@@ -103,13 +103,13 @@ class Automate:
             cargo_units = r["data"]["cargo"]["units"]
             cargo_capacity = r["data"]["cargo"]["capacity"]
             cargo_utilized = cargo_units / cargo_capacity
-            if cargo_utilized >= self.sell_threshold:
-                break
-
             print(
                 "Cargo Utilized = "
                 f"{cargo_utilized*100:0.1f}% ({cargo_units}/{cargo_capacity})"
             )
+            if cargo_utilized >= self.sell_threshold:
+                print()
+                break
             self._cooldown_delay(remaining_seconds)
             print()
 
@@ -127,6 +127,7 @@ class Automate:
                     f"({transaction['totalPrice']} total)"
                 )
         self._orbit()
+        print()
 
     def _deliver(self):
         self._navigate(
