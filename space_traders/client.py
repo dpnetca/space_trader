@@ -40,7 +40,8 @@ class Client:
         r_data = r.json()
         if "error" in r_data.keys():
             print(
-                f"ERROR {r_data['error']['code']}: {r_data['error']['message']}"
+                f"ERROR {r_data['error']['code']}: "
+                f"{r_data['error']['message']}"
             )
         return r_data
 
@@ -51,6 +52,7 @@ class Client:
         r_data = r.json()
         if "error" in r_data.keys():
             print(
-                f"ERROR {r_data['error']['code']}: {r_data['error']['message']}"
+                f"ERROR {r_data['error']['code']}: "
+                f"{r_data['error']['message']}"
             )
         return r_data

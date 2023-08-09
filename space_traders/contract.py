@@ -1,7 +1,5 @@
 from space_traders.client import Client
 
-# {'data': {'id': 'clkyhwdvj06l9s60ceuyi4upj', 'factionSymbol': 'COSMIC', 'type': 'PROCUREMENT', 'terms': {'deadline': '2023-08-12T20:56:47.141Z', 'payment': {'onAccepted': 23990, 'onFulfilled': 180500}, 'deliver': [{'tradeSymbol': 'COPPER_ORE', 'destinationSymbol': 'X1-YA22-73712Z', 'unitsRequired': 1020, 'unitsFulfilled': 157}]}, 'accepted': True, 'fulfilled': False, 'expiration': '2023-08-06T20:56:47.141Z', 'deadlineToAccept': '2023-08-06T20:56:47.141Z'}}
-
 
 class Contract:
     def __init__(self, client: Client, symbol: str = None) -> None:

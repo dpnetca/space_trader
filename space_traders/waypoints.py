@@ -19,7 +19,7 @@ class Waypoint:
 
     def list(self):
         if self.system:
-            endpoint = self.base_endpoint + f"/waypoints"
+            endpoint = self.base_endpoint + "/waypoints"
             res = self.client.send("get", endpoint)
             return res
         else:

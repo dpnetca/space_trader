@@ -58,7 +58,10 @@ while not complete:
                 r = ship.sell(item["symbol"], item["units"])
                 transaction = r["data"]["transaction"]
                 print(
-                    f"Sold {transaction['units']} {transaction['tradeSymbol']} for {transaction['pricePerUnit']} ea. ({transaction['totalPrice']} total)"
+                    f"Sold {transaction['units']} "
+                    f"{transaction['tradeSymbol']} for "
+                    f"{transaction['pricePerUnit']} ea. "
+                    f"({transaction['totalPrice']} total)"
                 )
                 remaining_cargo = r["data"]["cargo"]
         cargo_capacity_remaining = (
@@ -67,7 +70,9 @@ while not complete:
         r = ship.orbit()
 
         cargo = ship.cargo()
-        cargo_capacity_remaining = cargo["data"]["capacity"] - cargo["data"]["units"] 
+        cargo_capacity_remaining = (
+            cargo["data"]["capacity"] - cargo["data"]["units"]
+        )
 
         # CONTRACT DELIVERY THRESHOLD
         if cargo_capacity_remaining <= contract_deliver_threshold:
@@ -78,7 +83,8 @@ while not complete:
             now = datetime.now().astimezone()
             delta = (arrival_time - now).total_seconds()
             print(
-                f"navigating to {destination.symbol} arriving in {delta} seconds"
+                f"navigating to {destination.symbol} arriving in "
+                f"{delta} seconds"
             )
             sleep(delta)
             ship.dock()
@@ -88,7 +94,9 @@ while not complete:
                 r = contract.deliver(
                     ship.symbol, item["symbol"], item["units"]
                 )
-                required = r["data"]["contract"]["terms"]["deliver"][0]["unitsRequired"]
+                required = r["data"]["contract"]["terms"]["deliver"][0][
+                    "unitsRequired"
+                ]
                 fulfilled = r["data"]["contract"]["terms"]["deliver"][0][
                     "unitsFulfilled"
                 ]
@@ -103,7 +111,8 @@ while not complete:
             now = datetime.now().astimezone()
             delta = (arrival_time - now).total_seconds()
             print(
-                f"navigating to {asteriod_field.symbol} arriving in {delta} seconds"
+                f"navigating to {asteriod_field.symbol} arriving in "
+                f"{delta} seconds"
             )
             sleep(delta)
             ship.dock()
