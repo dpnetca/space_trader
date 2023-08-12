@@ -30,30 +30,36 @@ class Client:
             case "post":
                 response = self._post(url, headers=head, data=data, **kwargs)
 
-        return response
+        if response.status_code == 204:
+            response_data = {}
+        else:
+            response_data = response.json()
 
-    def _get(self, url, headers=None, **kwargs):
-        # r = requests.get(url, headers=headers, **kwargs)
+        if response.status_code == 429:
+            # TODO handle rate limiting
+            pass
+
+        if "error" in response_data.keys():
+            print(
+                f"ERROR {response_data['error']['code']}: "
+                f"{response_data['error']['message']}"
+            )
+        return response_data
+
+    def _get(
+        self, url: str, headers: dict | None = None, **kwargs
+    ) -> requests.Response:
         r = self.session.get(url, headers=headers, **kwargs)
         logging.info(r.content)
-        if r.status_code == 204:
-            return r.content
-        r_data = r.json()
-        if "error" in r_data.keys():
-            print(
-                f"ERROR {r_data['error']['code']}: "
-                f"{r_data['error']['message']}"
-            )
-        return r_data
+        return r
 
-    def _post(self, url, headers=None, data=None, **kwargs):
-        # r = requests.post(url, headers=headers, json=data, **kwargs)
+    def _post(
+        self,
+        url: str,
+        headers: dict | None = None,
+        data: dict | None = None,
+        **kwargs,
+    ) -> requests.Response:
         r = self.session.post(url, headers=headers, json=data, **kwargs)
         logging.info(r.content)
-        r_data = r.json()
-        if "error" in r_data.keys():
-            print(
-                f"ERROR {r_data['error']['code']}: "
-                f"{r_data['error']['message']}"
-            )
-        return r_data
+        return r
