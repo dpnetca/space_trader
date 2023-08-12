@@ -22,7 +22,7 @@ class AgentApi:
         response = self.client.send("get", endpoint)
         if "error" in response.keys():
             return ApiError(**response)
-        return Agent(**response)
+        return Agent(**response["agent"])
 
     def list(self, limit: int = 20, page: int = 1) -> List[Agent] | ApiError:
         params = {"limit": limit, "page": page}
