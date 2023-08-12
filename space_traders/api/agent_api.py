@@ -12,24 +12,24 @@ class AgentApi:
         self.base_endpoint = "/agents"
 
     def get_me(self) -> Agent | ApiError:
-        r = self.client.send("get", "/my/agent")
-        if "error" in r.keys():
-            return ApiError(**r)
-        return Agent(**r)
+        response = self.client.send("get", "/my/agent")
+        if "error" in response.keys():
+            return ApiError(**response)
+        return Agent(**response)
 
     def get(self, symbol: str) -> Agent | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}"
-        r = self.client.send("get", endpoint)
-        if "error" in r.keys():
-            return ApiError(**r)
-        return Agent(**r)
+        response = self.client.send("get", endpoint)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return Agent(**response)
 
     def list(self, limit=20, page=1) -> List[Agent] | ApiError:
         params = {"limit": limit, "page": page}
-        r = self.client.send("get", self.base_endpoint, params=params)
-        if "error" in r.keys():
-            return ApiError(**r)
-        return [Agent(**a) for a in r["data"]]
+        response = self.client.send("get", self.base_endpoint, params=params)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return [Agent(**a) for a in response["data"]]
 
     def list_all(self) -> List[Agent] | ApiError:
         agents = paginator(self.client, "get", self.base_endpoint)
