@@ -7,6 +7,7 @@ from space_traders.models import (
     AgentFuelTransaction,
     AgentShipTransaction,
     ApiError,
+    ChartWaypoint,
     CooldownExtractionCargo,
     CooldownSurveys,
     ListShips,
@@ -24,6 +25,13 @@ class ShipApi:
     def __init__(self, client: Client) -> None:
         self.client = client
         self.base_endpoint = "/my/ships"
+
+    async def create_chart(self, symbol: str) -> ChartWaypoint:
+        endpoint = self.base_endpoint + f"/{symbol}/chart"
+        response = await self.client.send("post", endpoint)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return ChartWaypoint(**response["data"])
 
     async def create_survey(self, symbol: str) -> CooldownSurveys | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}/survey"
@@ -146,9 +154,6 @@ class ShipApi:
 
     # following still need implementation
     async def ship_refine(self):
-        raise NotImplemented
-
-    async def create_chart(self):
         raise NotImplemented
 
     async def jettison_cargo(self):

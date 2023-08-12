@@ -15,7 +15,7 @@ from .ship import (
 )
 from .system import System
 from .survey import Survey
-from .waypoint import Waypoint
+from .waypoint import Chart, Waypoint
 
 
 class AgentContract(BaseModel):
@@ -39,6 +39,11 @@ class AgentShipTransaction(BaseModel):
     agent: Agent = Field(...)
     ship: Ship = Field(...)
     transaction: ShipyardTransaction = Field(...)
+
+
+class ChartWaypoint(BaseModel):
+    chart: Chart = Field(...)
+    waypoint: Waypoint = Field(...)
 
 
 class ContractCargo(BaseModel):
