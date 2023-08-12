@@ -1,5 +1,6 @@
 from .agent import Agent
 from .contract import Contract
+from .faction import Faction
 from .market import Market, MarketTransaction
 from .meta import Meta
 from .ship import (

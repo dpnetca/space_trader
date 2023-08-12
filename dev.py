@@ -21,17 +21,14 @@ logging.basicConfig(
 
 
 async def main():
-    ref = time()
     token = os.getenv("ST_TOKEN")
     if not token:
         print("token not found...")
         exit(1)
 
     st = SpaceTrader(token)
-    ship_api = st.ship_api()
-    ships = await ship_api.list_all_ships()
-    for ship in ships:
-        print(ship.symbol)
+    factions = await st.faction.list_factions()
+    print(factions)
 
     await st.client.client.aclose()
 
