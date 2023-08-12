@@ -27,8 +27,9 @@ async def main():
         exit(1)
 
     st = SpaceTrader(token)
-    factions = await st.faction.list_factions()
-    print(factions)
+    x = await st.system.list_waypoints("X1-YA22")
+    print(x.meta.total)
+    print(x.data[0].symbol)
 
     await st.client.client.aclose()
 

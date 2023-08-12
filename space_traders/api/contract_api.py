@@ -6,6 +6,8 @@ from space_traders.models import (
     ApiError,
     Contract,
     ContractCargo,
+    ListContracts,
+    Meta,
 )
 from space_traders.utils import paginator
 
@@ -56,13 +58,15 @@ class ContractApi:
 
     async def list_contracts(
         self, limit: int = 20, page: int = 1
-    ) -> List[Contract] | ApiError:
+    ) -> ListContracts | ApiError:
         params = {"limit": limit, "page": page}
         endpoint = self.base_endpoint
         response = await self.client.send("get", endpoint, params=params)
         if "error" in response.keys():
             return ApiError(**response)
-        return [Contract(**c) for c in response["data"]]
+        contracts = [Contract(**c) for c in response["data"]]
+        meta = Meta(**response["meta"])
+        return ListContracts(data=contracts, meta=meta)
 
     async def list_all_contracts(self) -> List[Contract] | ApiError:
         response = await paginator(self.client, "get", self.base_endpoint)

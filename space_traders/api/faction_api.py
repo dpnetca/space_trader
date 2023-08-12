@@ -1,7 +1,7 @@
 from typing import List
 
 from space_traders.client import Client
-from space_traders.models import ApiError, Faction
+from space_traders.models import ApiError, Faction, ListFactions, Meta
 from space_traders.utils import paginator
 
 
@@ -19,14 +19,16 @@ class FactionApi:
 
     async def list_factions(
         self, limit: int = 20, page: int = 1
-    ) -> List[Faction] | ApiError:
+    ) -> ListFactions | ApiError:
         params = {"limit": limit, "page": page}
         response = await self.client.send(
             "get", self.base_endpoint, params=params
         )
         if "error" in response.keys():
             return ApiError(**response)
-        return [Faction(**f) for f in response["data"]]
+        factions = [Faction(**f) for f in response["data"]]
+        meta = Meta(**response["meta"])
+        return ListFactions(data=factions, meta=meta)
 
     async def list_all_factions(self) -> List[Faction] | ApiError:
         response = await paginator(self.client, "get", self.base_endpoint)

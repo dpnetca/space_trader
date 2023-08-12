@@ -9,6 +9,8 @@ from space_traders.models import (
     ApiError,
     CooldownExtractionCargo,
     CooldownSurveys,
+    ListShips,
+    Meta,
     Ship,
     ShipCargo,
     ShipCooldown,
@@ -70,13 +72,15 @@ class ShipApi:
 
     async def list_ships(
         self, limit: int = 20, page: int = 1
-    ) -> List[Ship] | ApiError:
+    ) -> ListShips | ApiError:
         params = {"limit": limit, "page": page}
         endpoint = self.base_endpoint
         response = await self.client.send("get", endpoint, params=params)
         if "error" in response.keys():
             return ApiError(**response)
-        return [Ship(**s) for s in response["data"]]
+        ships = [Ship(**s) for s in response["data"]]
+        meta = Meta(**response["meta"])
+        return ListShips(data=ships, meta=meta)
 
     async def list_all_ships(self) -> List[Ship] | ApiError:
         response = await paginator(self.client, "get", self.base_endpoint)

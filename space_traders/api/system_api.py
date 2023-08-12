@@ -3,7 +3,10 @@ from typing import List
 from space_traders.models import (
     ApiError,
     Jumpgate,
+    ListSystems,
+    ListWaypoints,
     Market,
+    Meta,
     Shipyard,
     System,
     Waypoint,
@@ -27,13 +30,15 @@ class SystemApi:
 
     async def list_systems(
         self, limit: int = 20, page: int = 1
-    ) -> List[System] | ApiError:
+    ) -> ListSystems | ApiError:
         params = {"limit": limit, "page": page}
         endpoint = self.base_endpoint
         response = await self.client.send("get", endpoint, params=params)
         if "error" in response.keys():
             return ApiError(**response)
-        return [System(**s) for s in response["data"]]
+        systems = [System(**s) for s in response["data"]]
+        meta = Meta(**response["meta"])
+        return ListSystems(data=systems, meta=meta)
 
     async def list_all_systems(self) -> List[System] | ApiError:
         response = await paginator(self.client, "get", self.base_endpoint)
@@ -60,13 +65,15 @@ class SystemApi:
 
     async def list_waypoints(
         self, system_symbol: str, limit=20, page=1
-    ) -> List[Waypoint] | ApiError:
+    ) -> ListWaypoints | ApiError:
         params = {"limit": limit, "page": page}
         endpoint = self.base_endpoint + f"/{system_symbol}/waypoints"
         response = await self.client.send("get", endpoint, params=params)
         if "error" in response.keys():
             return ApiError(**response)
-        return [Waypoint(**w) for w in response["data"]]
+        waypoints = [Waypoint(**w) for w in response["data"]]
+        meta = Meta(**response["meta"])
+        return ListWaypoints(data=waypoints, meta=meta)
 
     async def list_all_waypoints(
         self, system_symbol: str

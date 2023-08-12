@@ -1,7 +1,7 @@
 from typing import List
 
 from space_traders.client import Client
-from space_traders.models import Agent, ApiError
+from space_traders.models import Agent, ApiError, Meta, ListAgents
 from space_traders.utils import paginator
 
 
@@ -25,14 +25,16 @@ class AgentApi:
 
     async def list_agents(
         self, limit: int = 20, page: int = 1
-    ) -> List[Agent] | ApiError:
+    ) -> ListAgents | ApiError:
         params = {"limit": limit, "page": page}
         response = await self.client.send(
             "get", self.base_endpoint, params=params
         )
         if "error" in response.keys():
             return ApiError(**response)
-        return [Agent(**a) for a in response["data"]]
+        agents = [Agent(**a) for a in response["data"]]
+        meta = Meta(**response["meta"])
+        return ListAgents(data=agents, meta=meta)
 
     async def list_all_agents(self) -> List[Agent] | ApiError:
         response = await paginator(self.client, "get", self.base_endpoint)

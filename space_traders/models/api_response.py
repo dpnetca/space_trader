@@ -3,6 +3,7 @@ from pydantic import BaseModel, Field
 from .agent import Agent
 from .contract import Contract
 from .faction import Faction
+from .meta import Meta
 from .market import MarketTransaction
 from .ship import (
     Ship,
@@ -12,7 +13,9 @@ from .ship import (
     ShipFuel,
     ShipyardTransaction,
 )
+from .system import System
 from .survey import Survey
+from .waypoint import Waypoint
 
 
 class AgentContract(BaseModel):
@@ -52,6 +55,36 @@ class CooldownExtractionCargo(BaseModel):
 class CooldownSurveys(BaseModel):
     cooldown: ShipCooldown = Field(...)
     surveys: list[Survey] = Field(...)
+
+
+class ListAgents(BaseModel):
+    data: list[Agent] = Field(...)
+    meta: Meta = Field(...)
+
+
+class ListContracts(BaseModel):
+    data: list[Contract] = Field(...)
+    meta: Meta = Field(...)
+
+
+class ListFactions(BaseModel):
+    data: list[Faction] = Field(...)
+    meta: Meta = Field(...)
+
+
+class ListShips(BaseModel):
+    data: list[Ship] = Field(...)
+    meta: Meta = Field(...)
+
+
+class ListSystems(BaseModel):
+    data: list[System] = Field(...)
+    meta: Meta = Field(...)
+
+
+class ListWaypoints(BaseModel):
+    data: list[Waypoint] = Field(...)
+    meta: Meta = Field(...)
 
 
 class RegisterNewAgent(BaseModel):
