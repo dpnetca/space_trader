@@ -133,3 +133,49 @@ class ShipApi:
         if "error" in response.keys():
             return ApiError(**response)
         return CooldownSurveys(**response["data"])
+
+    # following still need implementation
+    def refine(self):
+        raise NotImplemented
+
+    def chart(self):
+        raise NotImplemented
+
+    def jettison(self):
+        raise NotImplemented
+
+    def jump(self):
+        raise NotImplemented
+
+    def patch(self):
+        raise NotImplemented
+
+    def warp(self):
+        raise NotImplemented
+
+    def scan_system(self):
+        raise NotImplemented
+
+    def scan_waypoint(self):
+        raise NotImplemented
+
+    def scan_ship(self):
+        raise NotImplemented
+
+    def purchase_cargo(self):
+        raise NotImplemented
+
+    def transfer_cargo(self):
+        raise NotImplemented
+
+    def negotiate_contract(self):
+        raise NotImplemented
+
+    def get_mounts(self):
+        raise NotImplemented
+
+    def install_mounts(self):
+        raise NotImplemented
+
+    def remove_mounts(self):
+        raise NotImplemented
