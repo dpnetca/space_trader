@@ -1,17 +1,18 @@
 from pydantic import BaseModel, Field
 
-from . import (
-    Agent,
-    Contract,
-    MarketTransaction,
+from .agent import Agent
+from .contract import Contract
+from .faction import Faction
+from .market import MarketTransaction
+from .ship import (
     Ship,
     ShipCargo,
     ShipCooldown,
     ShipExtraction,
     ShipFuel,
     ShipyardTransaction,
-    Survey,
 )
+from .survey import Survey
 
 
 class AgentContract(BaseModel):
@@ -51,3 +52,11 @@ class CooldownExtractionCargo(BaseModel):
 class CooldownSurveys(BaseModel):
     cooldown: ShipCooldown = Field(...)
     surveys: list[Survey] = Field(...)
+
+
+class RegisterNewAgent(BaseModel):
+    agent: Agent = Field(...)
+    contract: Contract = Field(...)
+    faction: Faction = Field(...)
+    ship: Ship = Field(...)
+    tiken: str = Field(...)

@@ -29,7 +29,7 @@ async def main():
 
     st = SpaceTrader(token)
     ship_api = st.ship_api()
-    ships = await ship_api.list_all()
+    ships = await ship_api.list_all_ships()
     for ship in ships:
         print(ship.symbol)
 

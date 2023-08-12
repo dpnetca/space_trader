@@ -27,4 +27,5 @@ from .api_response import (
     ContractCargo,
     CooldownExtractionCargo,
     CooldownSurveys,
+    RegisterNewAgent,
 )

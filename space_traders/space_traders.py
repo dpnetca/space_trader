@@ -1,6 +1,6 @@
 from .client import Client
 from .api import AgentApi, ContractApi, ShipApi, SystemApi
-from .models import Status
+from .models import Status, RegisterNewAgent
 
 
 class SpaceTrader:
@@ -23,11 +23,13 @@ class SpaceTrader:
         status = await self.client.send("get", "", auth=False)
         return Status(**status)
 
-    async def register(self, name, faction, email=""):
+    async def register(
+        self, name: str, faction: str, email: str = ""
+    ) -> RegisterNewAgent:
         endpoint = "/register"
         account = {"symbol": name, "faction": faction}
         if email:
             account["email"] = email
         r = await self.client.send("post", endpoint, auth=False)
 
-        return r.json()
+        return RegisterNewAgent(**r["data"])
