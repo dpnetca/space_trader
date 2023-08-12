@@ -1,22 +1,29 @@
 import logging
 
-import requests
+import httpx
+from aiolimiter import AsyncLimiter
 
 
 class Client:
-    def __init__(self, token=None):
+    def __init__(self, token: str | None = None) -> None:
         self.token = token
-        self.requests_timeout = 3
         self.base_url = "https://api.spacetraders.io/v2"
         self.headers = {
             "Content-Type": "application/json",
             "Accept": "application/json",
         }
-        self.session = requests.Session()
+        self.rate_limit = AsyncLimiter(1, 0.35)
+        self.client = httpx.AsyncClient()
 
-    def send(
-        self, method, endpoint, auth=True, headers=None, data=None, **kwargs
-    ):
+    async def send(
+        self,
+        method: str,
+        endpoint: str,
+        auth: bool = True,
+        headers: dict | None = None,
+        data: dict | None = None,
+        **kwargs,
+    ) -> dict:
         url = self.base_url + endpoint
         head = self.headers
         if auth:
@@ -26,9 +33,11 @@ class Client:
 
         match method.lower():
             case "get":
-                response = self._get(url, headers=head, **kwargs)
+                response = await self._get(url, headers=head, **kwargs)
             case "post":
-                response = self._post(url, headers=head, data=data, **kwargs)
+                response = await self._post(
+                    url, headers=head, data=data, **kwargs
+                )
 
         if response.status_code == 204:
             response_data = {}
@@ -46,20 +55,20 @@ class Client:
             )
         return response_data
 
-    def _get(
+    async def _get(
         self, url: str, headers: dict | None = None, **kwargs
-    ) -> requests.Response:
-        r = self.session.get(url, headers=headers, **kwargs)
+    ) -> httpx.Response:
+        r = await self.client.get(url, headers=headers, **kwargs)
         logging.info(r.content)
         return r
 
-    def _post(
+    async def _post(
         self,
         url: str,
         headers: dict | None = None,
         data: dict | None = None,
         **kwargs,
-    ) -> requests.Response:
-        r = self.session.post(url, headers=headers, json=data, **kwargs)
+    ) -> httpx.Response:
+        r = await self.client.post(url, headers=headers, json=data, **kwargs)
         logging.info(r.content)
         return r
