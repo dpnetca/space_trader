@@ -68,6 +68,11 @@ class CooldownSurveys(BaseModel):
     surveys: list[Survey] = Field(...)
 
 
+class CooldownSystems(BaseModel):
+    cooldown: ShipCooldown = Field(...)
+    systems: list[System] = Field(...)
+
+
 class FuelNav(BaseModel):
     fuel: ShipFuel = Field(...)
     nav: ShipNav = Field(...)

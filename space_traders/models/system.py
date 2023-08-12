@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field
+from typing import Optional
 
 
 class SystemWaypoint(BaseModel):
@@ -18,5 +19,5 @@ class System(BaseModel):
     type: str = Field(...)
     x: int = Field(...)
     y: int = Field(...)
-    waypoints: list[SystemWaypoint] = Field(...)
-    factions: list[SystemFaction] = Field(...)
+    waypoints: Optional[list[SystemWaypoint]] = Field(None)
+    factions: Optional[list[SystemFaction]] = Field(None)
