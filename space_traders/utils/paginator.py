@@ -12,14 +12,15 @@ def paginator(
     client: Client,
     method: str,
     endpoint: str,
-    limit: str = 20,
-    page: str = 1,
+    limit: int = 20,
+    page: int = 1,
     data: List = [],
     **kwargs
-) -> List:
+) -> List | ApiError:
     params = {"limit": limit, "page": page}
     if "params" in kwargs.keys():
         params = kwargs.pop("params") | params
+
     r = client.send(method, endpoint, params=params, **kwargs)
     if "error" in r.keys():
         return ApiError(**r)
@@ -30,7 +31,8 @@ def paginator(
     meta = Meta(**r["meta"])
     pages = ceil(meta.total / meta.limit)
     if page < pages:
-        data = paginator(
+        r = paginator(
             client, method, endpoint, limit, page + 1, data, **kwargs
         )
+        data = r
     return data

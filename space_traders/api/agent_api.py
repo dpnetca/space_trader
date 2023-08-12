@@ -32,7 +32,7 @@ class AgentApi:
         return [Agent(**a) for a in response["data"]]
 
     def list_all(self) -> List[Agent] | ApiError:
-        agents = paginator(self.client, "get", self.base_endpoint)
-        if isinstance(agents, ApiError):
-            return ApiError
-        return [Agent(**a) for a in agents]
+        response = paginator(self.client, "get", self.base_endpoint)
+        if isinstance(response, ApiError):
+            return response
+        return [Agent(**a) for a in response]

@@ -75,10 +75,10 @@ class ShipApi:
         return [Ship(**s) for s in response["data"]]
 
     def list_all(self) -> List[Ship] | ApiError:
-        ships = paginator(self.client, "get", self.base_endpoint)
-        if isinstance(ships, ApiError):
-            return ApiError
-        return [Ship(**s) for s in ships]
+        response = paginator(self.client, "get", self.base_endpoint)
+        if isinstance(response, ApiError):
+            return response
+        return [Ship(**s) for s in response]
 
     def navigate(
         self, symbol: str, waypoint_symbol: str

@@ -35,14 +35,16 @@ class SystemApi:
         return [System(**s) for s in response["data"]]
 
     def list_all_systems(self) -> List[System] | ApiError:
-        systems = paginator(self.client, "get", self.base_endpoint)
-        if isinstance(systems, ApiError):
-            return ApiError
-        return [System(**s) for s in systems]
+        response = paginator(self.client, "get", self.base_endpoint)
+        if isinstance(response, ApiError):
+            return response
+        return [System(**s) for s in response]
 
     # WAYPOINT LEVEL #
     def get_waypoint(
-        self, system_symbol: str = None, waypoint_symbol: str = None
+        self,
+        waypoint_symbol: str,
+        system_symbol: str | None = None,
     ) -> Waypoint | ApiError:
         if system_symbol is None:
             system_symbol = self._get_system_from_waypoint(waypoint_symbol)
@@ -69,13 +71,15 @@ class SystemApi:
         self, system_symbol: str
     ) -> List[Waypoint] | ApiError:
         endpoint = self.base_endpoint + f"/{system_symbol}/waypoints"
-        waypoints = paginator(self.client, "get", endpoint)
-        if isinstance(waypoints, ApiError):
-            return ApiError
-        return [Waypoint(**s) for s in waypoints]
+        response = paginator(self.client, "get", endpoint)
+        if isinstance(response, ApiError):
+            return response
+        return [Waypoint(**s) for s in response]
 
     def get_market(
-        self, system_symbol: str = None, waypoint_symbol: str = None
+        self,
+        waypoint_symbol: str,
+        system_symbol: str | None = None,
     ) -> Market | ApiError:
         if system_symbol is None:
             system_symbol = self._get_system_from_waypoint(waypoint_symbol)
@@ -89,7 +93,9 @@ class SystemApi:
         return Market(**response["data"])
 
     def get_jumpgate(
-        self, system_symbol: str = None, waypoint_symbol: str = None
+        self,
+        waypoint_symbol: str,
+        system_symbol: str | None = None,
     ) -> Jumpgate | ApiError:
         if system_symbol is None:
             system_symbol = self._get_system_from_waypoint(waypoint_symbol)
@@ -103,7 +109,9 @@ class SystemApi:
         return Jumpgate(**response["data"])
 
     def get_shipyard(
-        self, system_symbol: str = None, waypoint_symbol: str = None
+        self,
+        waypoint_symbol: str,
+        system_symbol: str | None = None,
     ) -> Shipyard | ApiError:
         if system_symbol is None:
             system_symbol = self._get_system_from_waypoint(waypoint_symbol)
