@@ -1,7 +1,7 @@
 from space_traders.client import Client
 
 
-class Contract:
+class ContractApi:
     def __init__(self, client: Client, symbol: str = None) -> None:
         self.client = client
         self.base_endpoint = "/my/contracts"

@@ -1,29 +1,29 @@
-from space_traders.agent import Agent
+from space_traders.api import AgentApi
 from space_traders.client import Client
-from space_traders.contract import Contract
-from space_traders.ship import Ship
-from space_traders.system import System
-from space_traders.waypoints import Waypoint
+from space_traders.api import ContractApi
+from space_traders.api import ShipApi
+from space_traders.api.system_api import SystemApi
+from space_traders.api.waypoint_api import WaypointApi
 
 
 class SpaceTrader:
     def __init__(self, token):
         self.client = Client(token)
 
-    def agent(self, symbol=None):
-        return Agent(self.client, symbol)
+    def agent_api(self):
+        return AgentApi(self.client)
 
     def contract(self, symbol=None):
-        return Contract(self.client, symbol)
+        return ContractApi(self.client, symbol)
 
-    def ship(self, symbol=None):
-        return Ship(self.client, symbol)
+    def ship_api(self):
+        return ShipApi(self.client)
 
-    def system(self, symbol=None):
-        return System(self.client, symbol)
+    # def system(self, symbol=None):
+    #     return System(self.client, symbol)
 
-    def waypoint(self, system=None, symbol=None):
-        return Waypoint(self.client, system, symbol)
+    # def waypoint(self, system=None, symbol=None):
+    #     return Waypoint(self.client, system, symbol)
 
     def get_status(self):
         return self.client.send("get", "", auth=False)

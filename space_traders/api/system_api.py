@@ -1,7 +1,7 @@
 from space_traders.space_traders import Client
 
 
-class System:
+class SystemApi:
     def __init__(self, client: Client, symbol: str = None) -> None:
         self.client = client
         self.base_endpoint = "/systems"

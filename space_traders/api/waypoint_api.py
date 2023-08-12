@@ -1,7 +1,7 @@
 from space_traders.space_traders import Client
 
 
-class Waypoint:
+class WaypointApi:
     def __init__(
         self, client: Client, system: str = None, symbol: str = None
     ) -> None:

@@ -3,14 +3,16 @@ import os
 from logging.handlers import RotatingFileHandler
 from argparse import ArgumentParser
 from dotenv import load_dotenv
+from datetime import datetime
 
-from automate.mining_contract import Automate
+# from automate.mining_contract import Automate
 from space_traders.space_traders import SpaceTrader
+
 
 load_dotenv()
 
 handler = RotatingFileHandler(
-    filename="log.log", maxBytes=2000000, backupCount=10
+    filename="dev-log.log", maxBytes=2000000, backupCount=10
 )
 logging.basicConfig(
     format="%(asctime)s %(levelname)-8s %(message)s",
@@ -24,12 +26,12 @@ requests_log = logging.getLogger("urllib3")
 requests_log.setLevel(logging.DEBUG)
 requests_log.propagate = True
 
-parser = ArgumentParser()
-parser.add_argument("-s", "--ship", dest="ship", help="ship symbol")
-parser.add_argument(
-    "-c", "--contract", dest="contract", help="contract symbol"
-)
-args = parser.parse_args()
+# parser = ArgumentParser()
+# parser.add_argument("-s", "--ship", dest="ship", help="ship symbol")
+# parser.add_argument(
+#     "-c", "--contract", dest="contract", help="contract symbol"
+# )
+# args = parser.parse_args()
 
 token = os.getenv("ST_TOKEN")
 
@@ -37,15 +39,7 @@ if not token:
     print("token not found...")
 
 st = SpaceTrader(token)
+agent_api = st.agent_api()
 
-auto = Automate(
-    st,
-    st.ship(args.ship),
-    st.contract(args.contract),
-    st.waypoint(symbol="X1-YA22-87615D"),
-)
-
-auto.sell_threshold = 0.5
-auto.deliver_threshold = 0.1
-
-auto.run()
+agents = agent_api.list_all_agents()
+print(len(agents))
