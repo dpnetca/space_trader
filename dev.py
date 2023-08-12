@@ -39,7 +39,5 @@ if not token:
     print("token not found...")
 
 st = SpaceTrader(token)
-agent_api = st.agent_api()
-
-agents = agent_api.list_all_agents()
-print(len(agents))
+contract_api = st.contract_api()
+print(contract_api.list_all())

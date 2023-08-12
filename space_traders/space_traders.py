@@ -13,8 +13,8 @@ class SpaceTrader:
     def agent_api(self):
         return AgentApi(self.client)
 
-    def contract(self, symbol=None):
-        return ContractApi(self.client, symbol)
+    def contract_api(self):
+        return ContractApi(self.client)
 
     def ship_api(self):
         return ShipApi(self.client)

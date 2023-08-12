@@ -19,7 +19,7 @@ class ContractDeliver(BaseModel):
 class ContractTerms(BaseModel):
     deadline: datetime = Field(...)
     payment: ContractPayment = Field(...)
-    deliver: Optional[ContractDeliver] = Field(None)
+    deliver: Optional[list[ContractDeliver]] = Field(None)
 
 
 class Contract(BaseModel):

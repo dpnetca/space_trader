@@ -1,10 +1,22 @@
-from space_traders.models import ApiError, Meta
+from space_traders.client import Client
+from space_traders.models import ApiError
 
+from typing import List
 
 from math import ceil
 
+from space_traders.models.Meta import Meta
 
-def paginator(client, method, endpoint, limit=20, page=1, data=[], **kwargs):
+
+def paginator(
+    client: Client,
+    method: str,
+    endpoint: str,
+    limit: str = 20,
+    page: str = 1,
+    data: List = [],
+    **kwargs
+) -> List:
     params = {"limit": limit, "page": page}
     if "params" in kwargs.keys():
         params = kwargs.pop("params") | params

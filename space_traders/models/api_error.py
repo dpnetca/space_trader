@@ -8,9 +8,3 @@ class ApiErrorDetail(BaseModel):
 
 class ApiError(BaseModel):
     error: ApiErrorDetail = Field(...)
-
-
-class Meta(BaseModel):
-    total: int = Field(...)
-    page: int = Field(...)
-    limit: int = Field(...)
