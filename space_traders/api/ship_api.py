@@ -11,6 +11,7 @@ from space_traders.models import (
     CooldownExtractionCargo,
     CooldownNav,
     CooldownSurveys,
+    FuelNav,
     ListShips,
     Meta,
     Ship,
@@ -173,8 +174,15 @@ class ShipApi:
             return ApiError(**response)
         return AgentCargoTransaction(**response["data"])
 
-    async def warp_ship(self):
-        raise NotImplemented
+    async def warp_ship(
+        self, symbol: str, waypoint_symbol: str
+    ) -> FuelNav | ApiError:
+        endpoint = self.base_endpoint + f"/{symbol}/warp"
+        data = {"waypointSymbol": waypoint_symbol}
+        response = await self.client.send("post", endpoint, data=data)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return FuelNav(**response["data"])
 
     # following still need implementation
     async def ship_refine(self):

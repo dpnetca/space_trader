@@ -27,6 +27,7 @@ from .api_response import (
     CooldownExtractionCargo,
     CooldownNav,
     CooldownSurveys,
+    FuelNav,
     ListAgents,
     ListContracts,
     ListFactions,

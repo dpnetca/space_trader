@@ -68,6 +68,11 @@ class CooldownSurveys(BaseModel):
     surveys: list[Survey] = Field(...)
 
 
+class FuelNav(BaseModel):
+    fuel: ShipFuel = Field(...)
+    nav: ShipNav = Field(...)
+
+
 class ListAgents(BaseModel):
     data: list[Agent] = Field(...)
     meta: Meta = Field(...)
