@@ -24,7 +24,7 @@ class AgentApi:
             return ApiError(**response)
         return Agent(**response)
 
-    def list(self, limit=20, page=1) -> List[Agent] | ApiError:
+    def list(self, limit: int = 20, page: int = 1) -> List[Agent] | ApiError:
         params = {"limit": limit, "page": page}
         response = self.client.send("get", self.base_endpoint, params=params)
         if "error" in response.keys():
