@@ -1,3 +1,4 @@
+import asyncio
 import logging
 
 import httpx
@@ -22,6 +23,7 @@ class Client:
         auth: bool = True,
         headers: dict | None = None,
         data: dict | None = None,
+        handle_429=True,
         **kwargs,
     ) -> dict:
         url = self.base_url + endpoint
@@ -44,12 +46,18 @@ class Client:
         else:
             response_data = response.json()
 
-        if response.status_code == 429:
-            # TODO handle rate limiting
-            pass
+        if response.status_code == 429 and handle_429:
+            delay = response_data["error"]["data"]["retryAfter"]
+            logging.warning(
+                f"Rate Limit hit, automatic retry after {delay} seconds"
+            )
+            await asyncio.sleep(delay)
+            return await self.send(
+                method, endpoint, auth, headers, data, handle_429, **kwargs
+            )
 
         if "error" in response_data.keys():
-            print(
+            logging.warning(
                 f"ERROR {response_data['error']['code']}: "
                 f"{response_data['error']['message']}"
             )
@@ -58,8 +66,9 @@ class Client:
     async def _get(
         self, url: str, headers: dict | None = None, **kwargs
     ) -> httpx.Response:
+        await self.rate_limit.acquire()
         r = await self.client.get(url, headers=headers, **kwargs)
-        logging.info(r.content)
+        logging.debug(r.content)
         return r
 
     async def _post(
@@ -69,6 +78,7 @@ class Client:
         data: dict | None = None,
         **kwargs,
     ) -> httpx.Response:
+        await self.rate_limit.acquire()
         r = await self.client.post(url, headers=headers, json=data, **kwargs)
-        logging.info(r.content)
+        logging.debug(r.content)
         return r
