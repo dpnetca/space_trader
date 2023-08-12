@@ -25,23 +25,12 @@ class ShipApi:
         self.client = client
         self.base_endpoint = "/my/ships"
 
-    async def get_ship_cargo(self, symbol: str) -> ShipCargo | ApiError:
-        endpoint = self.base_endpoint + f"/{symbol}/cargo"
-        response = await self.client.send("get", endpoint)
+    async def create_survey(self, symbol: str) -> CooldownSurveys | ApiError:
+        endpoint = self.base_endpoint + f"/{symbol}/survey"
+        response = await self.client.send("post", endpoint)
         if "error" in response.keys():
             return ApiError(**response)
-        return ShipCargo(**response["data"])
-
-    async def get_ship_cooldown(
-        self, symbol: str
-    ) -> ShipCooldown | ApiError | dict:
-        endpoint = self.base_endpoint + f"/{symbol}/cooldown"
-        response = await self.client.send("get", endpoint)
-        if "error" in response.keys():
-            return ApiError(**response)
-        if "data" in response.keys():
-            return ShipCooldown(**response["data"])
-        return response
+        return CooldownSurveys(**response["data"])
 
     async def dock_ship(self, symbol: str) -> ShipNav | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}/dock"
@@ -69,6 +58,24 @@ class ShipApi:
         if "error" in response.keys():
             return ApiError(**response)
         return Ship(**response["data"])
+
+    async def get_ship_cargo(self, symbol: str) -> ShipCargo | ApiError:
+        endpoint = self.base_endpoint + f"/{symbol}/cargo"
+        response = await self.client.send("get", endpoint)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return ShipCargo(**response["data"])
+
+    async def get_ship_cooldown(
+        self, symbol: str
+    ) -> ShipCooldown | ApiError | dict:
+        endpoint = self.base_endpoint + f"/{symbol}/cooldown"
+        response = await self.client.send("get", endpoint)
+        if "error" in response.keys():
+            return ApiError(**response)
+        if "data" in response.keys():
+            return ShipCooldown(**response["data"])
+        return response
 
     async def list_ships(
         self, limit: int = 20, page: int = 1
@@ -136,13 +143,6 @@ class ShipApi:
         if "error" in response.keys():
             return ApiError(**response)
         return AgentCargoTransaction(**response["data"])
-
-    async def create_survey(self, symbol: str) -> CooldownSurveys | ApiError:
-        endpoint = self.base_endpoint + f"/{symbol}/survey"
-        response = await self.client.send("post", endpoint)
-        if "error" in response.keys():
-            return ApiError(**response)
-        return CooldownSurveys(**response["data"])
 
     # following still need implementation
     async def ship_refine(self):
