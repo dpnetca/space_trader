@@ -1,6 +1,6 @@
 from .agent import Agent
 from .contract import Contract
-from .market import MarketTransaction
+from .market import MarketTransaction, Market
 from .meta import Meta
 from .ship import (
     Ship,
@@ -9,10 +9,12 @@ from .ship import (
     ShipExtraction,
     ShipFuel,
     ShipNav,
+    Shipyard,
     ShipyardTransaction,
 )
 from .survey import Survey
 from .system import System
+from .waypoint import Waypoint, Jumpgate
 
 
 ## These must be imported last

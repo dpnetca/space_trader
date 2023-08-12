@@ -3,7 +3,6 @@ from space_traders.client import Client
 from space_traders.api import ContractApi
 from space_traders.api import ShipApi
 from space_traders.api.system_api import SystemApi
-from space_traders.api.waypoint_api import WaypointApi
 
 
 class SpaceTrader:
@@ -21,9 +20,6 @@ class SpaceTrader:
 
     def system_api(self):
         return SystemApi(self.client)
-
-    # def waypoint(self, system=None, symbol=None):
-    #     return Waypoint(self.client, system, symbol)
 
     def get_status(self):
         return self.client.send("get", "", auth=False)

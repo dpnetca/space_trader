@@ -41,5 +41,17 @@ if not token:
 
 st = SpaceTrader(token)
 sysapi = st.system_api()
-system = sysapi.get_system("X1-JG76")
-print(system)
+waypoints = sysapi.list_waypoints("X1-YA22")
+# for wp in waypoints:
+#     print(f"{wp.symbol}")
+#     print(wp.type)
+#     for trait in wp.traits:
+#         print(f"{trait.name}")
+#     print()
+
+# shipyard = sysapi.get_shipyard("X1-YA22", "X1-YA22-18767C")
+
+# print(shipyard)
+
+jumpgate = sysapi.get_jumpgate(waypoint_symbol="X1-YA22-66849X")
+print(jumpgate)

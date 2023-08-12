@@ -170,8 +170,12 @@ class ShipyardShip(BaseModel):
     mounts: list[ShipMounts] = Field(...)
 
 
+class ShipyardShipType(BaseModel):
+    type: str = Field(...)
+
+
 class Shipyard(BaseModel):
     symbol: str = Field(...)
-    ship_types: list[str] = Field(..., alias="shipTypes")
+    ship_types: list[ShipyardShipType] = Field(..., alias="shipTypes")
     transactions: Optional[list[ShipyardTransaction]] = Field(None)
     ships: Optional[list[ShipyardShip]] = Field(None)
