@@ -8,6 +8,7 @@ from space_traders.models import (
     AgentShipTransaction,
     ApiError,
     ChartWaypoint,
+    Contract,
     CooldownExtractionCargo,
     CooldownNav,
     CooldownShips,
@@ -138,6 +139,13 @@ class ShipApi:
             return ApiError(**response)
         return ShipNav(**response["data"]["nav"])
 
+    async def negotiate_contract(self, symbol: str) -> Contract | ApiError:
+        endpoint = self.base_endpoint + f"/{symbol}/negotiate/contract"
+        response = await self.client.send("post", endpoint)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return Contract(**response["data"]["contract"])
+
     async def orbit_ship(self, symbol: str) -> ShipNav | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}/orbit"
         response = await self.client.send("post", endpoint)
@@ -221,9 +229,6 @@ class ShipApi:
         raise NotImplemented
 
     async def transfer_cargo(self):
-        raise NotImplemented
-
-    async def negotiate_contract(self):
         raise NotImplemented
 
     async def get_mounts(self):
