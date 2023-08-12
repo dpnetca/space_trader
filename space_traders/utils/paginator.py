@@ -8,7 +8,7 @@ from math import ceil
 from space_traders.models.meta import Meta
 
 
-def paginator(
+async def paginator(
     client: Client,
     method: str,
     endpoint: str,
@@ -21,7 +21,7 @@ def paginator(
     if "params" in kwargs.keys():
         params = kwargs.pop("params") | params
 
-    r = client.send(method, endpoint, params=params, **kwargs)
+    r = await client.send(method, endpoint, params=params, **kwargs)
     if "error" in r.keys():
         return ApiError(**r)
 
@@ -31,7 +31,7 @@ def paginator(
     meta = Meta(**r["meta"])
     pages = ceil(meta.total / meta.limit)
     if page < pages:
-        r = paginator(
+        r = await paginator(
             client, method, endpoint, limit, page + 1, data, **kwargs
         )
         data = r
