@@ -40,18 +40,6 @@ if not token:
     print("token not found...")
 
 st = SpaceTrader(token)
-ship_api = st.ship_api()
-
-# ship = ship_api.get("SIKAYN-1")
-# survey = ship_api.survey(ship.symbol)
-# survey0 = survey.surveys[0]
-# print(survey0)
-miner = ship_api.get("SIKAYN-4")
-ship_api.dock(miner.symbol)
-cargo = ship_api.cargo(miner.symbol)
-for item in cargo.inventory:
-    ship_api.sell(miner.symbol, item.symbol, item.units)
-ship_api.orbit(miner.symbol)
-# extraction = ship_api.extract(miner.symbol, survey0)
-extraction = ship_api.extract(miner.symbol)
-print(extraction)
+sysapi = st.system_api()
+system = sysapi.get_system("X1-JG76")
+print(system)

@@ -19,8 +19,8 @@ class SpaceTrader:
     def ship_api(self):
         return ShipApi(self.client)
 
-    # def system(self, symbol=None):
-    #     return System(self.client, symbol)
+    def system_api(self):
+        return SystemApi(self.client)
 
     # def waypoint(self, system=None, symbol=None):
     #     return Waypoint(self.client, system, symbol)

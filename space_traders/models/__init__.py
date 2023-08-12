@@ -12,6 +12,7 @@ from .ship import (
     ShipyardTransaction,
 )
 from .survey import Survey
+from .system import System
 
 
 ## These must be imported last
