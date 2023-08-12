@@ -50,31 +50,31 @@ class ShipCrew(BaseModel):
 
 class ShipFrame(BaseModel):
     symbol: str = Field(...)
-    name: str = Field(...)
-    description: str = Field(...)
+    name: Optional[str] = Field(None)
+    description: Optional[str] = Field(None)
     condition: Optional[int] = Field(None)
-    module_slots: int = Field(..., alias="moduleSlots")
-    mounting_points: int = Field(..., alias="mountingPoints")
-    fuel_capacity: int = Field(..., alias="fuelCapacity")
-    requirements: ShipRequirements = Field(...)
+    module_slots: Optional[int] = Field(None, alias="moduleSlots")
+    mounting_points: Optional[int] = Field(None, alias="mountingPoints")
+    fuel_capacity: Optional[int] = Field(None, alias="fuelCapacity")
+    requirements: Optional[ShipRequirements] = Field(None)
 
 
 class ShipReactor(BaseModel):
     symbol: str = Field(...)
-    name: str = Field(...)
-    description: str = Field(...)
+    name: Optional[str] = Field(None)
+    description: Optional[str] = Field(None)
     condition: Optional[int] = Field(None)
-    power_output: int = Field(..., alias="powerOutput")
-    requirements: ShipRequirements = Field(...)
+    power_output: Optional[int] = Field(None, alias="powerOutput")
+    requirements: Optional[ShipRequirements] = Field(None)
 
 
 class ShipEngine(BaseModel):
     symbol: str = Field(...)
-    name: str = Field(...)
-    description: str = Field(...)
+    name: Optional[str] = Field(None)
+    description: Optional[str] = Field(None)
     condition: Optional[int] = Field(None)
-    speed: int = Field(...)
-    requirements: ShipRequirements = Field(...)
+    speed: Optional[int] = Field(None)
+    requirements: Optional[ShipRequirements] = Field(None)
 
 
 class ShipModules(BaseModel):
@@ -88,11 +88,11 @@ class ShipModules(BaseModel):
 
 class ShipMounts(BaseModel):
     symbol: str = Field(...)
-    name: str = Field(...)
+    name: Optional[str] = Field(None)
     description: Optional[str] = Field(None)
     strength: Optional[int] = Field(None)
     deposits: Optional[list[str]] = Field(default_factory=list)
-    requirements: ShipRequirements = Field(...)
+    requirements: Optional[ShipRequirements] = Field(None)
 
 
 class ShipCargoInventory(BaseModel):
@@ -123,14 +123,14 @@ class Ship(BaseModel):
     symbol: str = Field(...)
     registration: ShipRegistration = Field(...)
     nav: ShipNav = Field(...)
-    crew: ShipCrew = Field(...)
-    frame: ShipFrame = Field(...)
-    reactor: ShipReactor = Field(...)
+    crew: Optional[ShipCrew] = Field(None)
+    frame: Optional[ShipFrame] = Field(None)
+    reactor: Optional[ShipReactor] = Field(None)
     engine: ShipEngine = Field(...)
-    modules: list[ShipModules] = Field(...)
-    mounts: list[ShipMounts] = Field(...)
-    cargo: ShipCargo = Field(...)
-    fuel: ShipFuel = Field(...)
+    modules: Optional[list[ShipModules]] = Field(None)
+    mounts: Optional[list[ShipMounts]] = Field(None)
+    cargo: Optional[ShipCargo] = Field(None)
+    fuel: Optional[ShipFuel] = Field(None)
 
 
 class ShipCooldown(BaseModel):

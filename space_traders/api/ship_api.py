@@ -10,6 +10,7 @@ from space_traders.models import (
     ChartWaypoint,
     CooldownExtractionCargo,
     CooldownNav,
+    CooldownShips,
     CooldownSurveys,
     CooldownSystems,
     CooldownWaypoints,
@@ -176,6 +177,13 @@ class ShipApi:
             return ApiError(**response)
         return AgentCargoTransaction(**response["data"])
 
+    async def scan_ships(self, symbol: str) -> CooldownShips | ApiError:
+        endpoint = self.base_endpoint + f"/{symbol}/scan/ships"
+        response = await self.client.send("post", endpoint)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return CooldownShips(**response["data"])
+
     async def scan_systems(self, symbol: str) -> CooldownSystems | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}/scan/systems"
         response = await self.client.send("post", endpoint)
@@ -207,9 +215,6 @@ class ShipApi:
         raise NotImplemented
 
     async def patch_ship_nav(self):
-        raise NotImplemented
-
-    async def scan_ships(self):
         raise NotImplemented
 
     async def purchase_cargo(self):

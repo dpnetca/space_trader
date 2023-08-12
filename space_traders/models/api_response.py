@@ -63,6 +63,11 @@ class CooldownNav(BaseModel):
     nav: ShipNav = Field(...)
 
 
+class CooldownShips(BaseModel):
+    cooldown: ShipCooldown = Field(...)
+    ships: list[Ship] = Field(...)
+
+
 class CooldownSurveys(BaseModel):
     cooldown: ShipCooldown = Field(...)
     surveys: list[Survey] = Field(...)

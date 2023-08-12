@@ -26,6 +26,7 @@ from .api_response import (
     ContractCargo,
     CooldownExtractionCargo,
     CooldownNav,
+    CooldownShips,
     CooldownSurveys,
     CooldownSystems,
     CooldownWaypoints,
