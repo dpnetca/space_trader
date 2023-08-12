@@ -131,3 +131,47 @@ class Ship(BaseModel):
     mounts: list[ShipMounts] = Field(...)
     cargo: ShipCargo = Field(...)
     fuel: ShipFuel = Field(...)
+
+
+class ShipCooldown(BaseModel):
+    symbol: str = Field(..., alias="shipSymbol")
+    total_seconds: int = Field(..., alias="totalSeconds")
+    remaining_seconds: int = Field(..., alias="remainingSeconds")
+    expiration: datetime = Field(...)
+
+
+class ShipExtractionYield(BaseModel):
+    symbol: str = Field(...)
+    units: int = Field(...)
+
+
+class ShipExtraction(BaseModel):
+    symbol: str = Field(..., alias="shipSymbol")
+    extraction_yield: ShipExtractionYield = Field(..., alias="yield")
+
+
+class ShipyardTransaction(BaseModel):
+    waypoint_symbol: str = Field(..., alias="waypointSymbol")
+    ship_symbol: str = Field(..., alias="shipSymbol")
+    price: int = Field(...)
+    agent_symbol: str = Field(..., alias="agentSymbol")
+    timestamp: datetime = Field(...)
+
+
+class ShipyardShip(BaseModel):
+    type: str = Field(...)
+    name: str = Field(...)
+    description: str = Field(...)
+    purchase_price: int = Field(..., alias="purchasePrice")
+    frame: ShipFrame = Field(...)
+    reactor: ShipReactor = Field(...)
+    engine: ShipEngine = Field(...)
+    modules: list[ShipModules] = Field(...)
+    mounts: list[ShipMounts] = Field(...)
+
+
+class Shipyard(BaseModel):
+    symbol: str = Field(...)
+    ship_types: list[str] = Field(..., alias="shipTypes")
+    transactions: Optional[list[ShipyardTransaction]] = Field(None)
+    ships: Optional[list[ShipyardShip]] = Field(None)

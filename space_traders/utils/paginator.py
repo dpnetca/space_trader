@@ -5,7 +5,7 @@ from typing import List
 
 from math import ceil
 
-from space_traders.models.Meta import Meta
+from space_traders.models.meta import Meta
 
 
 def paginator(

@@ -1,6 +1,18 @@
-from space_traders.client import Client
-from space_traders.models import Ship, ShipNav
 from typing import List
+
+from space_traders.client import Client
+from space_traders.models import (
+    AgentCargoTransaction,
+    AgentFuelTransaction,
+    AgentShipTransaction,
+    ApiError,
+    CooldownExtractionCargo,
+    Ship,
+    ShipCargo,
+    ShipCooldown,
+    ShipNav,
+)
+from space_traders.utils import paginator
 
 
 class ShipApi:
@@ -8,69 +20,100 @@ class ShipApi:
         self.client = client
         self.base_endpoint = "/my/ships"
 
-    def get(self, symbol: str) -> Ship:
+    def cargo(self, symbol: str) -> ShipCargo | ApiError:
+        endpoint = self.base_endpoint + f"/{symbol}/cargo"
+        response = self.client.send("get", endpoint)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return ShipCargo(**response["data"])
+
+    def cooldown(self, symbol: str) -> ShipCooldown | ApiError | dict:
+        endpoint = self.base_endpoint + f"/{symbol}/cooldown"
+        response = self.client.send("get", endpoint)
+        if "error" in response.keys():
+            return ApiError(**response)
+        if "data" in response.keys():
+            return ShipCooldown(**response["data"])
+        return response
+
+    def dock(self, symbol: str) -> ShipNav | ApiError:
+        endpoint = self.base_endpoint + f"/{symbol}/dock"
+        response = self.client.send("post", endpoint)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return ShipNav(**response["data"]["nav"])
+
+    def extract(self, symbol: str) -> CooldownExtractionCargo | ApiError:
+        endpoint = self.base_endpoint + f"/{symbol}/extract"
+        response = self.client.send("post", endpoint)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return CooldownExtractionCargo(**response["data"])
+
+    def get(self, symbol: str) -> Ship | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}"
-        res = self.client.send("get", endpoint)
-        ship_data = res["data"]
-        return Ship(**ship_data)
+        response = self.client.send("get", endpoint)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return Ship(**response["data"])
 
-    def list(self) -> List[Ship]:
+    def list(self, limit: int = 20, page: int = 1) -> List[Ship] | ApiError:
+        params = {"limit": limit, "page": page}
         endpoint = self.base_endpoint
-        res = self.client.send("get", endpoint)
-        ships_data = res["data"]
-        ships = [Ship(**s) for s in ships_data]
-        return ships
+        response = self.client.send("get", endpoint, params=params)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return [Ship(**s) for s in response["data"]]
 
-    def purchase(self, ship_type: str, waypoint_symbol: str) -> Ship:
+    def list_all(self) -> List[Ship] | ApiError:
+        ships = paginator(self.client, "get", self.base_endpoint)
+        if isinstance(ships, ApiError):
+            return ApiError
+        return [Ship(**s) for s in ships]
+
+    def navigate(
+        self, symbol: str, waypoint_symbol: str
+    ) -> ShipNav | ApiError:
+        endpoint = self.base_endpoint + f"/{symbol}/navigate"
+        data = {"waypointSymbol": waypoint_symbol}
+        response = self.client.send("post", endpoint, data=data)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return ShipNav(**response["data"]["nav"])
+
+    def orbit(self, symbol: str) -> ShipNav | ApiError:
+        endpoint = self.base_endpoint + f"/{symbol}/orbit"
+        response = self.client.send("post", endpoint)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return ShipNav(**response["data"]["nav"])
+
+    def purchase(
+        self, ship_type: str, waypoint_symbol: str
+    ) -> AgentShipTransaction | ApiError:
         endpoint = self.base_endpoint
         data = {
             "shipType": ship_type,
             "waypointSymbol": waypoint_symbol,
         }
-        res = self.client.send("post", endpoint, data=data)
-        ship_data = res["data"]
-        return Ship(**ship_data)
+        response = self.client.send("post", endpoint, data=data)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return AgentShipTransaction(**response["data"])
 
-    def orbit(self, symbol: str) -> ShipNav:
-        endpoint = self.base_endpoint + f"/{symbol}/orbit"
-        res = self.client.send("post", endpoint)
-        if "data" in res.keys():
-            return ShipNav(**res["data"]["nav"])
-        return res
-
-    def navigate(self, symbol: str, waypoint_symbol: str) -> ShipNav:
-        endpoint = self.base_endpoint + f"/{symbol}/navigate"
-        data = {"waypointSymbol": waypoint_symbol}
-        res = self.client.send("post", endpoint, data=data)
-        return res
-
-    def dock(self, symbol):
-        endpoint = self.base_endpoint + f"/{symbol}/dock"
-        res = self.client.send("post", endpoint)
-        return res
-
-    def refuel(self, symbol):
+    def refuel(self, symbol: str) -> AgentFuelTransaction | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}/refuel"
-        res = self.client.send("post", endpoint)
-        return res
+        response = self.client.send("post", endpoint)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return AgentFuelTransaction(**response["data"])
 
-    def extract(self, symbol):
-        endpoint = self.base_endpoint + f"/{symbol}/extract"
-        res = self.client.send("post", endpoint)
-        return res
-
-    def cargo(self, symbol):
-        endpoint = self.base_endpoint + f"/{symbol}/cargo"
-        res = self.client.send("get", endpoint)
-        return res
-
-    def sell(self, symbol, item_symbol, units):
+    def sell(
+        self, symbol: str, item_symbol: str, units: int
+    ) -> AgentCargoTransaction | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}/sell"
         data = {"symbol": item_symbol, "units": units}
-        res = self.client.send("post", endpoint, data=data)
-        return res
-
-    def cooldown(self, symbol):
-        endpoint = self.base_endpoint + f"/{symbol}/cooldown"
-        res = self.client.send("get", endpoint)
-        return res
+        response = self.client.send("post", endpoint, data=data)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return AgentCargoTransaction(**response["data"])

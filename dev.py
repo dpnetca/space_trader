@@ -7,7 +7,7 @@ from datetime import datetime
 
 # from automate.mining_contract import Automate
 from space_traders.space_traders import SpaceTrader
-
+from space_traders.models import ApiError
 
 load_dotenv()
 
@@ -39,5 +39,6 @@ if not token:
     print("token not found...")
 
 st = SpaceTrader(token)
-contract_api = st.contract_api()
-print(contract_api.list_all())
+ship_api = st.ship_api()
+purchase = ship_api.purchase("SHIP_MINING_DRONE", "X1-YA22-18767C")
+print(purchase)
