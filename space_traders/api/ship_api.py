@@ -26,7 +26,7 @@ class ShipApi:
         self.client = client
         self.base_endpoint = "/my/ships"
 
-    async def create_chart(self, symbol: str) -> ChartWaypoint:
+    async def create_chart(self, symbol: str) -> ChartWaypoint | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}/chart"
         response = await self.client.send("post", endpoint)
         if "error" in response.keys():
@@ -84,6 +84,16 @@ class ShipApi:
         if "data" in response.keys():
             return ShipCooldown(**response["data"])
         return response
+
+    async def jettison_cargo(
+        self, symbol: str, item_symbol: str, units: int
+    ) -> ShipCargo | ApiError:
+        endpoint = self.base_endpoint + f"/{symbol}/jettison"
+        data = {"symbol": item_symbol, "units": units}
+        response = await self.client.send("post", endpoint, data=data)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return ShipCargo(**response["data"]["cargo"])
 
     async def list_ships(
         self, limit: int = 20, page: int = 1
@@ -154,9 +164,6 @@ class ShipApi:
 
     # following still need implementation
     async def ship_refine(self):
-        raise NotImplemented
-
-    async def jettison_cargo(self):
         raise NotImplemented
 
     async def jump_ship(self):
