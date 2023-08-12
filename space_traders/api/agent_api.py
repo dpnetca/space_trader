@@ -33,4 +33,6 @@ class AgentApi:
 
     def list_all(self) -> List[Agent] | ApiError:
         agents = paginator(self.client, "get", self.base_endpoint)
-        return agents
+        if isinstance(agents, ApiError):
+            return ApiError
+        return [Agent(**a) for a in agents]
