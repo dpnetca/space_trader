@@ -51,8 +51,9 @@ class ContractApi:
         return Contract(**response["data"])
 
     def list(self, limit: int = 20, page: int = 1) -> List[Contract]:
+        params = {"limit": limit, "page": page}
         endpoint = self.base_endpoint
-        response = self.client.send("get", endpoint)
+        response = self.client.send("get", endpoint, params=params)
         if "error" in response.keys():
             return ApiError(**response)
         return [Contract(**c) for c in response["data"]]
