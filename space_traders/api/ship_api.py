@@ -1,3 +1,4 @@
+import json
 from typing import List
 
 from space_traders.client import Client
@@ -7,10 +8,12 @@ from space_traders.models import (
     AgentShipTransaction,
     ApiError,
     CooldownExtractionCargo,
+    CooldownSurveys,
     Ship,
     ShipCargo,
     ShipCooldown,
     ShipNav,
+    Survey,
 )
 from space_traders.utils import paginator
 
@@ -43,9 +46,15 @@ class ShipApi:
             return ApiError(**response)
         return ShipNav(**response["data"]["nav"])
 
-    def extract(self, symbol: str) -> CooldownExtractionCargo | ApiError:
+    def extract(
+        self, symbol: str, survey: Survey | None = None
+    ) -> CooldownExtractionCargo | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}/extract"
-        response = self.client.send("post", endpoint)
+        data = None
+        if survey:
+            # this is ugly..is there  a better way?
+            data = {"survey": json.loads(survey.model_dump_json())}
+        response = self.client.send("post", endpoint, data=data)
         if "error" in response.keys():
             return ApiError(**response)
         return CooldownExtractionCargo(**response["data"])
@@ -117,3 +126,10 @@ class ShipApi:
         if "error" in response.keys():
             return ApiError(**response)
         return AgentCargoTransaction(**response["data"])
+
+    def survey(self, symbol: str) -> CooldownSurveys | ApiError:
+        endpoint = self.base_endpoint + f"/{symbol}/survey"
+        response = self.client.send("post", endpoint)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return CooldownSurveys(**response["data"])

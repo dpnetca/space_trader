@@ -4,6 +4,7 @@ from logging.handlers import RotatingFileHandler
 from argparse import ArgumentParser
 from dotenv import load_dotenv
 from datetime import datetime
+from time import sleep
 
 # from automate.mining_contract import Automate
 from space_traders.space_traders import SpaceTrader
@@ -40,5 +41,17 @@ if not token:
 
 st = SpaceTrader(token)
 ship_api = st.ship_api()
-purchase = ship_api.purchase("SHIP_MINING_DRONE", "X1-YA22-18767C")
-print(purchase)
+
+# ship = ship_api.get("SIKAYN-1")
+# survey = ship_api.survey(ship.symbol)
+# survey0 = survey.surveys[0]
+# print(survey0)
+miner = ship_api.get("SIKAYN-4")
+ship_api.dock(miner.symbol)
+cargo = ship_api.cargo(miner.symbol)
+for item in cargo.inventory:
+    ship_api.sell(miner.symbol, item.symbol, item.units)
+ship_api.orbit(miner.symbol)
+# extraction = ship_api.extract(miner.symbol, survey0)
+extraction = ship_api.extract(miner.symbol)
+print(extraction)

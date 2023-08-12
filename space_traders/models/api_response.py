@@ -10,6 +10,7 @@ from . import (
     ShipExtraction,
     ShipFuel,
     ShipyardTransaction,
+    Survey,
 )
 
 
@@ -45,3 +46,8 @@ class CooldownExtractionCargo(BaseModel):
     cooldown: ShipCooldown = Field(...)
     extraction: ShipExtraction = Field(...)
     cargo: ShipCargo = Field(...)
+
+
+class CooldownSurveys(BaseModel):
+    cooldown: ShipCooldown = Field(...)
+    surveys: list[Survey] = Field(...)

@@ -11,6 +11,7 @@ from .ship import (
     ShipNav,
     ShipyardTransaction,
 )
+from .survey import Survey
 
 
 ## These must be imported last
@@ -22,4 +23,5 @@ from .api_response import (
     AgentShipTransaction,
     ContractCargo,
     CooldownExtractionCargo,
+    CooldownSurveys,
 )
