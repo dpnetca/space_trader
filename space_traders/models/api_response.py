@@ -73,6 +73,11 @@ class CooldownSystems(BaseModel):
     systems: list[System] = Field(...)
 
 
+class CooldownWaypoints(BaseModel):
+    cooldown: ShipCooldown = Field(...)
+    waypoints: list[Waypoint] = Field(...)
+
+
 class FuelNav(BaseModel):
     fuel: ShipFuel = Field(...)
     nav: ShipNav = Field(...)

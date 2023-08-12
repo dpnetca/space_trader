@@ -27,7 +27,7 @@ async def main():
         exit(1)
 
     st = SpaceTrader(token)
-    x = await st.ship.scan_systems("SIKAYN-1")
+    x = await st.ship.scan_waypoints("SIKAYN-1")
     print(x)
 
     await st.client.client.aclose()

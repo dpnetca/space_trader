@@ -28,6 +28,7 @@ from .api_response import (
     CooldownNav,
     CooldownSurveys,
     CooldownSystems,
+    CooldownWaypoints,
     FuelNav,
     ListAgents,
     ListContracts,
