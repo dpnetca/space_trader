@@ -1,14 +1,12 @@
-from space_traders.client import Client
-from space_traders.models import ApiError
-
+from math import ceil
 from typing import List
 
-from math import ceil
+from space_traders.client import Client
+from space_traders.models import ApiError
+from space_traders.models import Meta
 
-from space_traders.models.meta import Meta
 
-
-def paginator(
+async def paginator(
     client: Client,
     method: str,
     endpoint: str,
@@ -21,7 +19,7 @@ def paginator(
     if "params" in kwargs.keys():
         params = kwargs.pop("params") | params
 
-    r = client.send(method, endpoint, params=params, **kwargs)
+    r = await client.send(method, endpoint, params=params, **kwargs)
     if "error" in r.keys():
         return ApiError(**r)
 
@@ -31,8 +29,9 @@ def paginator(
     meta = Meta(**r["meta"])
     pages = ceil(meta.total / meta.limit)
     if page < pages:
-        r = paginator(
+        response = await paginator(
             client, method, endpoint, limit, page + 1, data, **kwargs
         )
-        data = r
+        if isinstance(response, list):
+            data = response
     return data

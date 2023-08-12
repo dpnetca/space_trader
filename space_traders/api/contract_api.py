@@ -15,14 +15,16 @@ class ContractApi:
         self.client = client
         self.base_endpoint = "/my/contracts"
 
-    def accept(self, contract_id: str) -> AgentContract | ApiError:
+    async def accept_contract(
+        self, contract_id: str
+    ) -> AgentContract | ApiError:
         endpoint = self.base_endpoint + f"/{contract_id}/accept"
-        response = self.client.send("post", endpoint)
+        response = await self.client.send("post", endpoint)
         if "error" in response.keys():
             return ApiError(**response)
         return AgentContract(**response["data"])
 
-    def deliver(
+    async def deliver_cargo_to_contract(
         self,
         contract_id: str,
         ship_id: str,
@@ -31,37 +33,39 @@ class ContractApi:
     ) -> ContractCargo | ApiError:
         endpoint = self.base_endpoint + f"/{contract_id}/deliver"
         data = {"shipSymbol": ship_id, "tradeSymbol": item_id, "units": units}
-        response = self.client.send("post", endpoint, data=data)
+        response = await self.client.send("post", endpoint, data=data)
         if "error" in response.keys():
             return ApiError(**response)
         return ContractCargo(**response["data"])
 
-    def fulfill(self, contract_id: str) -> AgentContract | ApiError:
+    async def fulfill_contract(
+        self, contract_id: str
+    ) -> AgentContract | ApiError:
         endpoint = self.base_endpoint + f"/{contract_id}/fulfill"
-        response = self.client.send("post", endpoint)
+        response = await self.client.send("post", endpoint)
         if "error" in response.keys():
             return ApiError(**response)
         return AgentContract(**response["data"])
 
-    def get(self, contract_id: str) -> Contract | ApiError:
+    async def get_contract(self, contract_id: str) -> Contract | ApiError:
         endpoint = self.base_endpoint + f"/{contract_id}"
-        response = self.client.send("get", endpoint)
+        response = await self.client.send("get", endpoint)
         if "error" in response.keys():
             return ApiError(**response)
         return Contract(**response["data"])
 
-    def list(
+    async def list_contracts(
         self, limit: int = 20, page: int = 1
     ) -> List[Contract] | ApiError:
         params = {"limit": limit, "page": page}
         endpoint = self.base_endpoint
-        response = self.client.send("get", endpoint, params=params)
+        response = await self.client.send("get", endpoint, params=params)
         if "error" in response.keys():
             return ApiError(**response)
         return [Contract(**c) for c in response["data"]]
 
-    def list_all(self) -> List[Contract] | ApiError:
-        response = paginator(self.client, "get", self.base_endpoint)
+    async def list_all_contracts(self) -> List[Contract] | ApiError:
+        response = await paginator(self.client, "get", self.base_endpoint)
         if isinstance(response, ApiError):
             return response
         return [Contract(**c) for c in response]

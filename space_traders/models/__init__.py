@@ -1,6 +1,6 @@
 from .agent import Agent
 from .contract import Contract
-from .market import MarketTransaction, Market
+from .market import Market, MarketTransaction
 from .meta import Meta
 from .ship import (
     Ship,
@@ -12,10 +12,10 @@ from .ship import (
     Shipyard,
     ShipyardTransaction,
 )
+from .status import Status
 from .survey import Survey
 from .system import System
-from .waypoint import Waypoint, Jumpgate
-
+from .waypoint import Jumpgate, Waypoint
 
 ## These must be imported last
 from .api_error import ApiError
