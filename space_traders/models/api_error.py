@@ -1,6 +1,6 @@
-from pydantic import BaseModel, Field
 from typing import Optional
 
+from pydantic import BaseModel, Field
 
 """
  Catching all error data responses could be tough and result in alot of "None"

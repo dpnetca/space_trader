@@ -1,5 +1,6 @@
+from datetime import date, datetime
+
 from pydantic import BaseModel, Field
-from datetime import datetime, date
 
 
 class Announcements(BaseModel):

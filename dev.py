@@ -5,7 +5,7 @@ from logging.handlers import RotatingFileHandler
 from dotenv import load_dotenv
 from time import time
 
-from space_traders.space_traders import SpaceTrader
+from space_traders import SpaceTrader
 
 load_dotenv()
 
@@ -20,11 +20,6 @@ logging.basicConfig(
 )
 
 
-async def qt(ref, st, x):
-    status = await st.get_status()
-    print(f"{x} - {status.reset_date} - {time() - ref:5.2f} ")
-
-
 async def main():
     ref = time()
     token = os.getenv("ST_TOKEN")
@@ -33,8 +28,10 @@ async def main():
         exit(1)
 
     st = SpaceTrader(token)
-    async with asyncio.TaskGroup() as tg:
-        [tg.create_task(qt(ref, st, x)) for x in range(20)]
+    ship_api = st.ship_api()
+    ships = await ship_api.list_all()
+    for ship in ships:
+        print(ship.symbol)
 
     await st.client.client.aclose()
 

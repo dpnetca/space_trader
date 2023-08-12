@@ -1,13 +1,14 @@
-from space_traders.space_traders import Client
 from typing import List
+
 from space_traders.models import (
     ApiError,
+    Jumpgate,
+    Market,
+    Shipyard,
     System,
     Waypoint,
-    Market,
-    Jumpgate,
-    Shipyard,
 )
+from space_traders.space_traders import Client
 from space_traders.utils import paginator
 
 

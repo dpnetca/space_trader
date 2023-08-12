@@ -1,11 +1,8 @@
-from space_traders.client import Client
-from space_traders.models import ApiError
-
+from math import ceil
 from typing import List
 
-from math import ceil
-
-from space_traders.models.meta import Meta
+from space_traders.client import Client
+from space_traders.models import ApiError, Meta
 
 
 async def paginator(

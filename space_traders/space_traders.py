@@ -1,11 +1,6 @@
-from space_traders.client import Client
-
-from space_traders.api import AgentApi
-from space_traders.api import ContractApi
-from space_traders.api import ShipApi
-from space_traders.api import SystemApi
-
-from space_traders.models import Status
+from .client import Client
+from .api import AgentApi, ContractApi, ShipApi, SystemApi
+from .models import Status
 
 
 class SpaceTrader:
