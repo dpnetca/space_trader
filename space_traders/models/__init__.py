@@ -12,6 +12,7 @@ from .ship import (
     Shipyard,
     ShipyardTransaction,
 )
+from .status import Status
 from .survey import Survey
 from .system import System
 from .waypoint import Waypoint, Jumpgate
