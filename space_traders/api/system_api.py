@@ -126,6 +126,6 @@ class SystemApi:
         return Shipyard(**response["data"])
 
     @staticmethod
-    async def _get_system_from_waypoint(waypoint: str) -> str:
+    def _get_system_from_waypoint(waypoint: str) -> str:
         system = waypoint.split("-")[:2]
         return "-".join(system)
