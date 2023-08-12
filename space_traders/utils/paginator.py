@@ -2,7 +2,8 @@ from math import ceil
 from typing import List
 
 from space_traders.client import Client
-from space_traders.models import ApiError, Meta
+from space_traders.models import ApiError
+from space_traders.models import Meta
 
 
 async def paginator(
@@ -28,8 +29,9 @@ async def paginator(
     meta = Meta(**r["meta"])
     pages = ceil(meta.total / meta.limit)
     if page < pages:
-        r = await paginator(
+        response = await paginator(
             client, method, endpoint, limit, page + 1, data, **kwargs
         )
-        data = r
+        if isinstance(response, list):
+            data = response
     return data
