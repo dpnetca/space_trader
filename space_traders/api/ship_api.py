@@ -99,7 +99,7 @@ class ShipApi:
     async def jump_ship(
         self, symbol: str, system_symbol: str
     ) -> CooldownNav | ApiError:
-        endpoint = self.base_endpoint + f"/{symbol}/jettison"
+        endpoint = self.base_endpoint + f"/{symbol}/jump"
         data = {"systemSymbol": system_symbol}
         response = await self.client.send("post", endpoint, data=data)
         if "error" in response.keys():
@@ -173,14 +173,14 @@ class ShipApi:
             return ApiError(**response)
         return AgentCargoTransaction(**response["data"])
 
+    async def warp_ship(self):
+        raise NotImplemented
+
     # following still need implementation
     async def ship_refine(self):
         raise NotImplemented
 
     async def patch_ship_nav(self):
-        raise NotImplemented
-
-    async def warp_ship(self):
         raise NotImplemented
 
     async def scan_systems(self):
