@@ -9,6 +9,7 @@ from space_traders.models import (
     ApiError,
     ChartWaypoint,
     CooldownExtractionCargo,
+    CooldownNav,
     CooldownSurveys,
     ListShips,
     Meta,
@@ -95,6 +96,16 @@ class ShipApi:
             return ApiError(**response)
         return ShipCargo(**response["data"]["cargo"])
 
+    async def jump_ship(
+        self, symbol: str, system_symbol: str
+    ) -> CooldownNav | ApiError:
+        endpoint = self.base_endpoint + f"/{symbol}/jettison"
+        data = {"systemSymbol": system_symbol}
+        response = await self.client.send("post", endpoint, data=data)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return CooldownNav(**response["data"])
+
     async def list_ships(
         self, limit: int = 20, page: int = 1
     ) -> ListShips | ApiError:
@@ -164,9 +175,6 @@ class ShipApi:
 
     # following still need implementation
     async def ship_refine(self):
-        raise NotImplemented
-
-    async def jump_ship(self):
         raise NotImplemented
 
     async def patch_ship_nav(self):

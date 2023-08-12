@@ -25,6 +25,7 @@ from .api_response import (
     ChartWaypoint,
     ContractCargo,
     CooldownExtractionCargo,
+    CooldownNav,
     CooldownSurveys,
     ListAgents,
     ListContracts,

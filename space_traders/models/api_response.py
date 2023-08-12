@@ -11,6 +11,7 @@ from .ship import (
     ShipCooldown,
     ShipExtraction,
     ShipFuel,
+    ShipNav,
     ShipyardTransaction,
 )
 from .system import System
@@ -55,6 +56,11 @@ class CooldownExtractionCargo(BaseModel):
     cooldown: ShipCooldown = Field(...)
     extraction: ShipExtraction = Field(...)
     cargo: ShipCargo = Field(...)
+
+
+class CooldownNav(BaseModel):
+    cooldown: ShipCooldown = Field(...)
+    nav: ShipNav = Field(...)
 
 
 class CooldownSurveys(BaseModel):
