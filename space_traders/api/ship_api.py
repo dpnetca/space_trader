@@ -141,13 +141,13 @@ class ShipApi:
     def chart(self):
         raise NotImplemented
 
-    def jettison(self):
+    def jettison_cargo(self):
         raise NotImplemented
 
     def jump(self):
         raise NotImplemented
 
-    def patch(self):
+    def patch_nav(self):
         raise NotImplemented
 
     def warp(self):
