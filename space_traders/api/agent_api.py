@@ -21,7 +21,7 @@ class AgentApi:
         response = await self.client.send("get", endpoint)
         if "error" in response.keys():
             return ApiError(**response)
-        return Agent(**response["agent"])
+        return Agent(**response["data"])
 
     async def list_agents(
         self, limit: int = 20, page: int = 1
