@@ -27,9 +27,13 @@ async def main():
         exit(1)
 
     st = SpaceTrader(token)
-    await st.ship.dock_ship("SIKAYN-2")
-    x = await st.ship.negotiate_contract("SIKAYN-2")
-    print(x)
+    await st.ship.dock_ship("SIKAYN-4")
+    cargo = await st.ship.get_ship_cargo("SIKAYN-4")
+    print(cargo)
+    purchase = await st.ship.purchase_cargo("SIKAYN-4", "IRON_ORE", 1)
+    print(purchase)
+    cargo = await st.ship.get_ship_cargo("SIKAYN-4")
+    print(cargo)
 
     await st.client.client.aclose()
 

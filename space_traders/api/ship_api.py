@@ -153,6 +153,16 @@ class ShipApi:
             return ApiError(**response)
         return ShipNav(**response["data"]["nav"])
 
+    async def purchase_cargo(
+        self, symbol: str, item_symbol: str, units: int
+    ) -> AgentCargoTransaction | ApiError:
+        endpoint = self.base_endpoint + f"/{symbol}/purchase"
+        data = {"symbol": item_symbol, "units": units}
+        response = await self.client.send("post", endpoint, data=data)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return AgentCargoTransaction(**response["data"])
+
     async def purchase_ship(
         self, ship_type: str, waypoint_symbol: str
     ) -> AgentShipTransaction | ApiError:
@@ -223,9 +233,6 @@ class ShipApi:
         raise NotImplemented
 
     async def patch_ship_nav(self):
-        raise NotImplemented
-
-    async def purchase_cargo(self):
         raise NotImplemented
 
     async def transfer_cargo(self):
