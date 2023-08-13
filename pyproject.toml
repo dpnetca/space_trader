@@ -10,8 +10,8 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
 ]
 dependencies =  [
-    "pydantic" >= 2
-    "httpx" >= 0.24.1
+    "pydantic" >= 2,
+    "httpx" >= 0.24.1,
     "aiolimiter" >=1.1
 ]
 
