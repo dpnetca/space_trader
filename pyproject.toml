@@ -4,7 +4,7 @@ version = "0.0.1"
 authors = [{name = "Denis", email="st@dpnet.ca"}]
 description = "Async SDK for spacetraders.io"
 readme = "README.MD"
-requires-pythin = ">3.11"
+requires-python = ">3.11"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
