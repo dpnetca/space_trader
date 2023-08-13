@@ -1,11 +1,11 @@
 .venv
 .vscode
 .env
+space_trader.egg-info
 
 .mypy_cache
 __pycache__
 
-data/
-
 *.log
 *.log.*
+
