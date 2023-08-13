@@ -26,8 +26,9 @@ async def main():
         print("token not found...")
         exit(1)
 
-    st = SpaceTrader(token)
-    print(await st.ship.get_mounts("SIKAYN-1"))
+    async with SpaceTrader(token) as st:
+        # st = SpaceTrader(token)
+        print(await st.ship.get_mounts("SIKAYN-1"))
 
 
 if __name__ == "__main__":

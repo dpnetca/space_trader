@@ -24,6 +24,11 @@ class SpaceTrader:
 
     # def system_api(self):
     #     return SystemApi(self.client)
+    async def __aenter__(self):
+        return self
+
+    async def __aexit__(self, exc_type, exc_value, traceback):
+        await self.client.close()
 
     async def get_status(self) -> Status:
         status = await self.client.send("get", "", auth=False)

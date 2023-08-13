@@ -16,6 +16,9 @@ class Client:
         self.rate_limit = AsyncLimiter(1, 0.35)
         self.client = httpx.AsyncClient()
 
+    async def close(self):
+        await self.client.aclose()
+
     async def send(
         self,
         method: str,
