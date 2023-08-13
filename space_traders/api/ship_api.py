@@ -218,6 +218,20 @@ class ShipApi:
             return ApiError(**response)
         return CooldownWaypoints(**response["data"])
 
+    async def transfer_cargo(
+        self, symbol: str, trade_symbol: str, units: int, target_ship: str
+    ) -> ShipCargo | ApiError:
+        endpoint = self.base_endpoint + f"/{symbol}/transfer"
+        data = {
+            "tradeSymbol": trade_symbol,
+            "units": units,
+            "shipSymbol": target_ship,
+        }
+        response = await self.client.send("post", endpoint, data=data)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return ShipCargo(**response["data"]["cargo"])
+
     async def warp_ship(
         self, symbol: str, waypoint_symbol: str
     ) -> FuelNav | ApiError:
@@ -233,9 +247,6 @@ class ShipApi:
         raise NotImplemented
 
     async def patch_ship_nav(self):
-        raise NotImplemented
-
-    async def transfer_cargo(self):
         raise NotImplemented
 
     async def get_mounts(self):
