@@ -1,10 +1,15 @@
 from .client import Client
 from .api import AgentApi, ContractApi, FactionApi, ShipApi, SystemApi
 from .models import Status, RegisterNewAgent
+import logging
 
+logger = logging.getLogger("SpaceTrader")
 
 class SpaceTrader:
     def __init__(self, token):
+
+        logger.info("Initializing SpaceTrader")
+
         self.client = Client(token)
 
         self.agent = AgentApi(self.client)
@@ -28,6 +33,7 @@ class SpaceTrader:
         return self
 
     async def __aexit__(self, exc_type, exc_value, traceback):
+        logger.info("Exiting SpaceTrader")
         await self.client.close()
 
     async def get_status(self) -> Status:

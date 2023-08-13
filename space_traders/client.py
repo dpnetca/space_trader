@@ -4,6 +4,7 @@ import logging
 import httpx
 from aiolimiter import AsyncLimiter
 
+logger  = logging.getLogger("SpaceTrader")
 
 class Client:
     def __init__(self, token: str | None = None) -> None:
@@ -51,7 +52,7 @@ class Client:
 
         if response.status_code == 429 and handle_429:
             delay = response_data["error"]["data"]["retryAfter"]
-            logging.warning(
+            logger.warning(
                 f"Rate Limit hit, automatic retry after {delay} seconds"
             )
             await asyncio.sleep(delay)
@@ -60,7 +61,7 @@ class Client:
             )
 
         if "error" in response_data.keys():
-            logging.warning(
+            logger.warning(
                 f"ERROR {response_data['error']['code']}: "
                 f"{response_data['error']['message']}"
             )
@@ -71,7 +72,7 @@ class Client:
     ) -> httpx.Response:
         await self.rate_limit.acquire()
         r = await self.client.get(url, headers=headers, **kwargs)
-        logging.debug(r.content)
+        logger.debug(r.content)
         return r
 
     async def _post(
@@ -83,5 +84,5 @@ class Client:
     ) -> httpx.Response:
         await self.rate_limit.acquire()
         r = await self.client.post(url, headers=headers, json=data, **kwargs)
-        logging.debug(r.content)
+        logger.debug(r.content)
         return r
