@@ -28,8 +28,13 @@ async def main():
 
     async with SpaceTrader(token) as st:
         # st = SpaceTrader(token)
+
         x = await st.contract.list_all_contracts()
         print(x)
+        print()
+
+        y = await st.system.list_all_waypoints("X1-YA22")
+        print(y)
 
 
 if __name__ == "__main__":

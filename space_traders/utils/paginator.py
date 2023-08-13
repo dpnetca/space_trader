@@ -12,13 +12,14 @@ async def paginator(
     endpoint: str,
     limit: int = 20,
     page: int = 1,
-    data: List = [],
-    **kwargs
+    data: List | None = None,
+    **kwargs,
 ) -> List | ApiError:
     params = {"limit": limit, "page": page}
     if "params" in kwargs.keys():
         params = kwargs.pop("params") | params
-
+    if data is None:
+        data = []
     r = await client.send(method, endpoint, params=params, **kwargs)
     if "error" in r.keys():
         return ApiError(**r)
