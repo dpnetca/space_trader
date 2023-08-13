@@ -11,7 +11,7 @@ class MarketTransaction(BaseModel):
     type: str = Field(...)
     units: int = Field(...)
     price_per_unit: int = Field(..., alias="pricePerUnit")
-    total_rice: int = Field(..., alias="totalPrice")
+    total_price: int = Field(..., alias="totalPrice")
     timestamp: datetime = Field(...)
 
 
