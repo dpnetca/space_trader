@@ -9,12 +9,17 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
 ]
+dependencies =  [
+    "pydantic" >= 2
+    "httpx" >= 0.24.1
+    "aiolimiter" >=1.1
+]
 
 [project.urls]
 "Homepage" = "https://github.com/dpnetca/space_trader"
 "Bug Tracker" = "https://github.com/dpnetca/space_trader/issues"
 
 [build-system]
-requires=["setuptools]
+requires=["setuptools"]
 build-backend="setuptools.build_meta"
 
