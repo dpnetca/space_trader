@@ -21,6 +21,7 @@ from space_traders.models import (
     Ship,
     ShipCargo,
     ShipCooldown,
+    ShipMounts,
     ShipNav,
     Survey,
 )
@@ -65,6 +66,13 @@ class ShipApi:
         if "error" in response.keys():
             return ApiError(**response)
         return CooldownExtractionCargo(**response["data"])
+
+    async def get_mounts(self, symbol: str) -> List[ShipMounts] | ApiError:
+        endpoint = self.base_endpoint + f"/{symbol}/mounts"
+        response = await self.client.send("get", endpoint)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return [ShipMounts(**m) for m in response["data"]]
 
     async def get_ship(self, symbol: str) -> Ship | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}"
@@ -247,9 +255,6 @@ class ShipApi:
         raise NotImplemented
 
     async def patch_ship_nav(self):
-        raise NotImplemented
-
-    async def get_mounts(self):
         raise NotImplemented
 
     async def install_mount(self):

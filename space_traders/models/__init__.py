@@ -7,6 +7,7 @@ from .ship import (
     Ship,
     ShipCargo,
     ShipCooldown,
+    ShipMounts,
     ShipNav,
     Shipyard,
 )
