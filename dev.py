@@ -28,7 +28,8 @@ async def main():
 
     async with SpaceTrader(token) as st:
         # st = SpaceTrader(token)
-        print(await st.ship.get_mounts("SIKAYN-1"))
+        x = await st.contract.list_all_contracts()
+        print(x)
 
 
 if __name__ == "__main__":

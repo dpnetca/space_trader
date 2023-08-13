@@ -21,7 +21,7 @@ from .waypoint import Chart, Waypoint
 
 class AgentContract(BaseModel):
     agent: Agent = Field(...)
-    contact: Contract = Field(...)
+    contract: Contract = Field(...)
 
 
 class AgentCargoTransaction(BaseModel):
