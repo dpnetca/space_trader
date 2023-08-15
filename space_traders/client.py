@@ -2,9 +2,11 @@ import asyncio
 import logging
 
 import httpx
+
 from aiolimiter import AsyncLimiter
 
-logger  = logging.getLogger("SpaceTrader")
+logger = logging.getLogger("SpaceTrader")
+
 
 class Client:
     def __init__(self, token: str | None = None) -> None:
@@ -71,7 +73,16 @@ class Client:
         self, url: str, headers: dict | None = None, **kwargs
     ) -> httpx.Response:
         await self.rate_limit.acquire()
-        r = await self.client.get(url, headers=headers, **kwargs)
+        try:
+            r = await self.client.get(url, headers=headers, **kwargs)
+        except httpx.TimeoutException as e:
+            wait = 30
+            logger.error(
+                f"TIMEOUT EXCEPTION caught: {e}, "
+                f"sleeping {wait} seconds and retrying"
+            )
+            await asyncio.sleep(wait)
+            r = await self._get(url, headers=headers, **kwargs)
         logger.debug(r.content)
         return r
 
