@@ -5,7 +5,7 @@ import httpx
 
 from aiolimiter import AsyncLimiter
 
-logger = logging.getLogger("SpaceTrader")
+log = logging.getLogger("SpaceTrader")
 
 
 class Client:
@@ -18,6 +18,7 @@ class Client:
         }
         self.rate_limit = AsyncLimiter(1, 0.35)
         self.client = httpx.AsyncClient()
+        self.timeout_exception_delay = 30
 
     async def close(self):
         await self.client.aclose()
@@ -54,7 +55,7 @@ class Client:
 
         if response.status_code == 429 and handle_429:
             delay = response_data["error"]["data"]["retryAfter"]
-            logger.warning(
+            log.warning(
                 f"Rate Limit hit, automatic retry after {delay} seconds"
             )
             await asyncio.sleep(delay)
@@ -63,7 +64,7 @@ class Client:
             )
 
         if "error" in response_data.keys():
-            logger.warning(
+            log.warning(
                 f"ERROR {response_data['error']['code']}: "
                 f"{response_data['error']['message']}"
             )
@@ -76,14 +77,15 @@ class Client:
         try:
             r = await self.client.get(url, headers=headers, **kwargs)
         except httpx.TimeoutException as e:
-            wait = 30
-            logger.error(
-                f"TIMEOUT EXCEPTION caught: {e}, "
-                f"sleeping {wait} seconds and retrying"
+            self.timeout_exception_delay = 30
+            log.error(
+                f"TIMEOUT EXCEPTION caught on GET: {e}, sleeping"
+                f"{self.timeout_exception_delay} seconds and retrying"
             )
-            await asyncio.sleep(wait)
+            await asyncio.sleep(self.timeout_exception_delay)
             r = await self._get(url, headers=headers, **kwargs)
-        logger.debug(r.content)
+
+        log.debug(r.content)
         return r
 
     async def _post(
@@ -94,6 +96,18 @@ class Client:
         **kwargs,
     ) -> httpx.Response:
         await self.rate_limit.acquire()
-        r = await self.client.post(url, headers=headers, json=data, **kwargs)
-        logger.debug(r.content)
+        try:
+            r = await self.client.post(
+                url, headers=headers, json=data, **kwargs
+            )
+        except httpx.TimeoutException as e:
+            self.timeout_exception_delay = 30
+            log.error(
+                f"TIMEOUT EXCEPTION caught on POST: {e}, "
+                f"sleeping {self.timeout_exception_delay} seconds and retrying"
+            )
+            await asyncio.sleep(self.timeout_exception_delay)
+            r = await self._post(url, headers, data, **kwargs)
+
+        log.debug(r.content)
         return r
