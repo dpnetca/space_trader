@@ -48,7 +48,7 @@ class ChartWaypoint(BaseModel):
 
 
 class ContractCargo(BaseModel):
-    contact: Contract = Field(...)
+    contract: Contract = Field(...)
     cargo: ShipCargo = Field(...)
 
 
