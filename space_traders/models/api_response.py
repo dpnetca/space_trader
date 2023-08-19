@@ -123,4 +123,4 @@ class RegisterNewAgent(BaseModel):
     contract: Contract = Field(...)
     faction: Faction = Field(...)
     ship: Ship = Field(...)
-    tiken: str = Field(...)
+    token: str = Field(...)

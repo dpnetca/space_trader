@@ -5,9 +5,9 @@ import logging
 
 logger = logging.getLogger("SpaceTrader")
 
+
 class SpaceTrader:
     def __init__(self, token):
-
         logger.info("Initializing SpaceTrader")
 
         self.client = Client(token)
@@ -47,6 +47,6 @@ class SpaceTrader:
         account = {"symbol": name, "faction": faction}
         if email:
             account["email"] = email
-        r = await self.client.send("post", endpoint, auth=False)
+        r = await self.client.send("post", endpoint, data=account, auth=False)
 
         return RegisterNewAgent(**r["data"])
