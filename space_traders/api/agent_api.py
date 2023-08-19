@@ -14,7 +14,7 @@ class AgentApi:
         response = await self.client.send("get", "/my/agent")
         if "error" in response.keys():
             return ApiError(**response)
-        return Agent(**response)
+        return Agent(**response["data"])
 
     async def get_agent(self, symbol: str) -> Agent | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}"
