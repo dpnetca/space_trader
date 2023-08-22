@@ -5,6 +5,7 @@ from space_traders.client import Client
 from space_traders.models import (
     AgentCargoTransaction,
     AgentFuelTransaction,
+    AgentMountCargoTransaction,
     AgentShipTransaction,
     ApiError,
     ChartWaypoint,
@@ -154,6 +155,16 @@ class ShipApi:
             return ApiError(**response)
         return Contract(**response["data"]["contract"])
 
+    async def install_mount(
+        self, ship_symbol: str, mount_symbol: str
+    ) -> AgentMountCargoTransaction | ApiError:
+        endpoint = self.base_endpoint + f"/{ship_symbol}/mounts/install"
+        data = {"symbol": mount_symbol}
+        response = await self.client.send("post", endpoint, data=data)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return AgentMountCargoTransaction(**response["data"])
+
     async def orbit_ship(self, symbol: str) -> ShipNav | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}/orbit"
         response = await self.client.send("post", endpoint)
@@ -255,9 +266,6 @@ class ShipApi:
         raise NotImplemented
 
     async def patch_ship_nav(self):
-        raise NotImplemented
-
-    async def install_mount(self):
         raise NotImplemented
 
     async def remove_mount(self):
