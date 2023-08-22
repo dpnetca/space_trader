@@ -8,9 +8,9 @@ class MarketTransaction(BaseModel):
     waypoint_symbol: str = Field(..., alias="waypointSymbol")
     ship_symbol: str = Field(..., alias="shipSymbol")
     trade_symbol: str = Field(..., alias="tradeSymbol")
-    type: str = Field(...)
-    units: int = Field(...)
-    price_per_unit: int = Field(..., alias="pricePerUnit")
+    type: Optional[str] = Field(None)
+    units: Optional[int] = Field(None)
+    price_per_unit: Optional[int] = Field(None, alias="pricePerUnit")
     total_price: int = Field(..., alias="totalPrice")
     timestamp: datetime = Field(...)
 

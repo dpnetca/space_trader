@@ -39,7 +39,7 @@ class AgentFuelTransaction(BaseModel):
 
 class AgentMountCargoTransaction(BaseModel):
     agent: Agent = Field(...)
-    mount: ShipMounts = Field(...)
+    mounts: ShipMounts = Field(...)
     cargo: ShipCargo = Field(...)
     transaction: MarketTransaction = Field(...)
 
