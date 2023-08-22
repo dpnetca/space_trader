@@ -39,7 +39,7 @@ class AgentFuelTransaction(BaseModel):
 
 class AgentMountCargoTransaction(BaseModel):
     agent: Agent = Field(...)
-    mounts: ShipMounts = Field(...)
+    mounts: list[ShipMounts] = Field(...)
     cargo: ShipCargo = Field(...)
     transaction: MarketTransaction = Field(...)
 
