@@ -1,6 +1,6 @@
 [project]
 name = "space_trader"
-version = "0.0.14"
+version = "0.0.15"
 authors = [{name = "Denis", email="st@dpnet.ca"}]
 description = "Async SDK for spacetraders.io"
 readme = "README.MD"
@@ -22,4 +22,7 @@ dependencies =  [
 [build-system]
 requires=["setuptools"]
 build-backend="setuptools.build_meta"
+
+[tool.setuptools.package-data]
+"space_trader" = ["py.typed"]
 
