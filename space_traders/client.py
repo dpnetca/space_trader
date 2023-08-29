@@ -18,6 +18,7 @@ class Client:
         }
         self.rate_limit = AsyncLimiter(1, 0.35)
         self.client = httpx.AsyncClient()
+        self.timeout=10
         self.timeout_exception_delay = 30
 
     async def close(self):
@@ -40,12 +41,13 @@ class Client:
         if isinstance(headers, dict):
             head.update(headers)
 
+        timeout = kwargs.pop("timeout", self.timeout)
         match method.lower():
             case "get":
-                response = await self._get(url, headers=head, **kwargs)
+                response = await self._get(url, headers=head, timeout=timeout, **kwargs)
             case "post":
                 response = await self._post(
-                    url, headers=head, data=data, **kwargs
+                    url, headers=head, data=data, timeout=timeout, **kwargs
                 )
 
         if response.status_code == 204:
@@ -77,9 +79,8 @@ class Client:
         try:
             r = await self.client.get(url, headers=headers, **kwargs)
         except httpx.TimeoutException as e:
-            self.timeout_exception_delay = 30
             log.error(
-                f"TIMEOUT EXCEPTION caught on GET: {e}, sleeping"
+                f"TIMEOUT EXCEPTION caught on GET: {url}, sleeping"
                 f"{self.timeout_exception_delay} seconds and retrying"
             )
             await asyncio.sleep(self.timeout_exception_delay)
@@ -101,10 +102,9 @@ class Client:
                 url, headers=headers, json=data, **kwargs
             )
         except httpx.TimeoutException as e:
-            self.timeout_exception_delay = 30
             log.error(
-                f"TIMEOUT EXCEPTION caught on POST: {e}, "
-                f"sleeping {self.timeout_exception_delay} seconds and retrying"
+                f"TIMEOUT EXCEPTION caught on POST: {url}, sleeping"
+                f"{self.timeout_exception_delay} seconds and retrying"
             )
             await asyncio.sleep(self.timeout_exception_delay)
             r = await self._post(url, headers, data, **kwargs)
