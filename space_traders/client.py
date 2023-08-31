@@ -18,7 +18,7 @@ class Client:
         }
         self.rate_limit = AsyncLimiter(1, 0.35)
         self.client = httpx.AsyncClient()
-        self.timeout=10
+        self.timeout = 10
         self.timeout_exception_delay = 30
 
     async def close(self):
@@ -44,7 +44,9 @@ class Client:
         timeout = kwargs.pop("timeout", self.timeout)
         match method.lower():
             case "get":
-                response = await self._get(url, headers=head, timeout=timeout, **kwargs)
+                response = await self._get(
+                    url, headers=head, timeout=timeout, **kwargs
+                )
             case "post":
                 response = await self._post(
                     url, headers=head, data=data, timeout=timeout, **kwargs
@@ -85,7 +87,11 @@ class Client:
             )
             await asyncio.sleep(self.timeout_exception_delay)
             r = await self._get(url, headers=headers, **kwargs)
-
+        if r.status_code >= 500:
+            log.error(f"5xx SERVER Error caught: {r.content}")
+            f"{self.timeout_exception_delay} seconds and retrying"
+            await asyncio.sleep(self.timeout_exception_delay)
+            r = await self._get(url, headers=headers, **kwargs)
         log.debug(r.content)
         return r
 
@@ -108,6 +114,10 @@ class Client:
             )
             await asyncio.sleep(self.timeout_exception_delay)
             r = await self._post(url, headers, data, **kwargs)
-
+        if r.status_code >= 500:
+            log.error(f"5xx SERVER Error caught: {r.content}")
+            f"{self.timeout_exception_delay} seconds and retrying"
+            await asyncio.sleep(self.timeout_exception_delay)
+            r = await self._post(url, headers, data, **kwargs)
         log.debug(r.content)
         return r
