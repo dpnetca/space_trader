@@ -16,7 +16,11 @@ class Client:
             "Content-Type": "application/json",
             "Accept": "application/json",
         }
-        self.rate_limit = AsyncLimiter(1, 0.35)
+        self.limiter_requests = 1
+        self.limiter_period = 0.34
+        self.rate_limit = AsyncLimiter(
+            self.limiter_requests, self.limiter_period
+        )
         self.client = httpx.AsyncClient()
         self.timeout = 10
         self.timeout_exception_delay = 30
