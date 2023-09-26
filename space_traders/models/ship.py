@@ -26,7 +26,7 @@ class ShipRequirements(BaseModel):
 
 class ShipNavRoute(BaseModel):
     destination: ShipNavRouteWaypoint = Field(...)
-    departure: ShipNavRouteWaypoint = Field(...)
+    origin: ShipNavRouteWaypoint = Field(...)
     departure_time: datetime = Field(..., alias="departureTime")
     arrival: datetime = Field(...)
 
