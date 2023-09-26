@@ -1,6 +1,6 @@
 [project]
 name = "space_trader"
-version = "0.0.19"
+version = "0.0.20"
 authors = [{name = "Denis", email="st@dpnet.ca"}]
 description = "Async SDK for spacetraders.io"
 readme = "README.MD"
@@ -10,8 +10,8 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
 ]
 dependencies =  [
-    "pydantic >= 2",
-    "httpx >= 0.24.1",
+    "pydantic >= 2.4",
+    "httpx >= 0.25",
     "aiolimiter >= 1.1",
 ]
 
