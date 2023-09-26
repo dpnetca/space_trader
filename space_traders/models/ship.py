@@ -40,12 +40,12 @@ class ShipNav(BaseModel):
 
 
 class ShipCrew(BaseModel):
-    current: int = Field(...)
+    current: Optional[int] = Field(None)
     required: int = Field(...)
     capacity: int = Field(...)
-    rotation: str = Field(...)
-    morale: int = Field(...)
-    wages: int = Field(...)
+    rotation: Optional[str] = Field(None)
+    morale: Optional[int] = Field(None)
+    wages: Optional[int] = Field(None)
 
 
 class ShipFrame(BaseModel):
