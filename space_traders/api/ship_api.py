@@ -1,5 +1,6 @@
 import json
 from typing import List
+import logging
 
 from space_traders.client import Client
 from space_traders.models import (
@@ -27,6 +28,8 @@ from space_traders.models import (
     Survey,
 )
 from space_traders.utils import paginator
+
+log = logging.getLogger("SpaceTrader")
 
 
 class ShipApi:
@@ -61,8 +64,19 @@ class ShipApi:
         endpoint = self.base_endpoint + f"/{symbol}/extract"
         data = None
         if survey:
+            log.warn("deprecated: use 'extract_surveys' for exracting surveys")
             # this is ugly..is there  a better way?
             data = {"survey": json.loads(survey.model_dump_json())}
+        response = await self.client.send("post", endpoint, data=data)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return CooldownExtractionCargo(**response["data"])
+
+    async def extract_survey(
+        self, symbol: str, survey: Survey | None = None
+    ) -> CooldownExtractionCargo | ApiError:
+        endpoint = self.base_endpoint + f"/{symbol}/extract/survey"
+        data = json.loads(survey.model_dump_json())
         response = await self.client.send("post", endpoint, data=data)
         if "error" in response.keys():
             return ApiError(**response)
