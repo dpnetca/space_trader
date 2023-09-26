@@ -49,6 +49,7 @@ class Waypoint(BaseModel):
     x: int = Field(...)
     y: int = Field(...)
     orbitals: list[WaypointOrbitals] = Field(...)
+    orbits: Optional[str] = Field(None)
     faction: Optional[WaypointFaction] = Field(None)
     traits: list[WaypointTrait] = Field(...)
     chart: Optional[Chart] = Field(None)
