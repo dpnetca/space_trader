@@ -169,6 +169,7 @@ class ShipyardShip(BaseModel):
     engine: ShipEngine = Field(...)
     modules: list[ShipModules] = Field(...)
     mounts: list[ShipMounts] = Field(...)
+    crew: ShipCrew = Field(...)
 
 
 class ShipyardShipType(BaseModel):
