@@ -108,6 +108,13 @@ class ShipCargo(BaseModel):
     inventory: list[ShipCargoInventory] = Field(...)
 
 
+class ShipCooldown(BaseModel):
+    symbol: str = Field(..., alias="shipSymbol")
+    total_seconds: int = Field(..., alias="totalSeconds")
+    remaining_seconds: int = Field(..., alias="remainingSeconds")
+    expiration: Optional[datetime] = Field(None)
+
+
 class ShipFuelConsumed(BaseModel):
     amount: int = Field(...)
     timestamp: str = Field(...)
@@ -127,17 +134,11 @@ class Ship(BaseModel):
     frame: Optional[ShipFrame] = Field(None)
     reactor: Optional[ShipReactor] = Field(None)
     engine: ShipEngine = Field(...)
+    cooldown: Optional[ShipCooldown] = Field(None)
     modules: Optional[list[ShipModules]] = Field(None)
     mounts: Optional[list[ShipMounts]] = Field(None)
     cargo: Optional[ShipCargo] = Field(None)
     fuel: Optional[ShipFuel] = Field(None)
-
-
-class ShipCooldown(BaseModel):
-    symbol: str = Field(..., alias="shipSymbol")
-    total_seconds: int = Field(..., alias="totalSeconds")
-    remaining_seconds: int = Field(..., alias="remainingSeconds")
-    expiration: datetime = Field(...)
 
 
 class ShipExtractionYield(BaseModel):
