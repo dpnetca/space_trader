@@ -181,3 +181,4 @@ class Shipyard(BaseModel):
     ship_types: list[ShipyardShipType] = Field(..., alias="shipTypes")
     transactions: Optional[list[ShipyardTransaction]] = Field(None)
     ships: Optional[list[ShipyardShip]] = Field(None)
+    modifications_fee: int = Field(..., alias="modificationsFee")
