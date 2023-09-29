@@ -56,13 +56,17 @@ class Client:
                     url, headers=head, data=data, timeout=timeout, **kwargs
                 )
 
-        if response.status_code == 204:
-            response_data = {}
-        else:
+        try:
             response_data = response.json()
+        except ValueError:
+            response_data = {}
 
         if response.status_code == 429 and handle_429:
-            delay = response_data["error"]["data"]["retryAfter"]
+            delay = (
+                response_data.get("error", {})
+                .get("data", {})
+                .get("retryAfter", 5)
+            )
             log.warning(
                 f"Rate Limit hit, automatic retry after {delay} seconds"
             )
@@ -73,8 +77,8 @@ class Client:
 
         if "error" in response_data.keys():
             log.warning(
-                f"ERROR {response_data['error']['code']}: "
-                f"{response_data['error']['message']}"
+                f"ERROR {response_data['error'].get('code')}: "
+                f"{response_data['error'].get('message')}"
             )
         return response_data
 
