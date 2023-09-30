@@ -182,3 +182,11 @@ class Shipyard(BaseModel):
     transactions: Optional[list[ShipyardTransaction]] = Field(None)
     ships: Optional[list[ShipyardShip]] = Field(None)
     modifications_fee: int = Field(..., alias="modificationsFee")
+
+
+class ShipModificationTransaction(BaseModel):
+    waypoint_symbol: str = Field(..., alias="waypointSymbol")
+    ship_symbol: str = Field(..., alias="shipSymbol")
+    trade_symbol: str = Field(..., alias="tradeSymbol")
+    total_price: int = Field(...)
+    timestamp: datetime = Field(...)

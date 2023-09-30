@@ -14,6 +14,7 @@ from .ship import (
     ShipMounts,
     ShipNav,
     ShipyardTransaction,
+    ShipModificationTransaction,
 )
 from .system import System
 from .survey import Survey
@@ -41,7 +42,7 @@ class AgentMountCargoTransaction(BaseModel):
     agent: Agent = Field(...)
     mounts: list[ShipMounts] = Field(...)
     cargo: ShipCargo = Field(...)
-    transaction: MarketTransaction = Field(...)
+    transaction: ShipModificationTransaction = Field(...)
 
 
 class AgentShipTransaction(BaseModel):

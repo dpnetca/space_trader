@@ -10,6 +10,8 @@ from .ship import (
     ShipMounts,
     ShipNav,
     Shipyard,
+    ShipyardTransaction,
+    ShipModificationTransaction,
 )
 from .status import Status
 from .survey import Survey
