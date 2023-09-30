@@ -188,5 +188,6 @@ class ShipModificationTransaction(BaseModel):
     waypoint_symbol: str = Field(..., alias="waypointSymbol")
     ship_symbol: str = Field(..., alias="shipSymbol")
     trade_symbol: str = Field(..., alias="tradeSymbol")
-    total_price: int = Field(...)
+    total_price: int = Field(..., alias="totalPrice")
     timestamp: datetime = Field(...)
+
