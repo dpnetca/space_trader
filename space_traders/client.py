@@ -73,6 +73,14 @@ class Client:
         except ValueError:
             response_data = {}
 
+        if response.status_code >= 500:
+            log.error(f"5xx SERVER Error caught: {response.content}")
+            f"{self.timeout_exception_delay} seconds and retrying"
+            await asyncio.sleep(self.timeout_exception_delay)
+            return await self.send(
+                method, endpoint, auth, headers, data, handle_429, **kwargs
+            )
+
         if response.status_code == 429 and handle_429:
             delay = (
                 response_data.get("error", {})
@@ -107,11 +115,7 @@ class Client:
             )
             await asyncio.sleep(self.timeout_exception_delay)
             r = await self._get(url, headers=headers, **kwargs)
-        if r.status_code >= 500:
-            log.error(f"5xx SERVER Error caught: {r.content}")
-            f"{self.timeout_exception_delay} seconds and retrying"
-            await asyncio.sleep(self.timeout_exception_delay)
-            r = await self._get(url, headers=headers, **kwargs)
+
         log.debug(r.content)
         return r
 
@@ -134,10 +138,6 @@ class Client:
             )
             await asyncio.sleep(self.timeout_exception_delay)
             r = await self._post(url, headers, data, **kwargs)
-        if r.status_code >= 500:
-            log.error(f"5xx SERVER Error caught: {r.content}")
-            f"{self.timeout_exception_delay} seconds and retrying"
-            await asyncio.sleep(self.timeout_exception_delay)
-            r = await self._post(url, headers, data, **kwargs)
+
         log.debug(r.content)
         return r
