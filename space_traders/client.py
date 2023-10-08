@@ -2,6 +2,7 @@ import asyncio
 import logging
 from typing import Callable
 import httpx
+import datetime
 
 from aiolimiter import AsyncLimiter
 
@@ -50,7 +51,9 @@ class Client:
             head["Authorization"] = f"Bearer {self.token}"
         if isinstance(headers, dict):
             head.update(headers)
-
+        head["x-request-timestamp"] = datetime.datetime.now(
+            tz=datetime.UTC
+        ).isoformat()
         timeout = kwargs.pop("timeout", self.timeout)
         match method.lower():
             case "get":
