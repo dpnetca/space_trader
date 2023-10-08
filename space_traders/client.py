@@ -51,9 +51,6 @@ class Client:
             head["Authorization"] = f"Bearer {self.token}"
         if isinstance(headers, dict):
             head.update(headers)
-        head["x-request-timestamp"] = datetime.datetime.now(
-            tz=datetime.UTC
-        ).isoformat()
         timeout = kwargs.pop("timeout", self.timeout)
         match method.lower():
             case "get":
@@ -106,6 +103,9 @@ class Client:
         self, url: str, headers: dict | None = None, **kwargs
     ) -> httpx.Response:
         await self.rate_limit.acquire()
+        headers["x-request-timestamp"] = datetime.datetime.now(
+            tz=datetime.UTC
+        ).isoformat()
         try:
             r = await self.client.get(url, headers=headers, **kwargs)
         except httpx.TimeoutException as e:
@@ -127,6 +127,9 @@ class Client:
         **kwargs,
     ) -> httpx.Response:
         await self.rate_limit.acquire()
+        headers["x-request-timestamp"] = datetime.datetime.now(
+            tz=datetime.UTC
+        ).isoformat()
         try:
             r = await self.client.post(
                 url, headers=headers, json=data, **kwargs
