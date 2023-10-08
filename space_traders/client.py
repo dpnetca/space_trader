@@ -1,6 +1,6 @@
 import asyncio
 import logging
-
+from typing import Callable
 import httpx
 
 from aiolimiter import AsyncLimiter
@@ -9,8 +9,14 @@ log = logging.getLogger("SpaceTrader")
 
 
 class Client:
-    def __init__(self, token: str | None = None) -> None:
+    def __init__(
+        self,
+        token: str | None = None,
+        log_func: Callable | None = None,
+    ) -> None:
         self.token = token
+        self.log_func = log_func
+
         self.base_url = "https://api.spacetraders.io/v2"
         self.headers = {
             "Content-Type": "application/json",
@@ -25,7 +31,7 @@ class Client:
         self.timeout = 10
         self.timeout_exception_delay = 30
 
-    async def close(self):
+    async def close(self) -> None:
         await self.client.aclose()
 
     async def send(
@@ -55,6 +61,9 @@ class Client:
                 response = await self._post(
                     url, headers=head, data=data, timeout=timeout, **kwargs
                 )
+
+        if self.log_func:
+            await self.log_func(response)
 
         try:
             response_data = response.json()
