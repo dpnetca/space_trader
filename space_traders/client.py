@@ -9,6 +9,12 @@ from aiolimiter import AsyncLimiter
 log = logging.getLogger("SpaceTrader")
 
 
+def request_hook(request):
+    request.headers["x-request-timestamp"] = datetime.datetime.now(
+        tz=datetime.UTC
+    ).isoformat()
+
+
 class Client:
     def __init__(
         self,
@@ -28,7 +34,9 @@ class Client:
         self.rate_limit = AsyncLimiter(
             self.limiter_requests, self.limiter_period
         )
-        self.client = httpx.AsyncClient()
+        self.client = httpx.AsyncClient(
+            event_hooks={"request": [request_hook]}
+        )
         self.timeout = 10
         self.timeout_exception_delay = 30
 
@@ -106,9 +114,6 @@ class Client:
         self, url: str, headers: dict | None = None, **kwargs
     ) -> httpx.Response:
         await self.rate_limit.acquire()
-        headers["x-request-timestamp"] = datetime.datetime.now(
-            tz=datetime.UTC
-        ).isoformat()
         try:
             r = await self.client.get(url, headers=headers, **kwargs)
         except httpx.TimeoutException as e:
@@ -130,9 +135,6 @@ class Client:
         **kwargs,
     ) -> httpx.Response:
         await self.rate_limit.acquire()
-        headers["x-request-timestamp"] = datetime.datetime.now(
-            tz=datetime.UTC
-        ).isoformat()
         try:
             r = await self.client.post(
                 url, headers=headers, json=data, **kwargs
