@@ -9,7 +9,7 @@ from aiolimiter import AsyncLimiter
 log = logging.getLogger("SpaceTrader")
 
 
-def request_hook(request):
+async def request_hook(request):
     request.headers["x-request-timestamp"] = datetime.datetime.now(
         tz=datetime.UTC
     ).isoformat()
