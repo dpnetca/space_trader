@@ -59,9 +59,9 @@ class Client:
             head["Authorization"] = f"Bearer {self.token}"
         if isinstance(headers, dict):
             head.update(headers)
-            head["x-request-creation-timestamp"] = datetime.datetime.now(
-                tz=datetime.UTC
-            ).isoformat()
+        head["x-request-creation-timestamp"] = datetime.datetime.now(
+            tz=datetime.UTC
+        ).isoformat()
         timeout = kwargs.pop("timeout", self.timeout)
         match method.lower():
             case "get":
