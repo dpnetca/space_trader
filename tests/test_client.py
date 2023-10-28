@@ -12,7 +12,6 @@ class TestClient:
     @pytest.mark.asyncio
     async def test_invalid_get(self, st: SpaceTrader):
         response = await st.client._get(st.client.base_url + "/invalid")
-        print(response.status_code)
         # stoplight mock returns 422, actual returns 404
         assert response.status_code == 404 or response.status_code == 422
 
