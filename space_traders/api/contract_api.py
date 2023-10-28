@@ -31,7 +31,7 @@ class ContractApi:
         contract_id: str,
         ship_id: str,
         item_id: str,
-        units: str,
+        units: int,
     ) -> ContractCargo | ApiError:
         endpoint = self.base_endpoint + f"/{contract_id}/deliver"
         data = {"shipSymbol": ship_id, "tradeSymbol": item_id, "units": units}
