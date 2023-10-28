@@ -109,7 +109,7 @@ class ShipCargo(BaseModel):
 
 
 class ShipCooldown(BaseModel):
-    symbol: str = Field(..., alias="shipSymbol")
+    ship_symbol: str = Field(..., alias="shipSymbol")
     total_seconds: int = Field(..., alias="totalSeconds")
     remaining_seconds: int = Field(..., alias="remainingSeconds")
     expiration: Optional[datetime] = Field(None)
@@ -190,4 +190,3 @@ class ShipModificationTransaction(BaseModel):
     trade_symbol: str = Field(..., alias="tradeSymbol")
     total_price: int = Field(..., alias="totalPrice")
     timestamp: datetime = Field(...)
-
