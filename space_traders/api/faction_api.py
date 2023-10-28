@@ -17,19 +17,6 @@ class FactionApi:
             return ApiError(**response)
         return Faction(**response["data"])
 
-    async def list_factions(
-        self, limit: int = 20, page: int = 1
-    ) -> ListFactions | ApiError:
-        params = {"limit": limit, "page": page}
-        response = await self.client.send(
-            "get", self.base_endpoint, params=params
-        )
-        if "error" in response.keys():
-            return ApiError(**response)
-        factions = [Faction(**f) for f in response["data"]]
-        meta = Meta(**response["meta"])
-        return ListFactions(data=factions, meta=meta)
-
     async def list_all_factions(self) -> List[Faction] | ApiError:
         response = await paginator(self.client, "get", self.base_endpoint)
         if isinstance(response, ApiError):
