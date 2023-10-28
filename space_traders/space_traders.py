@@ -8,7 +8,7 @@ logger = logging.getLogger("SpaceTrader")
 
 
 class SpaceTrader:
-    def __init__(self, token: str, log_func: Callable | None = None) -> None:
+    def __init__(self, token: str, log_func: Callable | None = None):
         logger.info("Initializing SpaceTrader")
 
         self.client = Client(token, log_func)

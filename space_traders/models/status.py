@@ -30,8 +30,10 @@ class Link(BaseModel):
     url: str = Field(...)
 
 
+# next allows str for testing against mock server, type should be datetime
+# but mock server returns "string"
 class ServerResets(BaseModel):
-    next: datetime = Field(...)
+    next: str | datetime = Field(...)
     frequency: str = Field(...)
 
 
@@ -42,10 +44,12 @@ class Stats(BaseModel):
     waypoints: int = Field(...)
 
 
+# reset_date allows str for testing against mock server, type should be date
+# but mock server returns "string"
 class Status(BaseModel):
     status: str = Field(...)
     version: str = Field(...)
-    reset_date: date = Field(..., alias="resetDate")
+    reset_date: str | date = Field(..., alias="resetDate")
     description: str = Field(...)
     stats: Stats = Field(...)
     leaderboards: Leaderboards = Field(...)
