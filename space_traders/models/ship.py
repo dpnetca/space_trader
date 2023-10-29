@@ -27,6 +27,7 @@ class ShipRequirements(Base):
 
 class ShipNavRoute(Base):
     destination: ShipNavRouteWaypoint = Field(...)
+    departure: Optional[ShipNavRouteWaypoint] = Field(None)  # deprecated
     origin: ShipNavRouteWaypoint = Field(...)
     departure_time: datetime = Field(..., alias="departureTime")
     arrival: datetime = Field(...)

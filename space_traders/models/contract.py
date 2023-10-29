@@ -30,6 +30,7 @@ class Contract(Base):
     terms: ContractTerms = Field(...)
     accepted: bool = Field(...)
     fulfilled: bool = Field(...)
+    expiration: Optional[datetime] = Field(None)  # deprecated
     deadline_to_accept: Optional[datetime] = Field(
         None, alias="deadlineToAccept"
     )

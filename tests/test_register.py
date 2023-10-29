@@ -37,6 +37,7 @@ class TestRegister:
                     },
                     "accepted": False,
                     "fulfilled": False,
+                    "expiration": "2019-08-24T14:15:22Z",  # deprecated
                     "deadlineToAccept": "2019-08-24T14:15:22Z",
                 },
                 "faction": {
@@ -64,6 +65,13 @@ class TestRegister:
                         "systemSymbol": "string",
                         "waypointSymbol": "string",
                         "route": {
+                            "departure": {  # deprecated
+                                "symbol": "string",
+                                "type": "PLANET",
+                                "systemSymbol": "string",
+                                "x": 0,
+                                "y": 0,
+                            },
                             "destination": {
                                 "symbol": "string",
                                 "type": "PLANET",
