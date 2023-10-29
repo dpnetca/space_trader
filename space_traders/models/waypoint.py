@@ -35,6 +35,12 @@ class WaypointFaction(Base):
     symbol: str = Field(...)
 
 
+class WaypointModifier(Base):
+    symbol: str = Field(...)
+    name: str = Field(...)
+    description: str = Field(...)
+
+
 class WaypointTrait(Base):
     symbol: str = Field(...)
     name: str = Field(...)
@@ -51,4 +57,6 @@ class Waypoint(Base):
     orbits: Optional[str] = Field(None)
     faction: Optional[WaypointFaction] = Field(None)
     traits: list[WaypointTrait] = Field(...)
+    modifiers: Optional[list[WaypointModifier]] = Field(default_factory=list)
     chart: Optional[Chart] = Field(None)
+    is_under_construction: bool = Field(..., alias="isUnderConstruction")
