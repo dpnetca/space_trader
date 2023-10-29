@@ -185,6 +185,140 @@ class TestSystems:
         expected_response = [Waypoint(**x) for x in expected["data"]]
         assert response == expected_response
 
+    # stoplight mock not working for traits
+    # @pytest.mark.asyncio
+    # async def test_list_all_waypoints_with_one_trait(self, st: SpaceTrader):
+    #     waypoint_traits = ["OUTPOST"]
+    #     response = await st.system.list_all_waypoints(
+    #         "system", waypoint_traits=waypoint_traits
+    #     )
+    #     expected = {
+    #         "data": [
+    #             {
+    #                 "symbol": "string",
+    #                 "type": "PLANET",
+    #                 "systemSymbol": "string",
+    #                 "x": 0,
+    #                 "y": 0,
+    #                 "orbitals": [{"symbol": "string"}],
+    #                 "orbits": "string",
+    #                 "faction": {"symbol": "COSMIC"},
+    #                 "traits": [
+    #                     {
+    #                         "symbol": "UNCHARTED",
+    #                         "name": "string",
+    #                         "description": "string",
+    #                     }
+    #                 ],
+    #                 "modifiers": [
+    #                     {
+    #                         "symbol": "STRIPPED",
+    #                         "name": "string",
+    #                         "description": "string",
+    #                     }
+    #                 ],
+    #                 "chart": {
+    #                     "waypointSymbol": "string",
+    #                     "submittedBy": "string",
+    #                     "submittedOn": "2019-08-24T14:15:22Z",
+    #                 },
+    #                 "isUnderConstruction": True,
+    #             }
+    #         ],
+    #         "meta": {"total": 0, "page": 1, "limit": 10},
+    #     }
+    #     expected_response = [Waypoint(**x) for x in expected["data"]]
+    #     assert response == expected_response
+
+    # stoplight mock not working for traits
+    # @pytest.mark.asyncio
+    # async def test_list_all_waypoints_with_multiple_traits(self, st: SpaceTrader):
+    #     waypoint_traits = ["SHIPYARD", "OUTPOST"]
+    #     response = await st.system.list_all_waypoints(
+    #         "system", waypoint_traits=waypoint_traits
+    #     )
+    #     expected = {
+    #         "data": [
+    #             {
+    #                 "symbol": "string",
+    #                 "type": "PLANET",
+    #                 "systemSymbol": "string",
+    #                 "x": 0,
+    #                 "y": 0,
+    #                 "orbitals": [{"symbol": "string"}],
+    #                 "orbits": "string",
+    #                 "faction": {"symbol": "COSMIC"},
+    #                 "traits": [
+    #                     {
+    #                         "symbol": "UNCHARTED",
+    #                         "name": "string",
+    #                         "description": "string",
+    #                     }
+    #                 ],
+    #                 "modifiers": [
+    #                     {
+    #                         "symbol": "STRIPPED",
+    #                         "name": "string",
+    #                         "description": "string",
+    #                     }
+    #                 ],
+    #                 "chart": {
+    #                     "waypointSymbol": "string",
+    #                     "submittedBy": "string",
+    #                     "submittedOn": "2019-08-24T14:15:22Z",
+    #                 },
+    #                 "isUnderConstruction": True,
+    #             }
+    #         ],
+    #         "meta": {"total": 0, "page": 1, "limit": 10},
+    #     }
+    #     expected_response = [Waypoint(**x) for x in expected["data"]]
+    #     assert response == expected_response
+
+    @pytest.mark.asyncio
+    async def test_list_all_waypoints_with_type(self, st: SpaceTrader):
+        waypoint_type = "ENGINEERED_ASTEROID"
+        response = await st.system.list_all_waypoints(
+            "system", waypoint_type=waypoint_type
+        )
+        expected = {
+            "data": [
+                {
+                    "symbol": "string",
+                    "type": "PLANET",
+                    "systemSymbol": "string",
+                    "x": 0,
+                    "y": 0,
+                    "orbitals": [{"symbol": "string"}],
+                    "orbits": "string",
+                    "faction": {"symbol": "COSMIC"},
+                    "traits": [
+                        {
+                            "symbol": "UNCHARTED",
+                            "name": "string",
+                            "description": "string",
+                        }
+                    ],
+                    "modifiers": [
+                        {
+                            "symbol": "STRIPPED",
+                            "name": "string",
+                            "description": "string",
+                        }
+                    ],
+                    "chart": {
+                        "waypointSymbol": "string",
+                        "submittedBy": "string",
+                        "submittedOn": "2019-08-24T14:15:22Z",
+                    },
+                    "isUnderConstruction": True,
+                }
+            ],
+            "meta": {"total": 0, "page": 1, "limit": 10},
+        }
+        expected_response = [Waypoint(**x) for x in expected["data"]]
+        assert response == expected_response
+
     @pytest.mark.asyncio
     async def test_get_market_without_system(self, st: SpaceTrader):
         response = await st.system.get_market("waypoint")

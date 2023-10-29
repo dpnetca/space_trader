@@ -51,10 +51,18 @@ class SystemApi:
         return Waypoint(**response["data"])
 
     async def list_all_waypoints(
-        self, system_symbol: str
+        self,
+        system_symbol: str,
+        waypoint_traits: list | None = None,
+        waypoint_type: str | None = None,
     ) -> List[Waypoint] | ApiError:
+        params = {}
+        if waypoint_traits:
+            params["traits"] = waypoint_traits
+        if waypoint_type:
+            params["type"] = waypoint_type
         endpoint = self.base_endpoint + f"/{system_symbol}/waypoints"
-        response = await paginator(self.client, "get", endpoint)
+        response = await paginator(self.client, "get", endpoint, params=params)
         if isinstance(response, ApiError):
             return response
         return [Waypoint(**s) for s in response]
