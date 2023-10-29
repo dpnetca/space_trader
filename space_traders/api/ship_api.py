@@ -169,6 +169,16 @@ class ShipApi:
             return ApiError(**response)
         return ShipNav(**response["data"]["nav"])
 
+    async def patch_ship_nav(
+        self, symbol: str, flight_mode: str
+    ) -> ShipNav | ApiError:
+        endpoint = self.base_endpoint + f"/{symbol}/nav"
+        data = {"flightMode": flight_mode}
+        response = await self.client.send("patch", endpoint, data=data)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return ShipNav(**response["data"])
+
     async def purchase_cargo(
         self, symbol: str, item_symbol: str, units: int
     ) -> AgentCargoTransaction | ApiError:
@@ -278,9 +288,6 @@ class ShipApi:
         return FuelNav(**response["data"])
 
     # following still need implementation
-
-    async def patch_ship_nav(self):
-        raise NotImplemented
 
     async def remove_mount(self):
         raise NotImplemented
