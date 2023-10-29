@@ -113,16 +113,6 @@ class FuelNav(BaseModel):
     nav: ShipNav = Field(...)
 
 
-class ListSystems(BaseModel):
-    data: list[System] = Field(...)
-    meta: Meta = Field(...)
-
-
-class ListWaypoints(BaseModel):
-    data: list[Waypoint] = Field(...)
-    meta: Meta = Field(...)
-
-
 class RegisterNewAgent(BaseModel):
     agent: Agent = Field(...)
     contract: Contract = Field(...)
