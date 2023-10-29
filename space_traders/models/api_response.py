@@ -82,11 +82,6 @@ class CooldownSiphonCargo(BaseModel):
     cargo: ShipCargo = Field(...)
 
 
-class CooldownNav(BaseModel):
-    cooldown: ShipCooldown = Field(...)
-    nav: ShipNav = Field(...)
-
-
 class NavCooldownTransaction(BaseModel):
     nav: ShipNav = Field(...)
     cooldown: ShipCooldown = Field(...)
@@ -116,26 +111,6 @@ class CooldownWaypoints(BaseModel):
 class FuelNav(BaseModel):
     fuel: ShipFuel = Field(...)
     nav: ShipNav = Field(...)
-
-
-class ListAgents(BaseModel):
-    data: list[Agent] = Field(...)
-    meta: Meta = Field(...)
-
-
-class ListContracts(BaseModel):
-    data: list[Contract] = Field(...)
-    meta: Meta = Field(...)
-
-
-class ListFactions(BaseModel):
-    data: list[Faction] = Field(...)
-    meta: Meta = Field(...)
-
-
-class ListShips(BaseModel):
-    data: list[Ship] = Field(...)
-    meta: Meta = Field(...)
 
 
 class ListSystems(BaseModel):

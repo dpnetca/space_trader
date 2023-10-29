@@ -6,8 +6,6 @@ from space_traders.models import (
     ApiError,
     Contract,
     ContractCargo,
-    ListContracts,
-    Meta,
 )
 from space_traders.utils import paginator
 

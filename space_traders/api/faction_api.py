@@ -1,7 +1,7 @@
 from typing import List
 
 from space_traders.client import Client
-from space_traders.models import ApiError, Faction, ListFactions, Meta
+from space_traders.models import ApiError, Faction
 from space_traders.utils import paginator
 
 
