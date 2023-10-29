@@ -7,8 +7,8 @@ class TestContract:
     @pytest.mark.asyncio
     async def test_accept_contract(self, st: SpaceTrader):
         response = await st.contract.accept_contract("xxx")
-        expected_response = AgentContract(
-            **{
+        expected = {
+            "data": {
                 "agent": {
                     "accountId": "string",
                     "symbol": "string",
@@ -39,7 +39,9 @@ class TestContract:
                     "deadlineToAccept": "2019-08-24T14:15:22Z",
                 },
             }
-        )
+        }
+
+        expected_response = AgentContract(**expected["data"])
         assert response == expected_response
 
     @pytest.mark.asyncio
@@ -47,8 +49,8 @@ class TestContract:
         response = await st.contract.deliver_cargo_to_contract(
             "c_id", "s_id", "i_id", 12
         )
-        expected_response = ContractCargo(
-            **{
+        expected = {
+            "data": {
                 "contract": {
                     "id": "string",
                     "factionSymbol": "string",
@@ -83,14 +85,15 @@ class TestContract:
                     ],
                 },
             }
-        )
+        }
+        expected_response = ContractCargo(**expected["data"])
         assert response == expected_response
 
     @pytest.mark.asyncio
     async def test_fulfill_contract(self, st: SpaceTrader):
         response = await st.contract.fulfill_contract("c_id")
-        expected_response = AgentContract(
-            **{
+        expected = {
+            "data": {
                 "agent": {
                     "accountId": "string",
                     "symbol": "string",
@@ -121,14 +124,15 @@ class TestContract:
                     "deadlineToAccept": "2019-08-24T14:15:22Z",
                 },
             }
-        )
+        }
+        expected_response = AgentContract(**expected["data"])
         assert response == expected_response
 
     @pytest.mark.asyncio
     async def test_get_contract(self, st: SpaceTrader):
         response = await st.contract.get_contract("c_id")
-        expected_response = Contract(
-            **{
+        expected = {
+            "data": {
                 "id": "string",
                 "factionSymbol": "string",
                 "type": "PROCUREMENT",
@@ -149,15 +153,16 @@ class TestContract:
                 "expiration": "2019-08-24T14:15:22Z",
                 "deadlineToAccept": "2019-08-24T14:15:22Z",
             }
-        )
+        }
+        expected_response = Contract(**expected["data"])
         assert response == expected_response
 
     @pytest.mark.asyncio
     async def test_list_all_contract(self, st: SpaceTrader):
         response = await st.contract.list_all_contracts()
-        expected_response = [
-            Contract(
-                **{
+        expected = {
+            "data": [
+                {
                     "id": "string",
                     "factionSymbol": "string",
                     "type": "PROCUREMENT",
@@ -178,6 +183,7 @@ class TestContract:
                     "expiration": "2019-08-24T14:15:22Z",
                     "deadlineToAccept": "2019-08-24T14:15:22Z",
                 }
-            )
-        ]
+            ]
+        }
+        expected_response = [Contract(**x) for x in expected["data"]]
         assert response == expected_response

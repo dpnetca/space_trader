@@ -6,9 +6,9 @@ from space_traders.models import Agent
 class TestAgent:
     @pytest.mark.asyncio
     async def test_get_my_agent(self, st: SpaceTrader):
-        agent = await st.agent.get_my_agent()
-        expected_agent = Agent(
-            **{
+        response = await st.agent.get_my_agent()
+        expected = {
+            "data": {
                 "accountId": "string",
                 "symbol": "string",
                 "headquarters": "string",
@@ -16,14 +16,15 @@ class TestAgent:
                 "startingFaction": "string",
                 "shipCount": 0,
             }
-        )
-        assert agent == expected_agent
+        }
+        expected_response = Agent(**expected["data"])
+        assert response == expected_response
 
     @pytest.mark.asyncio
     async def test_get_agent(self, st: SpaceTrader):
-        agent = await st.agent.get_agent("agent")
-        expected_agent = Agent(
-            **{
+        response = await st.agent.get_agent("agent")
+        expected = {
+            "data": {
                 "accountId": "string",
                 "symbol": "string",
                 "headquarters": "string",
@@ -31,15 +32,16 @@ class TestAgent:
                 "startingFaction": "string",
                 "shipCount": 0,
             }
-        )
-        assert agent == expected_agent
+        }
+        expected_response = Agent(**expected["data"])
+        assert response == expected_response
 
     @pytest.mark.asyncio
     async def test_list_all_agent(self, st: SpaceTrader):
-        agents = await st.agent.list_all_agents()
-        expected_agents = [
-            Agent(
-                **{
+        response = await st.agent.list_all_agents()
+        expected = {
+            "data": [
+                {
                     "accountId": "string",
                     "symbol": "string",
                     "headquarters": "string",
@@ -47,6 +49,7 @@ class TestAgent:
                     "startingFaction": "string",
                     "shipCount": 0,
                 }
-            )
-        ]
-        assert agents == expected_agents
+            ]
+        }
+        expected_response = [Agent(**x) for x in expected["data"]]
+        assert response == expected_response

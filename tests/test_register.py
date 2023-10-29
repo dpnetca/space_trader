@@ -9,8 +9,8 @@ class TestRegister:
         name = "TESTUSER"
         faction = "COSMIC"
         response = await st.register(name, faction)
-        expected_response = RegisterNewAgent(
-            **{
+        expected = {
+            "data": {
                 "agent": {
                     "accountId": "string",
                     "symbol": "string",
@@ -175,5 +175,6 @@ class TestRegister:
                 },
                 "token": "string",
             }
-        )
+        }
+        expected_response = RegisterNewAgent(**expected["data"])
         assert response == expected_response
