@@ -10,22 +10,8 @@ class Chart(BaseModel):
     submitted_on: Optional[datetime] = Field(None, alias="submittedOn")
 
 
-class ConnectedSystems(BaseModel):
-    symbol: str = Field(...)
-    sector_symbol: str = Field(..., alias="sectorSymbol")
-    type: str = Field(...)
-    faction_symbol: str = Field(..., alias="factionSymbol")
-    x: int = Field(...)
-    y: int = Field(...)
-    distance: int = Field(...)
-
-
 class Jumpgate(BaseModel):
-    jump_range: int = Field(..., alias="jumpRange")
-    faction_symbol: str = Field(..., alias="factionSymbol")
-    connected_systems: list[ConnectedSystems] = Field(
-        ..., alias="connectedSystems"
-    )
+    connections: list[str] = Field(...)
 
 
 class WaypointOrbitals(BaseModel):
