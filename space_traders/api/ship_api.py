@@ -60,15 +60,10 @@ class ShipApi:
         return ShipNav(**response["data"]["nav"])
 
     async def extract_resources(
-        self, symbol: str, survey: Survey | None = None
+        self, symbol: str
     ) -> CooldownExtractionCargo | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}/extract"
-        data = None
-        if survey:
-            log.warn("deprecated: use 'extract_surveys' for exracting surveys")
-            # this is ugly..is there  a better way?
-            data = {"survey": json.loads(survey.model_dump_json())}
-        response = await self.client.send("post", endpoint, data=data)
+        response = await self.client.send("post", endpoint)
         if "error" in response.keys():
             return ApiError(**response)
         return CooldownExtractionCargo(**response["data"])
