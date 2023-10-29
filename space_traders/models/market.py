@@ -1,10 +1,11 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import Field
+from space_traders.models.base_model import Base
 
 
-class MarketTransaction(BaseModel):
+class MarketTransaction(Base):
     waypoint_symbol: str = Field(..., alias="waypointSymbol")
     ship_symbol: str = Field(..., alias="shipSymbol")
     trade_symbol: str = Field(..., alias="tradeSymbol")
@@ -15,13 +16,13 @@ class MarketTransaction(BaseModel):
     timestamp: datetime = Field(...)
 
 
-class MarketItem(BaseModel):
+class MarketItem(Base):
     symbol: str = Field(...)
     name: str = Field(...)
     description: str = Field(...)
 
 
-class MarketTradeGoods(BaseModel):
+class MarketTradeGoods(Base):
     symbol: str = Field(...)
     trade_volume: int = Field(..., alias="tradeVolume")
     supply: str = Field(...)
@@ -29,7 +30,7 @@ class MarketTradeGoods(BaseModel):
     sell_price: int = Field(..., alias="sellPrice")
 
 
-class Market(BaseModel):
+class Market(Base):
     symbol: str
     exports: list[MarketItem] = Field(...)
     imports: list[MarketItem] = Field(...)

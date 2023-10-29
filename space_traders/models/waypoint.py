@@ -1,46 +1,47 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import Field
+from space_traders.models.base_model import Base
 
 
-class Chart(BaseModel):
+class Chart(Base):
     waypoint_symbol: Optional[str] = Field(None, alias="waypointSymbol")
     submitted_by: Optional[str] = Field(None, alias="submittedBy")
     submitted_on: Optional[datetime] = Field(None, alias="submittedOn")
 
 
-class ConstructionMaterial(BaseModel):
+class ConstructionMaterial(Base):
     trade_symbol: str = Field(..., alias="tradeSymbol")
     required: int = Field(...)
     fulfilled: int = Field(...)
 
 
-class ConstructionSite(BaseModel):
+class ConstructionSite(Base):
     symbol: str = Field(...)
     materials: list[ConstructionMaterial] = Field(...)
     is_complete: bool = Field(..., alias="isComplete")
 
 
-class Jumpgate(BaseModel):
+class Jumpgate(Base):
     connections: list[str] = Field(...)
 
 
-class WaypointOrbitals(BaseModel):
+class WaypointOrbitals(Base):
     symbol: str = Field(...)
 
 
-class WaypointFaction(BaseModel):
+class WaypointFaction(Base):
     symbol: str = Field(...)
 
 
-class WaypointTrait(BaseModel):
+class WaypointTrait(Base):
     symbol: str = Field(...)
     name: str = Field(...)
     description: str = Field(...)
 
 
-class Waypoint(BaseModel):
+class Waypoint(Base):
     symbol: str = Field(...)
     type: str = Field(...)
     system_symbol: str = Field(..., alias="systemSymbol")

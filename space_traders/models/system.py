@@ -1,19 +1,20 @@
-from pydantic import BaseModel, Field
+from pydantic import Field
+from space_traders.models.base_model import Base
 from typing import Optional
 
 
-class SystemWaypoint(BaseModel):
+class SystemWaypoint(Base):
     symbol: str = Field(...)
     type: str = Field(...)
     x: int = Field(...)
     y: int = Field(...)
 
 
-class SystemFaction(BaseModel):
+class SystemFaction(Base):
     symbol: str = Field(...)
 
 
-class System(BaseModel):
+class System(Base):
     symbol: str = Field(...)
     sector_symbol: str = Field(..., alias="sectorSymbol")
     type: str = Field(...)

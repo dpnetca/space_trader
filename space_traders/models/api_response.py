@@ -1,4 +1,5 @@
-from pydantic import BaseModel, Field
+from pydantic import Field
+from space_traders.models.base_model import Base
 
 from .agent import Agent
 from .contract import Contract
@@ -23,102 +24,102 @@ from .survey import Survey
 from .waypoint import Chart, ConstructionSite, Waypoint
 
 
-class AgentContract(BaseModel):
+class AgentContract(Base):
     agent: Agent = Field(...)
     contract: Contract = Field(...)
 
 
-class AgentCargoTransaction(BaseModel):
+class AgentCargoTransaction(Base):
     agent: Agent = Field(...)
     cargo: ShipCargo = Field(...)
     transaction: MarketTransaction = Field(...)
 
 
-class AgentFuelTransaction(BaseModel):
+class AgentFuelTransaction(Base):
     agent: Agent = Field(...)
     fuel: ShipFuel = Field(...)
     transaction: MarketTransaction = Field(...)
 
 
-class AgentMountCargoTransaction(BaseModel):
+class AgentMountCargoTransaction(Base):
     agent: Agent = Field(...)
     mounts: list[ShipMount] = Field(...)
     cargo: ShipCargo = Field(...)
     transaction: ShipModificationTransaction = Field(...)
 
 
-class AgentShipTransaction(BaseModel):
+class AgentShipTransaction(Base):
     agent: Agent = Field(...)
     ship: Ship = Field(...)
     transaction: ShipyardTransaction = Field(...)
 
 
-class CargoCooldownProducedConsumed(BaseModel):
+class CargoCooldownProducedConsumed(Base):
     cargo: ShipCargo = Field(...)
     cooldown: ShipCooldown = Field(...)
     produced: list[RefinedGood] = Field(...)
     consumed: list[RefinedGood] = Field(...)
 
 
-class ChartWaypoint(BaseModel):
+class ChartWaypoint(Base):
     chart: Chart = Field(...)
     waypoint: Waypoint = Field(...)
 
 
-class ContractCargo(BaseModel):
+class ContractCargo(Base):
     contract: Contract = Field(...)
     cargo: ShipCargo = Field(...)
 
 
-class ConstructionCargo(BaseModel):
+class ConstructionCargo(Base):
     construction: ConstructionSite = Field(...)
     cargo: ShipCargo = Field(...)
 
 
-class CooldownExtractionCargo(BaseModel):
+class CooldownExtractionCargo(Base):
     cooldown: ShipCooldown = Field(...)
     extraction: ShipExtraction = Field(...)
     cargo: ShipCargo = Field(...)
 
 
-class CooldownSiphonCargo(BaseModel):
+class CooldownSiphonCargo(Base):
     cooldown: ShipCooldown = Field(...)
     siphon: ShipSiphon = Field(...)
     cargo: ShipCargo = Field(...)
 
 
-class NavCooldownTransaction(BaseModel):
+class NavCooldownTransaction(Base):
     nav: ShipNav = Field(...)
     cooldown: ShipCooldown = Field(...)
     transaction: MarketTransaction = Field(...)
 
 
-class CooldownShips(BaseModel):
+class CooldownShips(Base):
     cooldown: ShipCooldown = Field(...)
     ships: list[Ship] = Field(...)
 
 
-class CooldownSurveys(BaseModel):
+class CooldownSurveys(Base):
     cooldown: ShipCooldown = Field(...)
     surveys: list[Survey] = Field(...)
 
 
-class CooldownSystems(BaseModel):
+class CooldownSystems(Base):
     cooldown: ShipCooldown = Field(...)
     systems: list[System] = Field(...)
 
 
-class CooldownWaypoints(BaseModel):
+class CooldownWaypoints(Base):
     cooldown: ShipCooldown = Field(...)
     waypoints: list[Waypoint] = Field(...)
 
 
-class FuelNav(BaseModel):
+class FuelNav(Base):
     fuel: ShipFuel = Field(...)
     nav: ShipNav = Field(...)
 
 
-class RegisterNewAgent(BaseModel):
+class RegisterNewAgent(Base):
     agent: Agent = Field(...)
     contract: Contract = Field(...)
     faction: Faction = Field(...)

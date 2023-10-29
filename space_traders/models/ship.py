@@ -1,16 +1,17 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import Field
+from space_traders.models.base_model import Base
 
 
-class ShipRegistration(BaseModel):
+class ShipRegistration(Base):
     name: str = Field(...)
     faction_symbol: str = Field(..., alias="factionSymbol")
     role: str = Field(...)
 
 
-class ShipNavRouteWaypoint(BaseModel):
+class ShipNavRouteWaypoint(Base):
     symbol: str = Field(...)
     type: str = Field(...)
     system_symbol: str = Field(..., alias="systemSymbol")
@@ -18,20 +19,20 @@ class ShipNavRouteWaypoint(BaseModel):
     y: int = Field(...)
 
 
-class ShipRequirements(BaseModel):
+class ShipRequirements(Base):
     power: Optional[int] = Field(None)
     crew: Optional[int] = Field(None)
     slots: Optional[int] = Field(None)
 
 
-class ShipNavRoute(BaseModel):
+class ShipNavRoute(Base):
     destination: ShipNavRouteWaypoint = Field(...)
     origin: ShipNavRouteWaypoint = Field(...)
     departure_time: datetime = Field(..., alias="departureTime")
     arrival: datetime = Field(...)
 
 
-class ShipNav(BaseModel):
+class ShipNav(Base):
     system_symbol: str = Field(..., alias="systemSymbol")
     waypoint_symbol: str = Field(..., alias="waypointSymbol")
     route: ShipNavRoute = Field(...)
@@ -39,7 +40,7 @@ class ShipNav(BaseModel):
     flight_mode: str = Field(..., alias="flightMode")
 
 
-class ShipCrew(BaseModel):
+class ShipCrew(Base):
     current: Optional[int] = Field(None)
     required: int = Field(...)
     capacity: int = Field(...)
@@ -48,7 +49,7 @@ class ShipCrew(BaseModel):
     wages: Optional[int] = Field(None)
 
 
-class ShipFrame(BaseModel):
+class ShipFrame(Base):
     symbol: str = Field(...)
     name: Optional[str] = Field(None)
     description: Optional[str] = Field(None)
@@ -59,7 +60,7 @@ class ShipFrame(BaseModel):
     requirements: Optional[ShipRequirements] = Field(None)
 
 
-class ShipReactor(BaseModel):
+class ShipReactor(Base):
     symbol: str = Field(...)
     name: Optional[str] = Field(None)
     description: Optional[str] = Field(None)
@@ -68,7 +69,7 @@ class ShipReactor(BaseModel):
     requirements: Optional[ShipRequirements] = Field(None)
 
 
-class ShipEngine(BaseModel):
+class ShipEngine(Base):
     symbol: str = Field(...)
     name: Optional[str] = Field(None)
     description: Optional[str] = Field(None)
@@ -77,7 +78,7 @@ class ShipEngine(BaseModel):
     requirements: Optional[ShipRequirements] = Field(None)
 
 
-class ShipModule(BaseModel):
+class ShipModule(Base):
     symbol: str = Field(...)
     capacity: Optional[int] = Field(None)
     range: Optional[int] = Field(None)
@@ -86,7 +87,7 @@ class ShipModule(BaseModel):
     requirements: ShipRequirements = Field(...)
 
 
-class ShipMount(BaseModel):
+class ShipMount(Base):
     symbol: str = Field(...)
     name: Optional[str] = Field(None)
     description: Optional[str] = Field(None)
@@ -95,38 +96,38 @@ class ShipMount(BaseModel):
     requirements: Optional[ShipRequirements] = Field(None)
 
 
-class ShipCargoInventory(BaseModel):
+class ShipCargoInventory(Base):
     symbol: str = Field(...)
     name: str = Field(...)
     description: str = Field(...)
     units: int = Field(...)
 
 
-class ShipCargo(BaseModel):
+class ShipCargo(Base):
     capacity: int = Field(...)
     units: int = Field(...)
     inventory: list[ShipCargoInventory] = Field(...)
 
 
-class ShipCooldown(BaseModel):
+class ShipCooldown(Base):
     ship_symbol: str = Field(..., alias="shipSymbol")
     total_seconds: int = Field(..., alias="totalSeconds")
     remaining_seconds: int = Field(..., alias="remainingSeconds")
     expiration: Optional[datetime] = Field(None)
 
 
-class ShipFuelConsumed(BaseModel):
+class ShipFuelConsumed(Base):
     amount: int = Field(...)
     timestamp: str = Field(...)
 
 
-class ShipFuel(BaseModel):
+class ShipFuel(Base):
     current: int = Field(...)
     capacity: int = Field(...)
     consumed: Optional[ShipFuelConsumed] = Field(None)
 
 
-class Ship(BaseModel):
+class Ship(Base):
     symbol: str = Field(...)
     registration: ShipRegistration = Field(...)
     nav: ShipNav = Field(...)
@@ -141,17 +142,17 @@ class Ship(BaseModel):
     fuel: Optional[ShipFuel] = Field(None)
 
 
-class ShipExtractionYield(BaseModel):
+class ShipExtractionYield(Base):
     symbol: str = Field(...)
     units: int = Field(...)
 
 
-class ShipExtraction(BaseModel):
+class ShipExtraction(Base):
     symbol: str = Field(..., alias="shipSymbol")
     extraction_yield: ShipExtractionYield = Field(..., alias="yield")
 
 
-class ShipyardTransaction(BaseModel):
+class ShipyardTransaction(Base):
     waypoint_symbol: str = Field(..., alias="waypointSymbol")
     ship_symbol: str = Field(..., alias="shipSymbol")
     price: int = Field(...)
@@ -159,7 +160,7 @@ class ShipyardTransaction(BaseModel):
     timestamp: datetime = Field(...)
 
 
-class ShipyardShip(BaseModel):
+class ShipyardShip(Base):
     type: str = Field(...)
     name: str = Field(...)
     description: str = Field(...)
@@ -172,11 +173,11 @@ class ShipyardShip(BaseModel):
     crew: ShipCrew = Field(...)
 
 
-class ShipyardShipType(BaseModel):
+class ShipyardShipType(Base):
     type: str = Field(...)
 
 
-class Shipyard(BaseModel):
+class Shipyard(Base):
     symbol: str = Field(...)
     ship_types: list[ShipyardShipType] = Field(..., alias="shipTypes")
     transactions: Optional[list[ShipyardTransaction]] = Field(None)
@@ -184,7 +185,7 @@ class Shipyard(BaseModel):
     modifications_fee: int = Field(..., alias="modificationsFee")
 
 
-class ShipModificationTransaction(BaseModel):
+class ShipModificationTransaction(Base):
     waypoint_symbol: str = Field(..., alias="waypointSymbol")
     ship_symbol: str = Field(..., alias="shipSymbol")
     trade_symbol: str = Field(..., alias="tradeSymbol")
@@ -192,16 +193,16 @@ class ShipModificationTransaction(BaseModel):
     timestamp: datetime = Field(...)
 
 
-class RefinedGood(BaseModel):
+class RefinedGood(Base):
     trade_symbol: str = Field(..., alias="tradeSymbol")
     units: int = Field(...)
 
 
-class ShipSiphonYield(BaseModel):
+class ShipSiphonYield(Base):
     symbol: str = Field(...)
     units: int = Field(...)
 
 
-class ShipSiphon(BaseModel):
+class ShipSiphon(Base):
     symbol: str = Field(..., alias="shipSymbol")
     siphon_yield: ShipSiphonYield = Field(..., alias="yield")

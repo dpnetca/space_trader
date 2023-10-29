@@ -1,43 +1,44 @@
 from datetime import date, datetime
 
-from pydantic import BaseModel, Field
+from pydantic import Field
+from space_traders.models.base_model import Base
 
 
-class Announcements(BaseModel):
+class Announcements(Base):
     title: str = Field(...)
     body: str = Field(...)
 
 
-class MostCredits(BaseModel):
+class MostCredits(Base):
     agent_symbol: str = Field(..., alias="agentSymbol")
     credits: int = Field(...)
 
 
-class MostSubmittedCharts(BaseModel):
+class MostSubmittedCharts(Base):
     agent_symbol: str = Field(..., alias="agentSymbol")
     chart_count: int = Field(..., alias="chartCount")
 
 
-class Leaderboards(BaseModel):
+class Leaderboards(Base):
     most_credits: list[MostCredits] = Field(..., alias="mostCredits")
     most_submitted_charts: list[MostSubmittedCharts] = Field(
         ..., alias="mostSubmittedCharts"
     )
 
 
-class Link(BaseModel):
+class Link(Base):
     name: str = Field(...)
     url: str = Field(...)
 
 
 # next allows str for testing against mock server, type should be datetime
 # but mock server returns "string"
-class ServerResets(BaseModel):
+class ServerResets(Base):
     next: str | datetime = Field(...)
     frequency: str = Field(...)
 
 
-class Stats(BaseModel):
+class Stats(Base):
     agents: int = Field(...)
     ships: int = Field(...)
     systems: int = Field(...)
@@ -46,7 +47,7 @@ class Stats(BaseModel):
 
 # reset_date allows str for testing against mock server, type should be date
 # but mock server returns "string"
-class Status(BaseModel):
+class Status(Base):
     status: str = Field(...)
     version: str = Field(...)
     reset_date: str | date = Field(..., alias="resetDate")

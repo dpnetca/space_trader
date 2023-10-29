@@ -1,28 +1,29 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import Field
+from space_traders.models.base_model import Base
 
 
-class ContractPayment(BaseModel):
+class ContractPayment(Base):
     on_accepted: int = Field(..., alias="onAccepted")
     on_fulfilled: int = Field(..., alias="onFulfilled")
 
 
-class ContractDeliver(BaseModel):
+class ContractDeliver(Base):
     trade_symbol: str = Field(..., alias="tradeSymbol")
     destination_symbol: str = Field(..., alias="destinationSymbol")
     units_required: int = Field(..., alias="unitsRequired")
     units_fulfilled: int = Field(..., alias="unitsFulfilled")
 
 
-class ContractTerms(BaseModel):
+class ContractTerms(Base):
     deadline: datetime = Field(...)
     payment: ContractPayment = Field(...)
     deliver: Optional[list[ContractDeliver]] = Field(None)
 
 
-class Contract(BaseModel):
+class Contract(Base):
     id: str = Field(...)
     faction_symbol: str = Field(..., alias="factionSymbol")
     type: str = Field(...)
