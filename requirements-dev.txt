@@ -5,3 +5,4 @@ bandit
 mypy
 pytest
 pytest-asyncio
+pytest-cov
