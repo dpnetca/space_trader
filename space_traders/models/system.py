@@ -22,3 +22,4 @@ class System(Base):
     y: int = Field(...)
     waypoints: Optional[list[SystemWaypoint]] = Field(None)
     factions: Optional[list[SystemFaction]] = Field(None)
+    distance: Optional[int] = Field(None)
