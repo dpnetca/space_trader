@@ -72,6 +72,10 @@ class Client:
                 response = await self._post(
                     url, headers=head, data=data, timeout=timeout, **kwargs
                 )
+            case "patch":
+                response = await self._patch(
+                    url, headers=head, data=data, timeout=timeout, **kwargs
+                )
 
         if self.log_func:
             await self.log_func(response)
@@ -123,6 +127,29 @@ class Client:
             )
             await asyncio.sleep(self.timeout_exception_delay)
             r = await self._get(url, headers=headers, **kwargs)
+
+        log.debug(r.content)
+        return r
+
+    async def _patch(
+        self,
+        url: str,
+        headers: dict | None = None,
+        data: dict | None = None,
+        **kwargs,
+    ) -> httpx.Response:
+        await self.rate_limit.acquire()
+        try:
+            r = await self.client.patch(
+                url, headers=headers, json=data, **kwargs
+            )
+        except httpx.TimeoutException as e:
+            log.error(
+                f"TIMEOUT EXCEPTION caught on PATCH: {url}, sleeping"
+                f"{self.timeout_exception_delay} seconds and retrying"
+            )
+            await asyncio.sleep(self.timeout_exception_delay)
+            r = await self._patch(url, headers, data, **kwargs)
 
         log.debug(r.content)
         return r
