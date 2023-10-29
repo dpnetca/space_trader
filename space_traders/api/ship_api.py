@@ -109,6 +109,13 @@ class ShipApi:
             return ShipCooldown(**response["data"])
         return response
 
+    async def get_ship_nav(self, symbol: str) -> ShipNav | ApiError:
+        endpoint = self.base_endpoint + f"/{symbol}/nav"
+        response = await self.client.send("get", endpoint)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return ShipNav(**response["data"])
+
     async def jettison_cargo(
         self, symbol: str, item_symbol: str, units: int
     ) -> ShipCargo | ApiError:
