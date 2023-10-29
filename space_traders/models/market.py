@@ -24,8 +24,10 @@ class MarketItem(Base):
 
 class MarketTradeGoods(Base):
     symbol: str = Field(...)
+    type: str = Field(...)
     trade_volume: int = Field(..., alias="tradeVolume")
     supply: str = Field(...)
+    activity: str = Field(...)
     purchase_price: int = Field(..., alias="purchasePrice")
     sell_price: int = Field(..., alias="sellPrice")
 
