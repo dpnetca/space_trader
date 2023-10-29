@@ -1,6 +1,8 @@
-from pydantic import Field
-from space_traders.models.base_model import Base
 from typing import Optional
+
+from pydantic import Field
+
+from space_traders.models.base_model import Base
 
 
 class SystemWaypointOrbitals(Base):
@@ -13,7 +15,7 @@ class SystemWaypoint(Base):
     x: int = Field(...)
     y: int = Field(...)
     orbitals: list[SystemWaypointOrbitals] = Field(...)
-    orbits: str = Field(...)
+    orbits: Optional[str] = Field(None)
 
 
 class SystemFaction(Base):
