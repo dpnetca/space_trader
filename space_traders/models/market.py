@@ -27,7 +27,7 @@ class MarketTradeGoods(Base):
     type: str = Field(...)
     trade_volume: int = Field(..., alias="tradeVolume")
     supply: str = Field(...)
-    activity: str = Field(...)
+    activity: Optional[str] = Field(None)
     purchase_price: int = Field(..., alias="purchasePrice")
     sell_price: int = Field(..., alias="sellPrice")
 
