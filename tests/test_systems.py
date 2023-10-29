@@ -583,9 +583,7 @@ class TestSystems:
         assert response == expected_response
 
     @pytest.mark.asyncio
-    async def test_supply_construction_site_without_system(
-        self, st: SpaceTrader
-    ):
+    async def test_supply_construction_site_with_system(self, st: SpaceTrader):
         response = await st.system.supply_construction_site(
             "ship", "trade", 1, "waypoint", "system"
         )
