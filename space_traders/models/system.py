@@ -3,11 +3,17 @@ from space_traders.models.base_model import Base
 from typing import Optional
 
 
+class SystemWaypointOrbitals(Base):
+    symbol: str = Field(...)
+
+
 class SystemWaypoint(Base):
     symbol: str = Field(...)
     type: str = Field(...)
     x: int = Field(...)
     y: int = Field(...)
+    orbitals: list[SystemWaypointOrbitals] = Field(...)
+    orbits: str = Field(...)
 
 
 class SystemFaction(Base):
