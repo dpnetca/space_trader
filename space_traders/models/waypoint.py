@@ -59,4 +59,6 @@ class Waypoint(Base):
     traits: list[WaypointTrait] = Field(...)
     modifiers: Optional[list[WaypointModifier]] = Field(default_factory=list)
     chart: Optional[Chart] = Field(None)
-    is_under_construction: bool = Field(..., alias="isUnderConstruction")
+    is_under_construction: Optional[bool] = Field(
+        None, alias="isUnderConstruction"
+    )
