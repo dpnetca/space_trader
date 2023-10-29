@@ -13,6 +13,7 @@ from .ship import (
     ShipFuel,
     ShipMounts,
     ShipNav,
+    ShipSiphon,
     ShipyardTransaction,
     ShipModificationTransaction,
     RefinedGood,
@@ -72,6 +73,12 @@ class ContractCargo(BaseModel):
 class CooldownExtractionCargo(BaseModel):
     cooldown: ShipCooldown = Field(...)
     extraction: ShipExtraction = Field(...)
+    cargo: ShipCargo = Field(...)
+
+
+class CooldownSiphonCargo(BaseModel):
+    cooldown: ShipCooldown = Field(...)
+    siphon: ShipSiphon = Field(...)
     cargo: ShipCargo = Field(...)
 
 

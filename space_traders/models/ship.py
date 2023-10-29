@@ -195,3 +195,13 @@ class ShipModificationTransaction(BaseModel):
 class RefinedGood(BaseModel):
     trade_symbol: str = Field(..., alias="tradeSymbol")
     units: int = Field(...)
+
+
+class ShipSiphonYield(BaseModel):
+    symbol: str = Field(...)
+    units: int = Field(...)
+
+
+class ShipSiphon(BaseModel):
+    symbol: str = Field(..., alias="shipSymbol")
+    siphon_yield: ShipSiphonYield = Field(..., alias="yield")

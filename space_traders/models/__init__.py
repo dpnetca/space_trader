@@ -30,6 +30,7 @@ from .api_response import (
     ChartWaypoint,
     ContractCargo,
     CooldownExtractionCargo,
+    CooldownSiphonCargo,
     CooldownNav,
     CooldownShips,
     CooldownSurveys,

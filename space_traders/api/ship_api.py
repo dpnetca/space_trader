@@ -13,6 +13,7 @@ from space_traders.models import (
     CargoCooldownProducedConsumed,
     Contract,
     CooldownExtractionCargo,
+    CooldownSiphonCargo,
     CooldownNav,
     CooldownShips,
     CooldownSurveys,
@@ -234,6 +235,15 @@ class ShipApi:
         if "error" in response.keys():
             return ApiError(**response)
         return CooldownWaypoints(**response["data"])
+
+    async def siphon_resources(
+        self, symbol: str
+    ) -> CooldownSiphonCargo | ApiError:
+        endpoint = self.base_endpoint + f"/{symbol}/siphon"
+        response = await self.client.send("post", endpoint)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return CooldownSiphonCargo(**response["data"])
 
     async def ship_refine(
         self, symbol: str, produce: str
