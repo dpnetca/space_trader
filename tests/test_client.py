@@ -16,7 +16,7 @@ class TestClient:
         assert response.status_code == 404 or response.status_code == 422
 
     @pytest.mark.asyncio
-    async def test_valid_send_get(self, st: SpaceTrader):
+    async def test_unauthorized_send_get(self, st: SpaceTrader):
         response = await st.client.send("get", "", auth=False)
         assert isinstance(response, dict)
 
@@ -36,6 +36,61 @@ class TestClient:
         headers = {"Authorization": f"Bearer xxx"}
         response = await st.client._get(
             st.client.base_url + "/my/agent", headers
+        )
+        assert response.status_code == 200
+
+    @pytest.mark.asyncio
+    async def test_unauthorized_send_post(self, st: SpaceTrader):
+        data = {"faction": "COSMIC", "symbol": "BADGER", "email": "string"}
+        response = await st.client.send(
+            "post", "/register", data=data, auth=False
+        )
+        assert isinstance(response, dict)
+
+    @pytest.mark.asyncio
+    async def test_authorized_send_post(self, st: SpaceTrader):
+        st.client.token = "valid"
+        response = await st.client.send("post", "/my/contracts/id/accept")
+        assert isinstance(response, dict)
+
+    @pytest.mark.asyncio
+    async def test_unauthorized_post(self, st: SpaceTrader):
+        response = await st.client._post(
+            st.client.base_url + "/my/contracts/id/accept"
+        )
+        assert response.status_code == 401
+
+    @pytest.mark.asyncio
+    async def test_authorized_post(self, st: SpaceTrader):
+        headers = {"Authorization": f"Bearer xxx"}
+        response = await st.client._post(
+            st.client.base_url + "/my/contracts/id/accept", headers
+        )
+        assert response.status_code == 200
+
+    @pytest.mark.asyncio
+    async def test_authorized_send_patch(self, st: SpaceTrader):
+        st.client.token = "valid"
+        data = {"flightMode": "CRUISE"}
+        response = await st.client.send(
+            "patch", "/my/ships/symbol/nav", data=data
+        )
+        assert isinstance(response, dict)
+
+    @pytest.mark.asyncio
+    async def test_unauthorized_patch(self, st: SpaceTrader):
+        data = {"flightMode": "CRUISE"}
+        response = await st.client._patch(
+            st.client.base_url + "/my/ships/symbol/nav", data=data
+        )
+        assert response.status_code == 401
+
+    @pytest.mark.asyncio
+    async def test_authorized_patch(self, st: SpaceTrader):
+        data = {"flightMode": "CRUISE"}
+        headers = {"Authorization": f"Bearer xxx"}
+        response = await st.client._patch(
+            st.client.base_url + "/my/ships/symbol/nav", headers, data=data
         )
         assert response.status_code == 200
 
