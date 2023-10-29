@@ -10,6 +10,7 @@ from space_traders.models import (
     AgentShipTransaction,
     ApiError,
     ChartWaypoint,
+    CargoCooldownProducedConsumed,
     Contract,
     CooldownExtractionCargo,
     CooldownNav,
@@ -239,6 +240,16 @@ class ShipApi:
             return ApiError(**response)
         return CooldownWaypoints(**response["data"])
 
+    async def ship_refine(
+        self, symbol: str, produce: str
+    ) -> CargoCooldownProducedConsumed | ApiError:
+        endpoint = self.base_endpoint + f"/{symbol}/refine"
+        data = {"produce": produce}
+        response = await self.client.send("post", endpoint, data=data)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return CargoCooldownProducedConsumed(**response["data"])
+
     async def transfer_cargo(
         self, symbol: str, trade_symbol: str, units: int, target_ship: str
     ) -> ShipCargo | ApiError:
@@ -264,8 +275,6 @@ class ShipApi:
         return FuelNav(**response["data"])
 
     # following still need implementation
-    async def ship_refine(self):
-        raise NotImplemented
 
     async def patch_ship_nav(self):
         raise NotImplemented

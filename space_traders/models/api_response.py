@@ -15,6 +15,7 @@ from .ship import (
     ShipNav,
     ShipyardTransaction,
     ShipModificationTransaction,
+    RefinedGood,
 )
 from .system import System
 from .survey import Survey
@@ -49,6 +50,13 @@ class AgentShipTransaction(BaseModel):
     agent: Agent = Field(...)
     ship: Ship = Field(...)
     transaction: ShipyardTransaction = Field(...)
+
+
+class CargoCooldownProducedConsumed(BaseModel):
+    cargo: ShipCargo = Field(...)
+    cooldown: ShipCooldown = Field(...)
+    produced: list[RefinedGood] = Field(...)
+    consumed: list[RefinedGood] = Field(...)
 
 
 class ChartWaypoint(BaseModel):

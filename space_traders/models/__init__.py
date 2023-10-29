@@ -26,6 +26,7 @@ from .api_response import (
     AgentFuelTransaction,
     AgentMountCargoTransaction,
     AgentShipTransaction,
+    CargoCooldownProducedConsumed,
     ChartWaypoint,
     ContractCargo,
     CooldownExtractionCargo,

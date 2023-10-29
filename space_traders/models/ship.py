@@ -190,3 +190,8 @@ class ShipModificationTransaction(BaseModel):
     trade_symbol: str = Field(..., alias="tradeSymbol")
     total_price: int = Field(..., alias="totalPrice")
     timestamp: datetime = Field(...)
+
+
+class RefinedGood(BaseModel):
+    trade_symbol: str = Field(..., alias="tradeSymbol")
+    units: int = Field(...)
