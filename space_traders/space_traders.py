@@ -23,6 +23,9 @@ class SpaceTrader:
         return self
 
     async def __aexit__(self, exc_type, exc_value, traceback) -> None:
+        await self.close()
+
+    async def close(self) -> None:
         logger.info("Exiting SpaceTrader")
         await self.client.close()
 
