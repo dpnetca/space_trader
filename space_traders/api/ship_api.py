@@ -21,6 +21,7 @@ from space_traders.models import (
     CooldownWaypoints,
     FuelNav,
     ListShips,
+    NavCooldownTransaction,
     Meta,
     Ship,
     ShipCargo,
@@ -122,14 +123,14 @@ class ShipApi:
         return ShipCargo(**response["data"]["cargo"])
 
     async def jump_ship(
-        self, symbol: str, system_symbol: str
-    ) -> CooldownNav | ApiError:
+        self, symbol: str, waypoint_symbol: str
+    ) -> NavCooldownTransaction | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}/jump"
-        data = {"systemSymbol": system_symbol}
+        data = {"waypointSymbol": waypoint_symbol}
         response = await self.client.send("post", endpoint, data=data)
         if "error" in response.keys():
             return ApiError(**response)
-        return CooldownNav(**response["data"])
+        return NavCooldownTransaction(**response["data"])
 
     async def list_all_ships(self) -> List[Ship] | ApiError:
         response = await paginator(self.client, "get", self.base_endpoint)

@@ -43,5 +43,6 @@ from .api_response import (
     ListShips,
     ListSystems,
     ListWaypoints,
+    NavCooldownTransaction,
     RegisterNewAgent,
 )

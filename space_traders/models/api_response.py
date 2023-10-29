@@ -87,6 +87,12 @@ class CooldownNav(BaseModel):
     nav: ShipNav = Field(...)
 
 
+class NavCooldownTransaction(BaseModel):
+    nav: ShipNav = Field(...)
+    cooldown: ShipCooldown = Field(...)
+    transaction: MarketTransaction = Field(...)
+
+
 class CooldownShips(BaseModel):
     cooldown: ShipCooldown = Field(...)
     ships: list[Ship] = Field(...)
