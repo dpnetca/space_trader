@@ -218,6 +218,16 @@ class ShipApi:
             return ApiError(**response)
         return AgentFuelTransaction(**response["data"])
 
+    async def remove_mount(
+        self, symbol: str, mount_symbol: str
+    ) -> AgentMountCargoTransaction | ApiError:
+        endpoint = self.base_endpoint + f"/{symbol}/mounts/remove"
+        data = {"symbol": mount_symbol}
+        response = await self.client.send("post", endpoint, data=data)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return AgentMountCargoTransaction(**response["data"])
+
     async def sell_cargo(
         self, symbol: str, item_symbol: str, units: int
     ) -> AgentCargoTransaction | ApiError:
@@ -293,8 +303,3 @@ class ShipApi:
         if "error" in response.keys():
             return ApiError(**response)
         return FuelNav(**response["data"])
-
-    # following still need implementation
-
-    async def remove_mount(self):
-        raise NotImplemented
