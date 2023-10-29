@@ -10,6 +10,18 @@ class Chart(BaseModel):
     submitted_on: Optional[datetime] = Field(None, alias="submittedOn")
 
 
+class ConstructionMaterial(BaseModel):
+    trade_symbol: str = Field(..., alias="tradeSymbol")
+    required: int = Field(...)
+    fulfilled: int = Field(...)
+
+
+class ConstructionSite(BaseModel):
+    symbol: str = Field(...)
+    materials: list[ConstructionMaterial] = Field(...)
+    is_complete: bool = Field(..., alias="isComplete")
+
+
 class Jumpgate(BaseModel):
     connections: list[str] = Field(...)
 

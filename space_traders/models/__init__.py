@@ -16,7 +16,7 @@ from .ship import (
 from .status import Status
 from .survey import Survey
 from .system import System
-from .waypoint import Jumpgate, Waypoint
+from .waypoint import Jumpgate, Waypoint, ConstructionSite
 
 ## These must be imported last
 from .api_error import ApiError
@@ -29,6 +29,7 @@ from .api_response import (
     CargoCooldownProducedConsumed,
     ChartWaypoint,
     ContractCargo,
+    ConstructionCargo,
     CooldownExtractionCargo,
     CooldownSiphonCargo,
     CooldownShips,

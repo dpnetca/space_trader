@@ -2,6 +2,8 @@ from typing import List
 
 from space_traders.models import (
     ApiError,
+    ConstructionCargo,
+    ConstructionSite,
     Jumpgate,
     Market,
     Shipyard,
@@ -104,6 +106,47 @@ class SystemApi:
         if "error" in response.keys():
             return ApiError(**response)
         return Shipyard(**response["data"])
+
+    async def get_construction_site(
+        self,
+        waypoint_symbol: str,
+        system_symbol: str | None = None,
+    ) -> ConstructionSite | ApiError:
+        if system_symbol is None:
+            system_symbol = self._get_system_from_waypoint(waypoint_symbol)
+        endpoint = (
+            self.base_endpoint
+            + f"/{system_symbol}/waypoints/{waypoint_symbol}/construction"
+        )
+        response = await self.client.send("get", endpoint)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return ConstructionSite(**response["data"])
+
+    async def supply_construction_site(
+        self,
+        ship_symbol: str,
+        trade_symbol: str,
+        units: int,
+        waypoint_symbol: str,
+        system_symbol: str | None = None,
+    ) -> ConstructionCargo | ApiError:
+        if system_symbol is None:
+            system_symbol = self._get_system_from_waypoint(waypoint_symbol)
+        endpoint = (
+            self.base_endpoint
+            + f"/{system_symbol}/waypoints"
+            + f"/{waypoint_symbol}/construction/supply"
+        )
+        data = {
+            "shipSymbol": ship_symbol,
+            "tradeSymbol": trade_symbol,
+            "units": units,
+        }
+        response = await self.client.send("post", endpoint, data=data)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return ConstructionCargo(**response["data"])
 
     @staticmethod
     def _get_system_from_waypoint(waypoint: str) -> str:
