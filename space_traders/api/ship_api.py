@@ -137,13 +137,13 @@ class ShipApi:
 
     async def navigate_ship(
         self, symbol: str, waypoint_symbol: str
-    ) -> ShipNav | ApiError:
+    ) -> FuelNav | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}/navigate"
         data = {"waypointSymbol": waypoint_symbol}
         response = await self.client.send("post", endpoint, data=data)
         if "error" in response.keys():
             return ApiError(**response)
-        return ShipNav(**response["data"]["nav"])
+        return FuelNav(**response["data"])
 
     async def negotiate_contract(self, symbol: str) -> Contract | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}/negotiate/contract"
