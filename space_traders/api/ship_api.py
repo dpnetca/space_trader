@@ -23,7 +23,7 @@ from space_traders.models import (
     Ship,
     ShipCargo,
     ShipCooldown,
-    ShipMounts,
+    ShipMount,
     ShipNav,
     Survey,
 )
@@ -77,12 +77,12 @@ class ShipApi:
             return ApiError(**response)
         return CooldownExtractionCargo(**response["data"])
 
-    async def get_mounts(self, symbol: str) -> List[ShipMounts] | ApiError:
+    async def get_mounts(self, symbol: str) -> List[ShipMount] | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}/mounts"
         response = await self.client.send("get", endpoint)
         if "error" in response.keys():
             return ApiError(**response)
-        return [ShipMounts(**m) for m in response["data"]]
+        return [ShipMount(**m) for m in response["data"]]
 
     async def get_ship(self, symbol: str) -> Ship | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}"

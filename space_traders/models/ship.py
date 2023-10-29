@@ -77,7 +77,7 @@ class ShipEngine(BaseModel):
     requirements: Optional[ShipRequirements] = Field(None)
 
 
-class ShipModules(BaseModel):
+class ShipModule(BaseModel):
     symbol: str = Field(...)
     capacity: Optional[int] = Field(None)
     range: Optional[int] = Field(None)
@@ -86,7 +86,7 @@ class ShipModules(BaseModel):
     requirements: ShipRequirements = Field(...)
 
 
-class ShipMounts(BaseModel):
+class ShipMount(BaseModel):
     symbol: str = Field(...)
     name: Optional[str] = Field(None)
     description: Optional[str] = Field(None)
@@ -135,8 +135,8 @@ class Ship(BaseModel):
     reactor: Optional[ShipReactor] = Field(None)
     engine: ShipEngine = Field(...)
     cooldown: Optional[ShipCooldown] = Field(None)
-    modules: Optional[list[ShipModules]] = Field(None)
-    mounts: Optional[list[ShipMounts]] = Field(None)
+    modules: Optional[list[ShipModule]] = Field(None)
+    mounts: Optional[list[ShipMount]] = Field(None)
     cargo: Optional[ShipCargo] = Field(None)
     fuel: Optional[ShipFuel] = Field(None)
 
@@ -167,8 +167,8 @@ class ShipyardShip(BaseModel):
     frame: ShipFrame = Field(...)
     reactor: ShipReactor = Field(...)
     engine: ShipEngine = Field(...)
-    modules: list[ShipModules] = Field(...)
-    mounts: list[ShipMounts] = Field(...)
+    modules: list[ShipModule] = Field(...)
+    mounts: list[ShipMount] = Field(...)
     crew: ShipCrew = Field(...)
 
 

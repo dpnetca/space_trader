@@ -11,7 +11,7 @@ from .ship import (
     ShipCooldown,
     ShipExtraction,
     ShipFuel,
-    ShipMounts,
+    ShipMount,
     ShipNav,
     ShipSiphon,
     ShipyardTransaction,
@@ -42,7 +42,7 @@ class AgentFuelTransaction(BaseModel):
 
 class AgentMountCargoTransaction(BaseModel):
     agent: Agent = Field(...)
-    mounts: list[ShipMounts] = Field(...)
+    mounts: list[ShipMount] = Field(...)
     cargo: ShipCargo = Field(...)
     transaction: ShipModificationTransaction = Field(...)
 
