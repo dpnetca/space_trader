@@ -107,11 +107,11 @@ class Client:
                 method, endpoint, auth, headers, data, handle_429, **kwargs
             )
 
-        if "error" in response_data.keys():
-            log.warning(
-                f"ERROR {response_data['error'].get('code')}: "
-                f"{response_data['error'].get('message')}"
-            )
+        # if "error" in response_data.keys():
+        #     log.warning(
+        #         f"ERROR {response_data['error'].get('code')}: "
+        #         f"{response_data['error'].get('message')}"
+        #     )
         return response_data
 
     async def _get(
