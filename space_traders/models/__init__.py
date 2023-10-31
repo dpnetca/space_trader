@@ -3,7 +3,7 @@ from .contract import Contract
 from .faction import Faction
 from .market import Market, MarketTransaction
 from .meta import Meta
-from .ship import (
+from .fleet import (
     Ship,
     ShipCargo,
     ShipCooldown,

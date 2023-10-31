@@ -32,7 +32,7 @@ from space_traders.utils import paginator
 log = logging.getLogger("SpaceTrader")
 
 
-class ShipApi:
+class FleetApi:
     def __init__(self, client: Client) -> None:
         self.client = client
         self.base_endpoint = "/my/ships"

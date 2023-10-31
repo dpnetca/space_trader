@@ -1,8 +1,9 @@
-from typing import Callable
-from .client import Client
-from .api import AgentApi, ContractApi, FactionApi, ShipApi, SystemApi
-from .models import Status, RegisterNewAgent
 import logging
+from typing import Callable
+
+from .client import Client
+from .models import RegisterNewAgent, Status
+from .api import AgentApi, ContractApi, FactionApi, FleetApi, SystemApi
 
 logger = logging.getLogger("SpaceTrader")
 
@@ -16,7 +17,7 @@ class SpaceTrader:
         self.agent = AgentApi(self.client)
         self.contract = ContractApi(self.client)
         self.faction = FactionApi(self.client)
-        self.ship = ShipApi(self.client)
+        self.fleet = FleetApi(self.client)
         self.system = SystemApi(self.client)
 
     async def __aenter__(self) -> None:

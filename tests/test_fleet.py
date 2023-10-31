@@ -25,10 +25,10 @@ from space_traders.models import (
 )
 
 
-class TestShip:
+class TestFleet:
     @pytest.mark.asyncio
     async def test_create_chart(self, st: SpaceTrader):
-        response = await st.ship.create_chart("ship")
+        response = await st.fleet.create_chart("ship")
         expected = {
             "data": {
                 "chart": {
@@ -73,7 +73,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_create_survey(self, st: SpaceTrader):
-        response = await st.ship.create_survey("ship")
+        response = await st.fleet.create_survey("ship")
         expected = {
             "data": {
                 "cooldown": {
@@ -98,7 +98,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_dock_ship(self, st: SpaceTrader):
-        response = await st.ship.dock_ship("ship")
+        response = await st.fleet.dock_ship("ship")
         expected = {
             "data": {
                 "nav": {
@@ -139,7 +139,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_extract_resources(self, st: SpaceTrader):
-        response = await st.ship.extract_resources("ship")
+        response = await st.fleet.extract_resources("ship")
         expected = {
             "data": {
                 "cooldown": {
@@ -180,7 +180,7 @@ class TestShip:
                 "size": "SMALL",
             }
         )
-        response = await st.ship.extract_survey("ship", survey)
+        response = await st.fleet.extract_survey("ship", survey)
         expected = {
             "data": {
                 "cooldown": {
@@ -212,7 +212,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_get_mounts(self, st: SpaceTrader):
-        response = await st.ship.get_mounts("ship")
+        response = await st.fleet.get_mounts("ship")
         expected = {
             "data": [
                 {
@@ -230,7 +230,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_get_ship(self, st: SpaceTrader):
-        response = await st.ship.get_ship("ship")
+        response = await st.fleet.get_ship("ship")
         expected = {
             "data": {
                 "symbol": "string",
@@ -365,7 +365,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_get_ship_cargo(self, st: SpaceTrader):
-        response = await st.ship.get_ship_cargo("ship")
+        response = await st.fleet.get_ship_cargo("ship")
         expected = {
             "data": {
                 "capacity": 0,
@@ -385,7 +385,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_get_ship_cooldown(self, st: SpaceTrader):
-        response = await st.ship.get_ship_cooldown("ship")
+        response = await st.fleet.get_ship_cooldown("ship")
         expected = {
             "data": {
                 "shipSymbol": "string",
@@ -399,7 +399,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_get_ship_nav(self, st: SpaceTrader):
-        response = await st.ship.get_ship_nav("ship")
+        response = await st.fleet.get_ship_nav("ship")
         expected = {
             "data": {
                 "systemSymbol": "string",
@@ -438,7 +438,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_install_mount(self, st: SpaceTrader):
-        response = await st.ship.install_mount("ship", "MOUNT_MINING_LASER_I")
+        response = await st.fleet.install_mount("ship", "MOUNT_MINING_LASER_I")
         expected = {
             "data": {
                 "agent": {
@@ -485,7 +485,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_jettison_cargo(self, st: SpaceTrader):
-        response = await st.ship.jettison_cargo("ship", "PRECIOUS_STONES", 1)
+        response = await st.fleet.jettison_cargo("ship", "PRECIOUS_STONES", 1)
         expected = {
             "data": {
                 "cargo": {
@@ -507,7 +507,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_jump_ship(self, st: SpaceTrader):
-        response = await st.ship.jump_ship("ship", "waypoint")
+        response = await st.fleet.jump_ship("ship", "waypoint")
         expected = {
             "data": {
                 "nav": {
@@ -564,7 +564,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_list_all_ships(self, st: SpaceTrader):
-        response = await st.ship.list_all_ships()
+        response = await st.fleet.list_all_ships()
         expected = {
             "data": [
                 {
@@ -702,7 +702,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_navigate_ship(self, st: SpaceTrader):
-        response = await st.ship.navigate_ship("ship", "waypoint")
+        response = await st.fleet.navigate_ship("ship", "waypoint")
         expected = {
             "data": {
                 "fuel": {
@@ -751,7 +751,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_negotiate_contract(self, st: SpaceTrader):
-        response = await st.ship.negotiate_contract("ship")
+        response = await st.fleet.negotiate_contract("ship")
         expected = {
             "data": {
                 "contract": {
@@ -782,7 +782,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_orbit_ship(self, st: SpaceTrader):
-        response = await st.ship.orbit_ship("ship")
+        response = await st.fleet.orbit_ship("ship")
         expected = {
             "data": {
                 "nav": {
@@ -823,7 +823,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_patch_ship_nav(self, st: SpaceTrader):
-        response = await st.ship.patch_ship_nav("ship", "CRUISE")
+        response = await st.fleet.patch_ship_nav("ship", "CRUISE")
         expected = {
             "data": {
                 "systemSymbol": "string",
@@ -862,7 +862,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_purchase_cargo(self, st: SpaceTrader):
-        response = await st.ship.purchase_cargo("ship", "PRECIOUS_STONES", 1)
+        response = await st.fleet.purchase_cargo("ship", "PRECIOUS_STONES", 1)
         expected = {
             "data": {
                 "agent": {
@@ -902,7 +902,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_purchase_ship(self, st: SpaceTrader):
-        response = await st.ship.purchase_ship("SHIP_PROBE", "waypoint")
+        response = await st.fleet.purchase_ship("SHIP_PROBE", "waypoint")
         expected = {
             "data": {
                 "agent": {
@@ -1054,7 +1054,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_refuel_ship(self, st: SpaceTrader):
-        response = await st.ship.refuel_ship("ship")
+        response = await st.fleet.refuel_ship("ship")
         expected = {
             "data": {
                 "agent": {
@@ -1090,7 +1090,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_remove_mount(self, st: SpaceTrader):
-        response = await st.ship.remove_mount("ship", "MOUNT_MINING_LASER_I")
+        response = await st.fleet.remove_mount("ship", "MOUNT_MINING_LASER_I")
         expected = {
             "data": {
                 "agent": {
@@ -1137,7 +1137,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_scan_ships(self, st: SpaceTrader):
-        response = await st.ship.scan_ships("ship")
+        response = await st.fleet.scan_ships("ship")
         expected = {
             "data": {
                 "cooldown": {
@@ -1198,7 +1198,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_scan_systems(self, st: SpaceTrader):
-        response = await st.ship.scan_systems("ship")
+        response = await st.fleet.scan_systems("ship")
         expected = {
             "data": {
                 "cooldown": {
@@ -1224,7 +1224,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_scan_waypoints(self, st: SpaceTrader):
-        response = await st.ship.scan_waypoints("ship")
+        response = await st.fleet.scan_waypoints("ship")
         expected = {
             "data": {
                 "cooldown": {
@@ -1263,7 +1263,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_sell_cargo(self, st: SpaceTrader):
-        response = await st.ship.sell_cargo("ship", "PRECIOUS_STONES", 1)
+        response = await st.fleet.sell_cargo("ship", "PRECIOUS_STONES", 1)
         expected = {
             "data": {
                 "agent": {
@@ -1303,7 +1303,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_ship_refine(self, st: SpaceTrader):
-        response = await st.ship.ship_refine("ship", "IRON")
+        response = await st.fleet.ship_refine("ship", "IRON")
         expected = {
             "data": {
                 "cargo": {
@@ -1333,7 +1333,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_siphon_resources(self, st: SpaceTrader):
-        response = await st.ship.siphon_resources("ship")
+        response = await st.fleet.siphon_resources("ship")
         expected = {
             "data": {
                 "cooldown": {
@@ -1365,7 +1365,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_transfer_cargo(self, st: SpaceTrader):
-        response = await st.ship.transfer_cargo(
+        response = await st.fleet.transfer_cargo(
             "ship", "PRECIOUS_STONES", 1, "target_ship"
         )
         expected = {
@@ -1389,7 +1389,7 @@ class TestShip:
 
     @pytest.mark.asyncio
     async def test_warp_ship(self, st: SpaceTrader):
-        response = await st.ship.warp_ship("ship", "waypoint")
+        response = await st.fleet.warp_ship("ship", "waypoint")
         expected = {
             "data": {
                 "fuel": {
