@@ -18,9 +18,7 @@ async def paginator(
     params = {"limit": limit, "page": page}
     if "params" in kwargs.keys():
         param_kwargs = kwargs.pop("params")
-        print(param_kwargs)
         params = param_kwargs | params
-        print(params)
     if data is None:
         data = []
     r = await client.send(method, endpoint, params=params, **kwargs)
