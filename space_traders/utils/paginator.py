@@ -17,7 +17,10 @@ async def paginator(
 ) -> List | ApiError:
     params = {"limit": limit, "page": page}
     if "params" in kwargs.keys():
-        params = kwargs.pop("params") | params
+        param_kwargs = kwargs.pop("params")
+        print(param_kwargs)
+        params = param_kwargs | params
+        print(params)
     if data is None:
         data = []
     r = await client.send(method, endpoint, params=params, **kwargs)
@@ -30,6 +33,7 @@ async def paginator(
     meta = Meta(**r["meta"])
     pages = ceil(meta.total / meta.limit)
     if page < pages:
+        kwargs["params"] = param_kwargs
         response = await paginator(
             client, method, endpoint, limit, page + 1, data, **kwargs
         )
