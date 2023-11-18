@@ -166,7 +166,7 @@ class ShipyardShip(Base):
     name: str = Field(...)
     description: str = Field(...)
     supply: str = Field(...)
-    activity: str = Field(...)
+    activity: Optional[str] = Field(None)
     purchase_price: int = Field(..., alias="purchasePrice")
     frame: ShipFrame = Field(...)
     reactor: ShipReactor = Field(...)
