@@ -210,10 +210,20 @@ class FleetApi:
         return AgentShipTransaction(**response["data"])
 
     async def refuel_ship(
-        self, symbol: str
+        self,
+        symbol: str,
+        units: int | None = None,
+        from_cargo: bool | None = None,
     ) -> AgentFuelTransaction | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}/refuel"
-        response = await self.client.send("post", endpoint)
+
+        data = {}
+        if units is not None:
+            data["units"] = units
+        if from_cargo is not None:
+            data["fromCargo"] = from_cargo
+
+        response = await self.client.send("post", endpoint, data=data)
         if "error" in response.keys():
             return ApiError(**response)
         return AgentFuelTransaction(**response["data"])

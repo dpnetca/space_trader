@@ -85,6 +85,7 @@ class ShipModule(Base):
     range: Optional[int] = Field(None)
     name: Optional[str] = Field(None)
     description: str = Field(...)
+    production: Optional[list[str]] = Field(None)
     requirements: ShipRequirements = Field(...)
 
 
