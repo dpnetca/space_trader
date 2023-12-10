@@ -360,7 +360,7 @@ class TestSystems:
                 ],
                 "tradeGoods": [
                     {
-                        "symbol": "string",
+                        "symbol": "PRECIOUS_STONES",
                         "type": "EXPORT",
                         "tradeVolume": 1,
                         "supply": "SCARCE",
@@ -415,7 +415,7 @@ class TestSystems:
                 ],
                 "tradeGoods": [
                     {
-                        "symbol": "string",
+                        "symbol": "PRECIOUS_STONES",
                         "type": "EXPORT",
                         "tradeVolume": 1,
                         "supply": "SCARCE",
@@ -704,7 +704,7 @@ class TestSystems:
                     "units": 0,
                     "inventory": [
                         {
-                            "symbol": "string",
+                            "symbol": "PRECIOUS_STONES",
                             "name": "string",
                             "description": "string",
                             "units": 1,
@@ -739,7 +739,7 @@ class TestSystems:
                     "units": 0,
                     "inventory": [
                         {
-                            "symbol": "string",
+                            "symbol": "PRECIOUS_STONES",
                             "name": "string",
                             "description": "string",
                             "units": 1,

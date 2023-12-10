@@ -12,7 +12,7 @@ class TestAgent:
                 "accountId": "string",
                 "symbol": "string",
                 "headquarters": "string",
-                "credits": -9223372036854776000,
+                "credits": -9007199254740991,
                 "startingFaction": "string",
                 "shipCount": 0,
             }
@@ -28,7 +28,7 @@ class TestAgent:
                 "accountId": "string",
                 "symbol": "string",
                 "headquarters": "string",
-                "credits": -9223372036854776000,
+                "credits": -9007199254740991,
                 "startingFaction": "string",
                 "shipCount": 0,
             }
@@ -45,7 +45,7 @@ class TestAgent:
                     "accountId": "string",
                     "symbol": "string",
                     "headquarters": "string",
-                    "credits": -9223372036854776000,
+                    "credits": -9007199254740991,
                     "startingFaction": "string",
                     "shipCount": 0,
                 }
