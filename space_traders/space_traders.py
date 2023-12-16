@@ -2,7 +2,7 @@ import logging
 from typing import Callable
 
 from .client import Client
-from .models import RegisterNewAgent, Status
+from .models import RegisterNewAgent, Status, ApiError
 from .api import AgentApi, ContractApi, FactionApi, FleetApi, SystemApi
 
 logger = logging.getLogger("SpaceTrader")
@@ -36,11 +36,12 @@ class SpaceTrader:
 
     async def register(
         self, name: str, faction: str, email: str = ""
-    ) -> RegisterNewAgent:
+    ) -> RegisterNewAgent | ApiError:
         endpoint = "/register"
         account = {"symbol": name, "faction": faction}
         if email:
             account["email"] = email
         r = await self.client.send("post", endpoint, data=account, auth=False)
-
+        if "error" in r.keys():
+            return ApiError(**r)
         return RegisterNewAgent(**r["data"])
