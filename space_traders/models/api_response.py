@@ -88,10 +88,11 @@ class CooldownSiphonCargo(Base):
     cargo: ShipCargo = Field(...)
 
 
-class NavCooldownTransaction(Base):
+class NavCooldownTransactionAgent(Base):
     nav: ShipNav = Field(...)
     cooldown: ShipCooldown = Field(...)
     transaction: MarketTransaction = Field(...)
+    agent: Agent = Field(...)
 
 
 class CooldownShips(Base):

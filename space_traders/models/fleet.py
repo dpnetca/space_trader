@@ -27,7 +27,6 @@ class ShipRequirements(Base):
 
 class ShipNavRoute(Base):
     destination: ShipNavRouteWaypoint = Field(...)
-    departure: Optional[ShipNavRouteWaypoint] = Field(None)  # deprecated
     origin: ShipNavRouteWaypoint = Field(...)
     departure_time: datetime = Field(..., alias="departureTime")
     arrival: datetime = Field(...)
@@ -157,6 +156,7 @@ class ShipExtraction(Base):
 class ShipyardTransaction(Base):
     waypoint_symbol: str = Field(..., alias="waypointSymbol")
     ship_symbol: str = Field(..., alias="shipSymbol")
+    shipType: str = Field(..., alias="shipType")
     price: int = Field(...)
     agent_symbol: str = Field(..., alias="agentSymbol")
     timestamp: datetime = Field(...)

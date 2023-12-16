@@ -15,7 +15,7 @@ from space_traders.models import (
     CooldownSystems,
     CooldownWaypoints,
     FuelNav,
-    NavCooldownTransaction,
+    NavCooldownTransactionAgent,
     Ship,
     ShipCooldown,
     ShipCargo,
@@ -106,13 +106,6 @@ class TestFleet:
                     "waypointSymbol": "string",
                     "route": {
                         "destination": {
-                            "symbol": "string",
-                            "type": "PLANET",
-                            "systemSymbol": "string",
-                            "x": 0,
-                            "y": 0,
-                        },
-                        "departure": {
                             "symbol": "string",
                             "type": "PLANET",
                             "systemSymbol": "string",
@@ -244,13 +237,6 @@ class TestFleet:
                     "waypointSymbol": "string",
                     "route": {
                         "destination": {
-                            "symbol": "string",
-                            "type": "PLANET",
-                            "systemSymbol": "string",
-                            "x": 0,
-                            "y": 0,
-                        },
-                        "departure": {
                             "symbol": "string",
                             "type": "PLANET",
                             "systemSymbol": "string",
@@ -412,13 +398,6 @@ class TestFleet:
                         "x": 0,
                         "y": 0,
                     },
-                    "departure": {
-                        "symbol": "string",
-                        "type": "PLANET",
-                        "systemSymbol": "string",
-                        "x": 0,
-                        "y": 0,
-                    },
                     "origin": {
                         "symbol": "string",
                         "type": "PLANET",
@@ -521,13 +500,6 @@ class TestFleet:
                             "x": 0,
                             "y": 0,
                         },
-                        "departure": {
-                            "symbol": "string",
-                            "type": "PLANET",
-                            "systemSymbol": "string",
-                            "x": 0,
-                            "y": 0,
-                        },
                         "origin": {
                             "symbol": "string",
                             "type": "PLANET",
@@ -557,9 +529,17 @@ class TestFleet:
                     "totalPrice": 0,
                     "timestamp": "2019-08-24T14:15:22Z",
                 },
+                "agent": {
+                    "accountId": "string",
+                    "symbol": "string",
+                    "headquarters": "string",
+                    "credits": -9007199254740991,
+                    "startingFaction": "string",
+                    "shipCount": 0,
+                },
             }
         }
-        expected_response = NavCooldownTransaction(**expected["data"])
+        expected_response = NavCooldownTransactionAgent(**expected["data"])
         assert response == expected_response
 
     @pytest.mark.asyncio
@@ -579,13 +559,6 @@ class TestFleet:
                         "waypointSymbol": "string",
                         "route": {
                             "destination": {
-                                "symbol": "string",
-                                "type": "PLANET",
-                                "systemSymbol": "string",
-                                "x": 0,
-                                "y": 0,
-                            },
-                            "departure": {
                                 "symbol": "string",
                                 "type": "PLANET",
                                 "systemSymbol": "string",
@@ -724,13 +697,6 @@ class TestFleet:
                             "x": 0,
                             "y": 0,
                         },
-                        "departure": {
-                            "symbol": "string",
-                            "type": "PLANET",
-                            "systemSymbol": "string",
-                            "x": 0,
-                            "y": 0,
-                        },
                         "origin": {
                             "symbol": "string",
                             "type": "PLANET",
@@ -796,13 +762,6 @@ class TestFleet:
                             "x": 0,
                             "y": 0,
                         },
-                        "departure": {
-                            "symbol": "string",
-                            "type": "PLANET",
-                            "systemSymbol": "string",
-                            "x": 0,
-                            "y": 0,
-                        },
                         "origin": {
                             "symbol": "string",
                             "type": "PLANET",
@@ -830,13 +789,6 @@ class TestFleet:
                 "waypointSymbol": "string",
                 "route": {
                     "destination": {
-                        "symbol": "string",
-                        "type": "PLANET",
-                        "systemSymbol": "string",
-                        "x": 0,
-                        "y": 0,
-                    },
-                    "departure": {
                         "symbol": "string",
                         "type": "PLANET",
                         "systemSymbol": "string",
@@ -925,13 +877,6 @@ class TestFleet:
                         "waypointSymbol": "string",
                         "route": {
                             "destination": {
-                                "symbol": "string",
-                                "type": "PLANET",
-                                "systemSymbol": "string",
-                                "x": 0,
-                                "y": 0,
-                            },
-                            "departure": {
                                 "symbol": "string",
                                 "type": "PLANET",
                                 "systemSymbol": "string",
@@ -1043,6 +988,7 @@ class TestFleet:
                 "transaction": {
                     "waypointSymbol": "string",
                     "shipSymbol": "string",
+                    "shipType": "string",
                     "price": 0,
                     "agentSymbol": "string",
                     "timestamp": "2019-08-24T14:15:22Z",
@@ -1159,13 +1105,6 @@ class TestFleet:
                             "waypointSymbol": "string",
                             "route": {
                                 "destination": {
-                                    "symbol": "string",
-                                    "type": "PLANET",
-                                    "systemSymbol": "string",
-                                    "x": 0,
-                                    "y": 0,
-                                },
-                                "departure": {
                                     "symbol": "string",
                                     "type": "PLANET",
                                     "systemSymbol": "string",
@@ -1405,13 +1344,6 @@ class TestFleet:
                     "waypointSymbol": "string",
                     "route": {
                         "destination": {
-                            "symbol": "string",
-                            "type": "PLANET",
-                            "systemSymbol": "string",
-                            "x": 0,
-                            "y": 0,
-                        },
-                        "departure": {
                             "symbol": "string",
                             "type": "PLANET",
                             "systemSymbol": "string",

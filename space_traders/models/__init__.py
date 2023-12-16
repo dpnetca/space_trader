@@ -37,6 +37,6 @@ from .api_response import (
     CooldownSystems,
     CooldownWaypoints,
     FuelNav,
-    NavCooldownTransaction,
+    NavCooldownTransactionAgent,
     RegisterNewAgent,
 )
