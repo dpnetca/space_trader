@@ -24,6 +24,7 @@ class ConstructionSite(Base):
 
 
 class Jumpgate(Base):
+    symbol: str = Field(...)
     connections: list[str] = Field(...)
 
 

@@ -65,13 +65,6 @@ class TestRegister:
                         "systemSymbol": "string",
                         "waypointSymbol": "string",
                         "route": {
-                            "departure": {  # deprecated
-                                "symbol": "string",
-                                "type": "PLANET",
-                                "systemSymbol": "string",
-                                "x": 0,
-                                "y": 0,
-                            },
                             "destination": {
                                 "symbol": "string",
                                 "type": "PLANET",

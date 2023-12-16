@@ -432,14 +432,14 @@ class TestSystems:
     @pytest.mark.asyncio
     async def test_get_jumpgate_without_system(self, st: SpaceTrader):
         response = await st.system.get_jumpgate("waypoint")
-        expected = {"data": {"connections": ["string"]}}
+        expected = {"data": {"symbol": "string", "connections": ["string"]}}
         expected_response = Jumpgate(**expected["data"])
         assert response == expected_response
 
     @pytest.mark.asyncio
     async def test_get_jumpgate_with_system(self, st: SpaceTrader):
         response = await st.system.get_jumpgate("waypoint", "system")
-        expected = {"data": {"connections": ["string"]}}
+        expected = {"data": {"symbol": "string", "connections": ["string"]}}
         expected_response = Jumpgate(**expected["data"])
         assert response == expected_response
 
@@ -454,6 +454,7 @@ class TestSystems:
                     {
                         "waypointSymbol": "string",
                         "shipSymbol": "string",
+                        "shipType": "string",
                         "price": 0,
                         "agentSymbol": "string",
                         "timestamp": "2019-08-24T14:15:22Z",
@@ -553,6 +554,7 @@ class TestSystems:
                     {
                         "waypointSymbol": "string",
                         "shipSymbol": "string",
+                        "shipType": "string",
                         "price": 0,
                         "agentSymbol": "string",
                         "timestamp": "2019-08-24T14:15:22Z",
