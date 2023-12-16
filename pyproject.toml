@@ -1,6 +1,6 @@
 [project]
 name = "space_trader"
-version = "0.1.7"
+version = "0.1.8"
 authors = [{name = "Denis", email="sikaynst@dpnet.ca"}]
 description = "Async SDK for spacetraders.io"
 readme = "README.MD"
