@@ -5,6 +5,20 @@ from pydantic import Field
 from space_traders.models.base_model import Base
 
 
+class RepairTransaction(Base):
+    waypoint_symbol: str = Field(..., alias="waypointSymbol")
+    ship_symbol: str = Field(..., alias="shipSymbol")
+    total_price: int = Field(..., alias="totalPrice")
+    timestamp: datetime = Field(...)
+
+
+class ScrapTransaction(Base):
+    waypoint_symbol: str = Field(..., alias="waypointSymbol")
+    ship_symbol: str = Field(..., alias="shipSymbol")
+    total_price: int = Field(..., alias="totalPrice")
+    timestamp: datetime = Field(...)
+
+
 class ShipRegistration(Base):
     name: str = Field(...)
     faction_symbol: str = Field(..., alias="factionSymbol")

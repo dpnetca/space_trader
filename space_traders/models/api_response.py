@@ -9,6 +9,8 @@ from .faction import Faction
 from .meta import Meta
 from .market import MarketTransaction
 from .fleet import (
+    RepairTransaction,
+    ScrapTransaction,
     Ship,
     ShipCargo,
     ShipCooldown,
@@ -48,6 +50,16 @@ class AgentMountCargoTransaction(Base):
     mounts: list[ShipMount] = Field(...)
     cargo: ShipCargo = Field(...)
     transaction: ShipModificationTransaction = Field(...)
+
+
+class AgentScrapTransaction(Base):
+    agent: Agent = Field(...)
+    transaction: ScrapTransaction = Field(...)
+
+
+class AgentRepairTransaction(Base):
+    agent: Agent = Field(...)
+    transaction: RepairTransaction = Field(...)
 
 
 class AgentShipTransaction(Base):

@@ -16,6 +16,8 @@ from space_traders.models import (
     CooldownWaypoints,
     FuelNavEvent,
     NavCooldownTransactionAgent,
+    RepairTransaction,
+    ScrapTransaction,
     Ship,
     ShipCooldown,
     ShipCargo,
@@ -241,6 +243,39 @@ class TestFleet:
             ]
         }
         expected_response = [ShipMount(**x) for x in expected["data"]]
+        assert response == expected_response
+
+    @pytest.mark.asyncio
+    async def test_get_scrap_ship(self, st: SpaceTrader):
+        response = await st.fleet.get_scrap_ship("ship")
+        expected = {
+            "data": {
+                "transaction": {
+                    "waypointSymbol": "string",
+                    "shipSymbol": "string",
+                    "totalPrice": 0,
+                    "timestamp": "2019-08-24T14:15:22Z"
+                }
+            }
+        }
+        expected_response = ScrapTransaction(**expected["data"]["transaction"])
+        assert response == expected_response
+
+    @pytest.mark.asyncio
+    async def test_get_repair_ship(self, st: SpaceTrader):
+        response = await st.fleet.get_repair_ship("ship")
+        expected = {
+            "data": {
+                "transaction": {
+                    "waypointSymbol": "string",
+                    "shipSymbol": "string",
+                    "totalPrice": 0,
+                    "timestamp": "2019-08-24T14:15:22Z"
+                }
+            }
+        }
+        expected_response = RepairTransaction(
+            **expected["data"]["transaction"])
         assert response == expected_response
 
     @pytest.mark.asyncio

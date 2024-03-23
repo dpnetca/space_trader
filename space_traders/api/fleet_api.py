@@ -4,6 +4,8 @@ import logging
 
 from space_traders.client import Client
 from space_traders.models import (
+    AgentRepairTransaction,
+    AgentScrapTransaction,
     AgentCargoTransaction,
     AgentFuelTransaction,
     AgentMountCargoTransaction,
@@ -20,6 +22,8 @@ from space_traders.models import (
     CooldownWaypoints,
     FuelNavEvent,
     NavCooldownTransactionAgent,
+    RepairTransaction,
+    ScrapTransaction,
     Ship,
     ShipCargo,
     ShipCooldown,
@@ -83,6 +87,20 @@ class FleetApi:
         if "error" in response.keys():
             return ApiError(**response)
         return [ShipMount(**m) for m in response["data"]]
+
+    async def get_repair_ship(self, symbol: str) -> RepairTransaction:
+        endpoint = self.base_endpoint + f"/{symbol}/repair"
+        response = await self.client.send("get", endpoint)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return RepairTransaction(**response["data"]["transaction"])
+
+    async def get_scrap_ship(self, symbol: str) -> ScrapTransaction:
+        endpoint = self.base_endpoint + f"/{symbol}/scrap"
+        response = await self.client.send("get", endpoint)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return ScrapTransaction(**response["data"]["transaction"])
 
     async def get_ship(self, symbol: str) -> Ship | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}"

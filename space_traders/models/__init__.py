@@ -4,6 +4,8 @@ from .faction import Faction
 from .market import Market, MarketTransaction
 from .meta import Meta
 from .fleet import (
+    RepairTransaction,
+    ScrapTransaction,
     Ship,
     ShipCargo,
     ShipCooldown,
@@ -25,6 +27,8 @@ from .api_response import (
     AgentContract,
     AgentFuelTransaction,
     AgentMountCargoTransaction,
+    AgentRepairTransaction,
+    AgentScrapTransaction,
     AgentShipTransaction,
     CargoCooldownProducedConsumed,
     ChartWaypoint,
