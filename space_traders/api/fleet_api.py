@@ -12,13 +12,13 @@ from space_traders.models import (
     ChartWaypoint,
     CargoCooldownProducedConsumed,
     Contract,
-    CooldownExtractionCargo,
-    CooldownSiphonCargo,
+    CooldownExtractionCargoEvent,
+    CooldownSiphonCargoEvent,
     CooldownShips,
     CooldownSurveys,
     CooldownSystems,
     CooldownWaypoints,
-    FuelNav,
+    FuelNavEvent,
     NavCooldownTransactionAgent,
     Ship,
     ShipCargo,
@@ -60,22 +60,22 @@ class FleetApi:
 
     async def extract_resources(
         self, symbol: str
-    ) -> CooldownExtractionCargo | ApiError:
+    ) -> CooldownExtractionCargoEvent | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}/extract"
         response = await self.client.send("post", endpoint)
         if "error" in response.keys():
             return ApiError(**response)
-        return CooldownExtractionCargo(**response["data"])
+        return CooldownExtractionCargoEvent(**response["data"])
 
     async def extract_survey(
         self, symbol: str, survey: Survey | None = None
-    ) -> CooldownExtractionCargo | ApiError:
+    ) -> CooldownExtractionCargoEvent | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}/extract/survey"
         data = json.loads(survey.model_dump_json())
         response = await self.client.send("post", endpoint, data=data)
         if "error" in response.keys():
             return ApiError(**response)
-        return CooldownExtractionCargo(**response["data"])
+        return CooldownExtractionCargoEvent(**response["data"])
 
     async def get_mounts(self, symbol: str) -> List[ShipMount] | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}/mounts"
@@ -144,13 +144,13 @@ class FleetApi:
 
     async def navigate_ship(
         self, symbol: str, waypoint_symbol: str
-    ) -> FuelNav | ApiError:
+    ) -> FuelNavEvent | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}/navigate"
         data = {"waypointSymbol": waypoint_symbol}
         response = await self.client.send("post", endpoint, data=data)
         if "error" in response.keys():
             return ApiError(**response)
-        return FuelNav(**response["data"])
+        return FuelNavEvent(**response["data"])
 
     async def negotiate_contract(self, symbol: str) -> Contract | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}/negotiate/contract"
@@ -273,12 +273,12 @@ class FleetApi:
 
     async def siphon_resources(
         self, symbol: str
-    ) -> CooldownSiphonCargo | ApiError:
+    ) -> CooldownSiphonCargoEvent | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}/siphon"
         response = await self.client.send("post", endpoint)
         if "error" in response.keys():
             return ApiError(**response)
-        return CooldownSiphonCargo(**response["data"])
+        return CooldownSiphonCargoEvent(**response["data"])
 
     async def ship_refine(
         self, symbol: str, produce: str
@@ -306,10 +306,10 @@ class FleetApi:
 
     async def warp_ship(
         self, symbol: str, waypoint_symbol: str
-    ) -> FuelNav | ApiError:
+    ) -> FuelNavEvent | ApiError:
         endpoint = self.base_endpoint + f"/{symbol}/warp"
         data = {"waypointSymbol": waypoint_symbol}
         response = await self.client.send("post", endpoint, data=data)
         if "error" in response.keys():
             return ApiError(**response)
-        return FuelNav(**response["data"])
+        return FuelNavEvent(**response["data"])

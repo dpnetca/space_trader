@@ -17,28 +17,31 @@ class TestRegister:
                     "headquarters": "string",
                     "credits": -9007199254740991,
                     "startingFaction": "string",
-                    "shipCount": 0,
+                    "shipCount": 0
                 },
                 "contract": {
                     "id": "string",
                     "factionSymbol": "string",
-                    "type": "PROCUREMENT",
-                    "terms": {
-                        "deadline": "2019-08-24T14:15:22Z",
-                        "payment": {"onAccepted": 0, "onFulfilled": 0},
-                        "deliver": [
-                            {
-                                "tradeSymbol": "string",
-                                "destinationSymbol": "string",
-                                "unitsRequired": 0,
-                                "unitsFulfilled": 0,
-                            }
-                        ],
-                    },
+                          "type": "PROCUREMENT",
+                          "terms": {
+                              "deadline": "2019-08-24T14:15:22Z",
+                              "payment": {
+                                  "onAccepted": 0,
+                                  "onFulfilled": 0
+                              },
+                              "deliver": [
+                                  {
+                                      "tradeSymbol": "string",
+                                      "destinationSymbol": "string",
+                                      "unitsRequired": 0,
+                                      "unitsFulfilled": 0
+                                  }
+                              ]
+                          },
                     "accepted": False,
                     "fulfilled": False,
-                    "expiration": "2019-08-24T14:15:22Z",  # deprecated
-                    "deadlineToAccept": "2019-08-24T14:15:22Z",
+                    "expiration": "2019-08-24T14:15:22Z",
+                    "deadlineToAccept": "2019-08-24T14:15:22Z"
                 },
                 "faction": {
                     "symbol": "COSMIC",
@@ -46,20 +49,20 @@ class TestRegister:
                     "description": "string",
                     "headquarters": "string",
                     "traits": [
-                        {
-                            "symbol": "BUREAUCRATIC",
-                            "name": "string",
-                            "description": "string",
-                        }
+                            {
+                                "symbol": "BUREAUCRATIC",
+                                "name": "string",
+                                "description": "string"
+                            }
                     ],
-                    "isRecruiting": True,
+                    "isRecruiting": True
                 },
                 "ship": {
                     "symbol": "string",
                     "registration": {
                         "name": "string",
-                        "factionSymbol": "string",
-                        "role": "FABRICATOR",
+                              "factionSymbol": "string",
+                              "role": "FABRICATOR"
                     },
                     "nav": {
                         "systemSymbol": "string",
@@ -70,20 +73,20 @@ class TestRegister:
                                 "type": "PLANET",
                                 "systemSymbol": "string",
                                 "x": 0,
-                                "y": 0,
+                                "y": 0
                             },
                             "origin": {
                                 "symbol": "string",
                                 "type": "PLANET",
                                 "systemSymbol": "string",
                                 "x": 0,
-                                "y": 0,
+                                "y": 0
                             },
                             "departureTime": "2019-08-24T14:15:22Z",
-                            "arrival": "2019-08-24T14:15:22Z",
+                            "arrival": "2019-08-24T14:15:22Z"
                         },
                         "status": "IN_TRANSIT",
-                        "flightMode": "CRUISE",
+                        "flightMode": "CRUISE"
                     },
                     "crew": {
                         "current": 0,
@@ -91,39 +94,54 @@ class TestRegister:
                         "capacity": 0,
                         "rotation": "STRICT",
                         "morale": 0,
-                        "wages": 0,
+                        "wages": 0
                     },
                     "frame": {
                         "symbol": "FRAME_PROBE",
                         "name": "string",
                         "description": "string",
                         "condition": 0,
+                        "integrity": 0,
                         "moduleSlots": 0,
                         "mountingPoints": 0,
                         "fuelCapacity": 0,
-                        "requirements": {"power": 0, "crew": 0, "slots": 0},
+                        "requirements": {
+                                  "power": 0,
+                                  "crew": 0,
+                                  "slots": 0
+                        }
                     },
                     "reactor": {
                         "symbol": "REACTOR_SOLAR_I",
                         "name": "string",
                         "description": "string",
                         "condition": 0,
+                        "integrity": 0,
                         "powerOutput": 1,
-                        "requirements": {"power": 0, "crew": 0, "slots": 0},
+                        "requirements": {
+                                  "power": 0,
+                                  "crew": 0,
+                                  "slots": 0
+                        }
                     },
                     "engine": {
                         "symbol": "ENGINE_IMPULSE_DRIVE_I",
                         "name": "string",
                         "description": "string",
                         "condition": 0,
+                        "integrity": 0,
                         "speed": 1,
-                        "requirements": {"power": 0, "crew": 0, "slots": 0},
+                        "requirements": {
+                                  "power": 0,
+                                  "crew": 0,
+                                  "slots": 0
+                        }
                     },
                     "cooldown": {
                         "shipSymbol": "string",
                         "totalSeconds": 0,
                         "remainingSeconds": 0,
-                        "expiration": "2019-08-24T14:15:22Z",
+                        "expiration": "2019-08-24T14:15:22Z"
                     },
                     "modules": [
                         {
@@ -133,10 +151,10 @@ class TestRegister:
                             "name": "string",
                             "description": "string",
                             "requirements": {
-                                "power": 0,
-                                "crew": 0,
-                                "slots": 0,
-                            },
+                                      "power": 0,
+                                      "crew": 0,
+                                      "slots": 0
+                            }
                         }
                     ],
                     "mounts": [
@@ -145,12 +163,14 @@ class TestRegister:
                             "name": "string",
                             "description": "string",
                             "strength": 0,
-                            "deposits": ["QUARTZ_SAND"],
+                            "deposits": [
+                                      "QUARTZ_SAND"
+                            ],
                             "requirements": {
                                 "power": 0,
                                 "crew": 0,
-                                "slots": 0,
-                            },
+                                "slots": 0
+                            }
                         }
                     ],
                     "cargo": {
@@ -161,20 +181,20 @@ class TestRegister:
                                 "symbol": "PRECIOUS_STONES",
                                 "name": "string",
                                 "description": "string",
-                                "units": 1,
+                                "units": 1
                             }
-                        ],
+                        ]
                     },
                     "fuel": {
                         "current": 0,
                         "capacity": 0,
                         "consumed": {
                             "amount": 0,
-                            "timestamp": "2019-08-24T14:15:22Z",
-                        },
-                    },
+                            "timestamp": "2019-08-24T14:15:22Z"
+                        }
+                    }
                 },
-                "token": "string",
+                "token": "string"
             }
         }
         expected_response = RegisterNewAgent(**expected["data"])

@@ -8,13 +8,13 @@ from space_traders.models import (
     CargoCooldownProducedConsumed,
     ChartWaypoint,
     Contract,
-    CooldownExtractionCargo,
-    CooldownSiphonCargo,
+    CooldownExtractionCargoEvent,
+    CooldownSiphonCargoEvent,
     CooldownShips,
     CooldownSurveys,
     CooldownSystems,
     CooldownWaypoints,
-    FuelNav,
+    FuelNavEvent,
     NavCooldownTransactionAgent,
     Ship,
     ShipCooldown,
@@ -139,11 +139,14 @@ class TestFleet:
                     "shipSymbol": "string",
                     "totalSeconds": 0,
                     "remainingSeconds": 0,
-                    "expiration": "2019-08-24T14:15:22Z",
+                    "expiration": "2019-08-24T14:15:22Z"
                 },
                 "extraction": {
                     "shipSymbol": "string",
-                    "yield": {"symbol": "PRECIOUS_STONES", "units": 0},
+                    "yield": {
+                        "symbol": "PRECIOUS_STONES",
+                        "units": 0
+                    }
                 },
                 "cargo": {
                     "capacity": 0,
@@ -153,13 +156,21 @@ class TestFleet:
                             "symbol": "PRECIOUS_STONES",
                             "name": "string",
                             "description": "string",
-                            "units": 1,
+                            "units": 1
                         }
-                    ],
+                    ]
                 },
+                "events": [
+                    {
+                        "symbol": "REACTOR_OVERLOAD",
+                        "component": "FRAME",
+                        "name": "string",
+                        "description": "string"
+                    }
+                ]
             }
         }
-        expected_response = CooldownExtractionCargo(**expected["data"])
+        expected_response = CooldownExtractionCargoEvent(**expected["data"])
         assert response == expected_response
 
     @pytest.mark.asyncio
@@ -180,11 +191,14 @@ class TestFleet:
                     "shipSymbol": "string",
                     "totalSeconds": 0,
                     "remainingSeconds": 0,
-                    "expiration": "2019-08-24T14:15:22Z",
+                    "expiration": "2019-08-24T14:15:22Z"
                 },
                 "extraction": {
                     "shipSymbol": "string",
-                    "yield": {"symbol": "PRECIOUS_STONES", "units": 0},
+                    "yield": {
+                        "symbol": "PRECIOUS_STONES",
+                        "units": 0
+                    }
                 },
                 "cargo": {
                     "capacity": 0,
@@ -194,13 +208,21 @@ class TestFleet:
                             "symbol": "PRECIOUS_STONES",
                             "name": "string",
                             "description": "string",
-                            "units": 1,
+                            "units": 1
                         }
-                    ],
+                    ]
                 },
+                "events": [
+                    {
+                        "symbol": "REACTOR_OVERLOAD",
+                        "component": "FRAME",
+                        "name": "string",
+                        "description": "string"
+                    }
+                ]
             }
         }
-        expected_response = CooldownExtractionCargo(**expected["data"])
+        expected_response = CooldownExtractionCargoEvent(**expected["data"])
         assert response == expected_response
 
     @pytest.mark.asyncio
@@ -230,7 +252,7 @@ class TestFleet:
                 "registration": {
                     "name": "string",
                     "factionSymbol": "string",
-                    "role": "FABRICATOR",
+                    "role": "FABRICATOR"
                 },
                 "nav": {
                     "systemSymbol": "string",
@@ -241,20 +263,20 @@ class TestFleet:
                             "type": "PLANET",
                             "systemSymbol": "string",
                             "x": 0,
-                            "y": 0,
+                            "y": 0
                         },
                         "origin": {
                             "symbol": "string",
                             "type": "PLANET",
                             "systemSymbol": "string",
                             "x": 0,
-                            "y": 0,
+                            "y": 0
                         },
                         "departureTime": "2019-08-24T14:15:22Z",
-                        "arrival": "2019-08-24T14:15:22Z",
+                        "arrival": "2019-08-24T14:15:22Z"
                     },
                     "status": "IN_TRANSIT",
-                    "flightMode": "CRUISE",
+                    "flightMode": "CRUISE"
                 },
                 "crew": {
                     "current": 0,
@@ -262,39 +284,54 @@ class TestFleet:
                     "capacity": 0,
                     "rotation": "STRICT",
                     "morale": 0,
-                    "wages": 0,
+                    "wages": 0
                 },
                 "frame": {
                     "symbol": "FRAME_PROBE",
                     "name": "string",
                     "description": "string",
                     "condition": 0,
+                    "integrity": 0,
                     "moduleSlots": 0,
                     "mountingPoints": 0,
                     "fuelCapacity": 0,
-                    "requirements": {"power": 0, "crew": 0, "slots": 0},
+                    "requirements": {
+                        "power": 0,
+                        "crew": 0,
+                        "slots": 0
+                    }
                 },
                 "reactor": {
                     "symbol": "REACTOR_SOLAR_I",
                     "name": "string",
                     "description": "string",
                     "condition": 0,
+                    "integrity": 0,
                     "powerOutput": 1,
-                    "requirements": {"power": 0, "crew": 0, "slots": 0},
+                    "requirements": {
+                        "power": 0,
+                        "crew": 0,
+                        "slots": 0
+                    }
                 },
                 "engine": {
                     "symbol": "ENGINE_IMPULSE_DRIVE_I",
                     "name": "string",
                     "description": "string",
                     "condition": 0,
+                    "integrity": 0,
                     "speed": 1,
-                    "requirements": {"power": 0, "crew": 0, "slots": 0},
+                    "requirements": {
+                        "power": 0,
+                        "crew": 0,
+                        "slots": 0
+                    }
                 },
                 "cooldown": {
                     "shipSymbol": "string",
                     "totalSeconds": 0,
                     "remainingSeconds": 0,
-                    "expiration": "2019-08-24T14:15:22Z",
+                    "expiration": "2019-08-24T14:15:22Z"
                 },
                 "modules": [
                     {
@@ -306,8 +343,8 @@ class TestFleet:
                         "requirements": {
                             "power": 0,
                             "crew": 0,
-                            "slots": 0,
-                        },
+                            "slots": 0
+                        }
                     }
                 ],
                 "mounts": [
@@ -316,12 +353,14 @@ class TestFleet:
                         "name": "string",
                         "description": "string",
                         "strength": 0,
-                        "deposits": ["QUARTZ_SAND"],
+                        "deposits": [
+                            "QUARTZ_SAND"
+                        ],
                         "requirements": {
                             "power": 0,
                             "crew": 0,
-                            "slots": 0,
-                        },
+                            "slots": 0
+                        }
                     }
                 ],
                 "cargo": {
@@ -332,18 +371,18 @@ class TestFleet:
                             "symbol": "PRECIOUS_STONES",
                             "name": "string",
                             "description": "string",
-                            "units": 1,
+                            "units": 1
                         }
-                    ],
+                    ]
                 },
                 "fuel": {
                     "current": 0,
                     "capacity": 0,
                     "consumed": {
                         "amount": 0,
-                        "timestamp": "2019-08-24T14:15:22Z",
-                    },
-                },
+                        "timestamp": "2019-08-24T14:15:22Z"
+                    }
+                }
             }
         }
         expected_response = Ship(**expected["data"])
@@ -551,72 +590,87 @@ class TestFleet:
                     "symbol": "string",
                     "registration": {
                         "name": "string",
-                        "factionSymbol": "string",
-                        "role": "FABRICATOR",
+                                "factionSymbol": "string",
+                                "role": "FABRICATOR"
                     },
                     "nav": {
                         "systemSymbol": "string",
                         "waypointSymbol": "string",
                         "route": {
-                            "destination": {
-                                "symbol": "string",
-                                "type": "PLANET",
-                                "systemSymbol": "string",
-                                "x": 0,
-                                "y": 0,
-                            },
+                                        "destination": {
+                                            "symbol": "string",
+                                            "type": "PLANET",
+                                            "systemSymbol": "string",
+                                            "x": 0,
+                                            "y": 0
+                                        },
                             "origin": {
-                                "symbol": "string",
-                                "type": "PLANET",
-                                "systemSymbol": "string",
-                                "x": 0,
-                                "y": 0,
-                            },
+                                            "symbol": "string",
+                                            "type": "PLANET",
+                                            "systemSymbol": "string",
+                                            "x": 0,
+                                            "y": 0
+                                        },
                             "departureTime": "2019-08-24T14:15:22Z",
-                            "arrival": "2019-08-24T14:15:22Z",
+                            "arrival": "2019-08-24T14:15:22Z"
                         },
                         "status": "IN_TRANSIT",
-                        "flightMode": "CRUISE",
+                        "flightMode": "CRUISE"
                     },
                     "crew": {
                         "current": 0,
                         "required": 0,
                         "capacity": 0,
                         "rotation": "STRICT",
-                        "morale": 0,
-                        "wages": 0,
+                                    "morale": 0,
+                                    "wages": 0
                     },
                     "frame": {
                         "symbol": "FRAME_PROBE",
                         "name": "string",
                         "description": "string",
                         "condition": 0,
+                        "integrity": 0,
                         "moduleSlots": 0,
                         "mountingPoints": 0,
                         "fuelCapacity": 0,
-                        "requirements": {"power": 0, "crew": 0, "slots": 0},
+                        "requirements": {
+                            "power": 0,
+                            "crew": 0,
+                            "slots": 0
+                        }
                     },
                     "reactor": {
                         "symbol": "REACTOR_SOLAR_I",
                         "name": "string",
                         "description": "string",
                         "condition": 0,
+                        "integrity": 0,
                         "powerOutput": 1,
-                        "requirements": {"power": 0, "crew": 0, "slots": 0},
+                        "requirements": {
+                            "power": 0,
+                            "crew": 0,
+                            "slots": 0
+                        }
                     },
                     "engine": {
                         "symbol": "ENGINE_IMPULSE_DRIVE_I",
                         "name": "string",
                         "description": "string",
                         "condition": 0,
+                        "integrity": 0,
                         "speed": 1,
-                        "requirements": {"power": 0, "crew": 0, "slots": 0},
+                        "requirements": {
+                            "power": 0,
+                            "crew": 0,
+                            "slots": 0
+                        }
                     },
                     "cooldown": {
                         "shipSymbol": "string",
                         "totalSeconds": 0,
                         "remainingSeconds": 0,
-                        "expiration": "2019-08-24T14:15:22Z",
+                        "expiration": "2019-08-24T14:15:22Z"
                     },
                     "modules": [
                         {
@@ -628,22 +682,24 @@ class TestFleet:
                             "requirements": {
                                 "power": 0,
                                 "crew": 0,
-                                "slots": 0,
-                            },
+                                "slots": 0
+                            }
                         }
                     ],
                     "mounts": [
                         {
                             "symbol": "MOUNT_GAS_SIPHON_I",
                             "name": "string",
-                            "description": "string",
-                            "strength": 0,
-                            "deposits": ["QUARTZ_SAND"],
+                                    "description": "string",
+                                    "strength": 0,
+                            "deposits": [
+                                "QUARTZ_SAND"
+                            ],
                             "requirements": {
                                 "power": 0,
                                 "crew": 0,
-                                "slots": 0,
-                            },
+                                "slots": 0
+                            }
                         }
                     ],
                     "cargo": {
@@ -653,22 +709,26 @@ class TestFleet:
                             {
                                 "symbol": "PRECIOUS_STONES",
                                 "name": "string",
-                                "description": "string",
-                                "units": 1,
+                                        "description": "string",
+                                "units": 1
                             }
-                        ],
+                        ]
                     },
                     "fuel": {
                         "current": 0,
                         "capacity": 0,
                         "consumed": {
                             "amount": 0,
-                            "timestamp": "2019-08-24T14:15:22Z",
-                        },
-                    },
+                            "timestamp": "2019-08-24T14:15:22Z"
+                        }
+                    }
                 }
             ],
-            "meta": {"total": 0, "page": 1, "limit": 10},
+            "meta": {
+                "total": 0,
+                "page": 1,
+                "limit": 10
+            }
         }
         expected_response = [Ship(**x) for x in expected["data"]]
         assert response == expected_response
@@ -683,8 +743,8 @@ class TestFleet:
                     "capacity": 0,
                     "consumed": {
                         "amount": 0,
-                        "timestamp": "2019-08-24T14:15:22Z",
-                    },
+                        "timestamp": "2019-08-24T14:15:22Z"
+                    }
                 },
                 "nav": {
                     "systemSymbol": "string",
@@ -694,25 +754,33 @@ class TestFleet:
                             "symbol": "string",
                             "type": "PLANET",
                             "systemSymbol": "string",
-                            "x": 0,
-                            "y": 0,
+                                            "x": 0,
+                            "y": 0
                         },
                         "origin": {
                             "symbol": "string",
                             "type": "PLANET",
                             "systemSymbol": "string",
                             "x": 0,
-                            "y": 0,
+                            "y": 0
                         },
                         "departureTime": "2019-08-24T14:15:22Z",
-                        "arrival": "2019-08-24T14:15:22Z",
+                        "arrival": "2019-08-24T14:15:22Z"
                     },
                     "status": "IN_TRANSIT",
-                    "flightMode": "CRUISE",
+                    "flightMode": "CRUISE"
                 },
+                "events": [
+                    {
+                        "symbol": "REACTOR_OVERLOAD",
+                        "component": "FRAME",
+                        "name": "string",
+                        "description": "string"
+                    }
+                ]
             }
         }
-        expected_response = FuelNav(**expected["data"])
+        expected_response = FuelNavEvent(**expected["data"])
         assert response == expected_response
 
     @pytest.mark.asyncio
@@ -863,14 +931,14 @@ class TestFleet:
                     "headquarters": "string",
                     "credits": -9007199254740991,
                     "startingFaction": "string",
-                    "shipCount": 0,
+                    "shipCount": 0
                 },
                 "ship": {
                     "symbol": "string",
                     "registration": {
                         "name": "string",
                         "factionSymbol": "string",
-                        "role": "FABRICATOR",
+                        "role": "FABRICATOR"
                     },
                     "nav": {
                         "systemSymbol": "string",
@@ -880,21 +948,21 @@ class TestFleet:
                                 "symbol": "string",
                                 "type": "PLANET",
                                 "systemSymbol": "string",
-                                "x": 0,
-                                "y": 0,
+                                                "x": 0,
+                                "y": 0
                             },
                             "origin": {
                                 "symbol": "string",
                                 "type": "PLANET",
                                 "systemSymbol": "string",
                                 "x": 0,
-                                "y": 0,
+                                "y": 0
                             },
                             "departureTime": "2019-08-24T14:15:22Z",
-                            "arrival": "2019-08-24T14:15:22Z",
+                            "arrival": "2019-08-24T14:15:22Z"
                         },
                         "status": "IN_TRANSIT",
-                        "flightMode": "CRUISE",
+                        "flightMode": "CRUISE"
                     },
                     "crew": {
                         "current": 0,
@@ -902,39 +970,54 @@ class TestFleet:
                         "capacity": 0,
                         "rotation": "STRICT",
                         "morale": 0,
-                        "wages": 0,
+                        "wages": 0
                     },
                     "frame": {
                         "symbol": "FRAME_PROBE",
                         "name": "string",
                         "description": "string",
                         "condition": 0,
+                        "integrity": 0,
                         "moduleSlots": 0,
                         "mountingPoints": 0,
                         "fuelCapacity": 0,
-                        "requirements": {"power": 0, "crew": 0, "slots": 0},
+                        "requirements": {
+                            "power": 0,
+                            "crew": 0,
+                            "slots": 0
+                        }
                     },
                     "reactor": {
                         "symbol": "REACTOR_SOLAR_I",
                         "name": "string",
                         "description": "string",
                         "condition": 0,
+                        "integrity": 0,
                         "powerOutput": 1,
-                        "requirements": {"power": 0, "crew": 0, "slots": 0},
+                        "requirements": {
+                            "power": 0,
+                            "crew": 0,
+                            "slots": 0
+                        }
                     },
                     "engine": {
                         "symbol": "ENGINE_IMPULSE_DRIVE_I",
                         "name": "string",
                         "description": "string",
                         "condition": 0,
+                        "integrity": 0,
                         "speed": 1,
-                        "requirements": {"power": 0, "crew": 0, "slots": 0},
+                        "requirements": {
+                            "power": 0,
+                            "crew": 0,
+                            "slots": 0
+                        }
                     },
                     "cooldown": {
                         "shipSymbol": "string",
                         "totalSeconds": 0,
                         "remainingSeconds": 0,
-                        "expiration": "2019-08-24T14:15:22Z",
+                        "expiration": "2019-08-24T14:15:22Z"
                     },
                     "modules": [
                         {
@@ -946,22 +1029,24 @@ class TestFleet:
                             "requirements": {
                                 "power": 0,
                                 "crew": 0,
-                                "slots": 0,
-                            },
+                                "slots": 0
+                            }
                         }
                     ],
                     "mounts": [
                         {
                             "symbol": "MOUNT_GAS_SIPHON_I",
                             "name": "string",
-                            "description": "string",
+                                    "description": "string",
                             "strength": 0,
-                            "deposits": ["QUARTZ_SAND"],
+                            "deposits": [
+                                "QUARTZ_SAND"
+                            ],
                             "requirements": {
                                 "power": 0,
                                 "crew": 0,
-                                "slots": 0,
-                            },
+                                "slots": 0
+                            }
                         }
                     ],
                     "cargo": {
@@ -972,18 +1057,18 @@ class TestFleet:
                                 "symbol": "PRECIOUS_STONES",
                                 "name": "string",
                                 "description": "string",
-                                "units": 1,
+                                "units": 1
                             }
-                        ],
+                        ]
                     },
                     "fuel": {
                         "current": 0,
                         "capacity": 0,
                         "consumed": {
                             "amount": 0,
-                            "timestamp": "2019-08-24T14:15:22Z",
-                        },
-                    },
+                            "timestamp": "2019-08-24T14:15:22Z"
+                        }
+                    }
                 },
                 "transaction": {
                     "waypointSymbol": "string",
@@ -991,8 +1076,8 @@ class TestFleet:
                     "shipType": "string",
                     "price": 0,
                     "agentSymbol": "string",
-                    "timestamp": "2019-08-24T14:15:22Z",
-                },
+                    "timestamp": "2019-08-24T14:15:22Z"
+                }
             }
         }
         expected_response = AgentShipTransaction(**expected["data"])
@@ -1279,11 +1364,14 @@ class TestFleet:
                     "shipSymbol": "string",
                     "totalSeconds": 0,
                     "remainingSeconds": 0,
-                    "expiration": "2019-08-24T14:15:22Z",
+                    "expiration": "2019-08-24T14:15:22Z"
                 },
                 "siphon": {
                     "shipSymbol": "string",
-                    "yield": {"symbol": "PRECIOUS_STONES", "units": 0},
+                    "yield": {
+                        "symbol": "PRECIOUS_STONES",
+                        "units": 0
+                    }
                 },
                 "cargo": {
                     "capacity": 0,
@@ -1293,13 +1381,21 @@ class TestFleet:
                             "symbol": "PRECIOUS_STONES",
                             "name": "string",
                             "description": "string",
-                            "units": 1,
+                            "units": 1
                         }
-                    ],
+                    ]
                 },
+                "events": [
+                    {
+                        "symbol": "REACTOR_OVERLOAD",
+                        "component": "FRAME",
+                        "name": "string",
+                        "description": "string"
+                    }
+                ]
             }
         }
-        expected_response = CooldownSiphonCargo(**expected["data"])
+        expected_response = CooldownSiphonCargoEvent(**expected["data"])
         assert response == expected_response
 
     @pytest.mark.asyncio
@@ -1365,5 +1461,5 @@ class TestFleet:
                 },
             }
         }
-        expected_response = FuelNav(**expected["data"])
+        expected_response = FuelNavEvent(**expected["data"])
         assert response == expected_response

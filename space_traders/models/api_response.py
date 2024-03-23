@@ -1,8 +1,10 @@
 from pydantic import Field
+from typing import Optional
 from space_traders.models.base_model import Base
 
 from .agent import Agent
 from .contract import Contract
+from .event import Event
 from .faction import Faction
 from .meta import Meta
 from .market import MarketTransaction
@@ -76,16 +78,18 @@ class ConstructionCargo(Base):
     cargo: ShipCargo = Field(...)
 
 
-class CooldownExtractionCargo(Base):
+class CooldownExtractionCargoEvent(Base):
     cooldown: ShipCooldown = Field(...)
     extraction: ShipExtraction = Field(...)
     cargo: ShipCargo = Field(...)
+    events: list[Event] = Field(...)
 
 
-class CooldownSiphonCargo(Base):
+class CooldownSiphonCargoEvent(Base):
     cooldown: ShipCooldown = Field(...)
     siphon: ShipSiphon = Field(...)
     cargo: ShipCargo = Field(...)
+    events: list[Event] = Field(...)
 
 
 class NavCooldownTransactionAgent(Base):
@@ -115,9 +119,10 @@ class CooldownWaypoints(Base):
     waypoints: list[Waypoint] = Field(...)
 
 
-class FuelNav(Base):
+class FuelNavEvent(Base):
     fuel: ShipFuel = Field(...)
     nav: ShipNav = Field(...)
+    events: Optional[list[Event]] = Field(None)
 
 
 class RegisterNewAgent(Base):
