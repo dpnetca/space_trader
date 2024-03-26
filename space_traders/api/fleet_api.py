@@ -5,6 +5,7 @@ import logging
 from space_traders.client import Client
 from space_traders.models import (
     AgentRepairTransaction,
+    AgentShipRepairTransaction,
     AgentScrapTransaction,
     AgentCargoTransaction,
     AgentFuelTransaction,
@@ -255,6 +256,15 @@ class FleetApi:
         if "error" in response.keys():
             return ApiError(**response)
         return AgentMountCargoTransaction(**response["data"])
+
+    async def repair_ship(
+        self, symbol: str
+    ) -> AgentShipRepairTransaction | ApiError:
+        endpoint = self.base_endpoint + f"/{symbol}/repair"
+        response = await self.client.send("post", endpoint)
+        if "error" in response.keys():
+            return ApiError(**response)
+        return AgentShipRepairTransaction(**response["data"])
 
     async def sell_cargo(
         self, symbol: str, item_symbol: str, units: int

@@ -30,6 +30,7 @@ from .api_response import (
     AgentRepairTransaction,
     AgentScrapTransaction,
     AgentShipTransaction,
+    AgentShipRepairTransaction,
     CargoCooldownProducedConsumed,
     ChartWaypoint,
     ContractCargo,

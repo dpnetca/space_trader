@@ -62,6 +62,12 @@ class AgentRepairTransaction(Base):
     transaction: RepairTransaction = Field(...)
 
 
+class AgentShipRepairTransaction(Base):
+    agent: Agent = Field(...)
+    ship: Ship = Field(...)
+    transaction: RepairTransaction = Field(...)
+
+
 class AgentShipTransaction(Base):
     agent: Agent = Field(...)
     ship: Ship = Field(...)
